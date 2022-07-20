@@ -5,18 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Spotify</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/darkly/bulmaswatch.min.css">
 </head>
 <body>
-    <nav>
-        @if (!User.Identity.IsAuthenticated)
-        {
-            <a asp-page="Accounts/Register">Register</a>
-            <a asp-page="Accounts/Login">Login</a>
-        }
-        else
-        {
-            <a asp-controller="User" asp-action="Logout">Logout</a>
-        }
+
+    <nav class="navbar" role="navigation" aria-label="main-navigation">
+        <div class="container">
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" asp-page="/Index">
+                    Back to home page
+                </a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a class="button is-primary" asp-page="Accounts/Register">Register</a>
+                            <a class="button is-info" asp-page="Accounts/Login">Login</a>
+                        }
+                        else
+                        {
+                            <a class="button is-danger" asp-controller="User" asp-action="Logout">Logout</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
     </nav>
 
     <div class="container">
