@@ -7,9 +7,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-    
+    <nav>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a asp-page="Accounts/Register">Register</a>
+            <a asp-page="Accounts/Login">Login</a>
+        }
+        else
+        {
+            <a asp-controller="User" asp-action="Logout">Logout</a>
+        }
+    </nav>
+
     <div class="container">
-            @RenderBody()
+        @RenderBody()
     </div>
 
     @await RenderSectionAsync("Scripts", required: false)

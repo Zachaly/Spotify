@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spotify.Domain", "..\Spotify.Domain\Spotify.Domain.csproj", "{5A30F5B2-BCB0-43F4-B9F5-A96048A93C4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.Domain", "..\Spotify.Domain\Spotify.Domain.csproj", "{5A30F5B2-BCB0-43F4-B9F5-A96048A93C4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spotify.Database", "..\Spotify.Database\Spotify.Database.csproj", "{3A6AE0B5-C554-4F0D-B0CD-BCA456FEBB38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.Database", "..\Spotify.Database\Spotify.Database.csproj", "{3A6AE0B5-C554-4F0D-B0CD-BCA456FEBB38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spotify.UI", "..\Spotify.UI\Spotify.UI.csproj", "{8BB87716-D662-42CC-A3B6-60278C069E9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.UI", "..\Spotify.UI\Spotify.UI.csproj", "{8BB87716-D662-42CC-A3B6-60278C069E9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

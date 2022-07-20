@@ -6,4 +6,8 @@
 
 <div>
     <p class="title">Spotify mainpage</p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>@User.Identity.Name</p>
+    }
 </div>
