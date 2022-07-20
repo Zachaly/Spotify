@@ -4,6 +4,9 @@ using Spotify.Database;
 using Spotify.Domain.Infrastructure;
 using Spotify.Domain.Models;
 using System.Security.Claims;
+using FluentValidation;
+using Spotify.UI.Validators;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,9 +34,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddMvc(options =>
 {
     options.EnableEndpointRouting = false;
-});
+}).AddFluentValidation();
 
 builder.Services.AddTransient<IApplicationUserManager, ApplicationUserManager>();
+
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterViewModelValidator>();
 
 var app = builder.Build();
 

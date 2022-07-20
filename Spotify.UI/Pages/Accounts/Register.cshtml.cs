@@ -1,9 +1,8 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Spotify.Domain.Infrastructure;
 using Spotify.Domain.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace Spotify.UI.Pages.Accounts
 {
@@ -12,11 +11,18 @@ namespace Spotify.UI.Pages.Accounts
         [BindProperty]
         public RegisterViewModel Input { get; set; }
 
-        public async Task<IActionResult> OnPost([FromServices] UserManager<ApplicationUser> userManager,
-            [FromServices] IApplicationUserManager appUserManager)
+        public async Task<IActionResult> OnPost(
+            [FromServices] UserManager<ApplicationUser> userManager,
+            [FromServices] IValidator<RegisterViewModel> validator)
         {
-            if (!ModelState.IsValid || appUserManager.IsEmailOccupied(Input.Email))
+            var result = validator.Validate(Input);
+
+            if (!result.IsValid)
             {
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
                 return Page();
             }
 
@@ -33,14 +39,9 @@ namespace Spotify.UI.Pages.Accounts
 
         public class RegisterViewModel
         {
-            [Required]
-            [EmailAddress]
             public string Email { get; set; }
-            [Required]
-            [MinLength(6)]
             public string Password { get; set; }
-            [Required]
-            [MinLength(10)]
+            public string ConfirmPassword { get; set; }
             public string Username { get; set; }
         }
     }
