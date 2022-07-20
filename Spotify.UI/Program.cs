@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Spotify.Database;
-using Spotify.Domain.Infrastructure;
 using Spotify.Domain.Models;
 using System.Security.Claims;
 using FluentValidation;
@@ -22,7 +21,15 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 }).AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddAuthentication();
-builder.Services.AddAuthorization();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Accounts/Login";
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
+});
 
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -34,9 +41,15 @@ builder.Services.AddRazorPages();
 builder.Services.AddMvc(options =>
 {
     options.EnableEndpointRouting = false;
-}).AddFluentValidation();
+}).
+AddRazorPagesOptions(options =>
+{
+options.Conventions.AuthorizeFolder("/Admin");
+}).
+AddFluentValidation();
 
-builder.Services.AddTransient<IApplicationUserManager, ApplicationUserManager>();
+builder.Services.AddApplicationInfrastucture();
+builder.Services.AddApplicationServices();
 
 builder.Services.AddValidatorsFromAssemblyContaining<RegisterViewModelValidator>();
 

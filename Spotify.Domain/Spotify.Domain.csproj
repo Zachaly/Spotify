@@ -10,8 +10,4 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.7" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
-
 </Project>

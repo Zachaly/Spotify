@@ -1,4 +1,5 @@
 ﻿using Spotify.Domain.Models;
+
 namespace Spotify.Domain.Infrastructure
 {
     public interface IApplicationUserManager
