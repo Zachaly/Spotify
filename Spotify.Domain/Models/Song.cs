@@ -5,8 +5,8 @@ namespace Spotify.Domain.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int ArtistId { get; set; }
-        public Artist Creator { get; set; }
+        public int MusicianId { get; set; }
+        public Musician Creator { get; set; }
         public long Plays { get; set; } = 0;
     }
 }

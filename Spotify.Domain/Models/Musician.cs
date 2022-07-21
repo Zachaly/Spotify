@@ -1,7 +1,7 @@
 ﻿
 namespace Spotify.Domain.Models
 {
-    public class Artist
+    public class Musician
     {
         public int Id { get; set; }
         public string Name { get; set; }

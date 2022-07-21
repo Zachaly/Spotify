@@ -13,7 +13,7 @@ namespace Spotify.Database
 
         public DbSet<Song> Songs { get; set; }
         public DbSet<Album> Albums { get; set; }
-        public DbSet<Artist> Artists { get; set; }
+        public DbSet<Musician> Musicians { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace Spotify.Domain.Infrastructure
 {
-    public interface IArtistManager
+    public interface IMusicianManager
     {
 
     }

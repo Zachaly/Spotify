@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             @this.AddTransient<IApplicationUserManager, ApplicationUserManager>();
             @this.AddTransient<ISongsManager, SongsManager>();
-            @this.AddTransient<IArtistManager, ArtistsManager>();
+            @this.AddTransient<IMusicianManager, MusiciansManager>();
             @this.AddTransient<IAlbumsManager, AlbumsManager>();
             return @this;
         }

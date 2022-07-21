@@ -2,7 +2,7 @@
 
 namespace Spotify.Database
 {
-    public class ArtistsManager : IArtistManager
+    public class MusiciansManager : IMusicianManager
     {
 
     }
