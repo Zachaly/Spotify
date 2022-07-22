@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Admin\Songs\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Spotify.Domain\Spotify.Domain.csproj" />
   </ItemGroup>
 
