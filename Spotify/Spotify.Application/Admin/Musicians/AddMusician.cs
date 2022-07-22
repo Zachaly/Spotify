@@ -11,7 +11,12 @@ namespace Spotify.Application.Admin.Musicians
             _musicianManager = musicianManager;
         }
 
-        public async Task<bool> Execute(Request request) => await _musicianManager.AddMusicianAsync(request.Name, request.Description);
+        public async Task<bool> Execute(Request request) 
+            => await _musicianManager.AddMusicianAsync(new Musician 
+            { 
+                Name = request.Name,
+                Description = request.Description
+            });
         
         public class Request 
         {

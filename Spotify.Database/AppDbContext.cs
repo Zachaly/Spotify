@@ -15,5 +15,12 @@ namespace Spotify.Database
         public DbSet<Album> Albums { get; set; }
         public DbSet<Musician> Musicians { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
+        public DbSet<PlaylistSong> playlistSongs { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<PlaylistSong>().HasKey(song => new { song.PlaylistId, song.SongId });
+        }
     }
 }

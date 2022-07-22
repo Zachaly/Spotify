@@ -13,14 +13,8 @@ namespace Spotify.Database
             _dbContext = dbContext;
         }
 
-        public async Task<bool> AddMusicianAsync(string name, string description)
+        public async Task<bool> AddMusicianAsync(Musician musician)
         {
-            var musician = new Musician
-            {
-                Name = name,
-                Description = description,
-            };
-
             _dbContext.Musicians.Add(musician);
 
             return await _dbContext.SaveChangesAsync() > 0;

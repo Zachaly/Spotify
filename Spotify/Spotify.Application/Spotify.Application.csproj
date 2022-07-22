@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Admin\Albums\" />
     <Folder Include="Admin\Songs\" />
   </ItemGroup>
 
