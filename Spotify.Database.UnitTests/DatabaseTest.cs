@@ -471,70 +471,70 @@ namespace Spotify.Database.UnitTests
             {
                 new Song
                 {
-                    Id = 50,
+                    Id = 51,
                     AlbumId = 6,
                     MusicianId = 3,
                     Name = "Twilight of the Thunder God"
                 },
                 new Song
                 {
-                    Id = 51,
+                    Id = 52,
                     AlbumId = 6,
                     MusicianId = 3,
                     Name = "Free Will Sacrifice"
                 },
                 new Song
                 {
-                    Id = 52,
+                    Id = 53,
                     AlbumId = 6,
                     MusicianId = 3,
                     Name = "Guardians of Asgaard"
                 },
                 new Song
                 {
-                    Id = 53,
+                    Id = 54,
                     AlbumId = 6,
                     MusicianId = 3,
                     Name = "Where Is Your God?"
                 },
                 new Song
                 {
-                    Id = 54,
+                    Id = 55,
                     AlbumId = 6,
                     MusicianId = 3,
                     Name = "Varyags of Miklagaard"
                 },
                 new Song
                 {
-                    Id = 55,
+                    Id = 56,
                     AlbumId = 6,
                     MusicianId = 3,
                     Name = "Tattered Banners and Bloody Flags"
                 },
                 new Song
                 {
-                    Id = 56,
+                    Id = 57,
                     AlbumId = 6,
                     MusicianId = 3,
                     Name = "No Fear for the Setting Sun"
                 },
                 new Song
                 {
-                    Id = 57,
+                    Id = 58,
                     AlbumId = 6,
                     MusicianId = 3,
                     Name = "The Hero"
                 },
                 new Song
                 {
-                    Id = 58,
+                    Id = 59,
                     AlbumId = 6,
                     MusicianId = 3,
                     Name = "Live for the Kill"
                 },
                 new Song
                 {
-                    Id = 59,
+                    Id = 60,
                     AlbumId = 6,
                     MusicianId = 3,
                     Name = "Embrace of the Endless Ocean"
@@ -544,63 +544,63 @@ namespace Spotify.Database.UnitTests
             {
                 new Song
                 {
-                    Id = 60,
+                    Id = 61,
                     AlbumId = 7,
                     MusicianId = 3,
                     Name = "Death in Fire"
                 },
                 new Song
                 {
-                    Id = 61,
+                    Id = 62,
                     AlbumId = 7,
                     MusicianId = 3,
                     Name = "For the Stabwounds in Our Backs"
                 },
                 new Song
                 {
-                    Id = 62,
+                    Id = 63,
                     AlbumId = 7,
                     MusicianId = 3,
                     Name = "Where Silent Gods Stand Guard"
                 },
                 new Song
                 {
-                    Id = 63,
+                    Id = 64,
                     AlbumId = 7,
                     MusicianId = 3,
                     Name = "Versus the World"
                 },
                 new Song
                 {
-                    Id = 64,
+                    Id = 65,
                     AlbumId = 7,
                     MusicianId = 3,
                     Name = "Across the Rainbow Bridge"
                 },
                 new Song
                 {
-                    Id = 65,
+                    Id = 66,
                     AlbumId = 7,
                     MusicianId = 3,
                     Name = "Down the Slopes of Death"
                 },
                 new Song
                 {
-                    Id = 66,
+                    Id = 67,
                     AlbumId = 7,
                     MusicianId = 3,
                     Name = "Thousand Years of Oppression"
                 },
                 new Song
                 {
-                    Id = 67,
+                    Id = 68,
                     AlbumId = 7,
                     MusicianId = 3,
                     Name = "Bloodshed"
                 },
                 new Song
                 {
-                    Id = 68,
+                    Id = 69,
                     AlbumId = 7,
                     MusicianId = 3,
                     Name = "...And Soon the World Will Cease to Be"
