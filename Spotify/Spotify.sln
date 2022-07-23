@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.Database", "..\Spot
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.UI", "..\Spotify.UI\Spotify.UI.csproj", "{8BB87716-D662-42CC-A3B6-60278C069E9D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.Application", "Spotify.Application\Spotify.Application.csproj", "{12D03804-036E-43A2-B20C-EC5EED44C154}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.Application", "..\Spotify.Application\Spotify.Application.csproj", "{12D03804-036E-43A2-B20C-EC5EED44C154}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spotify.Database.UnitTests", "..\Spotify.Database.UnitTests\Spotify.Database.UnitTests.csproj", "{24B7D7B5-D763-428F-A92F-AFCE54BEA0FB}"
 EndProject

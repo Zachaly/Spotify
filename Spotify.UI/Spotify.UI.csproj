@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Spotify.Application\Spotify.Application.csproj" />
     <ProjectReference Include="..\Spotify.Database\Spotify.Database.csproj" />
-    <ProjectReference Include="..\Spotify\Spotify.Application\Spotify.Application.csproj" />
   </ItemGroup>
 
 </Project>
