@@ -18,10 +18,11 @@ namespace Spotify.Database.UnitTests
                 Description = "Best death metal band",
             };
 
-            await _musicianManager.AddMusicianAsync(musician);
+            var result = await _musicianManager.AddMusicianAsync(musician);
 
             var id = musician.Id;
 
+            Assert.True(result);
             Assert.Contains(_dbContext.Musicians, musician => musician.Id == id);
             Assert.Contains(_dbContext.Musicians, musician => musician.Id == id && musician.Name == "Death");
             Assert.Contains(_dbContext.Musicians, 
@@ -43,8 +44,9 @@ namespace Spotify.Database.UnitTests
         [Fact]
         public async Task Delete_Musician()
         {
-            await _musicianManager.DeleteMusicianAsync(1);
+            var result = await _musicianManager.DeleteMusicianAsync(1);
 
+            Assert.True(result);
             Assert.DoesNotContain(_dbContext.Musicians, musician => musician.Id == 1);
             Assert.DoesNotContain(_dbContext.Musicians, musician => musician.Name == "Metallica");
             Assert.DoesNotContain(_dbContext.Musicians, musician => musician.Description == "Most popular metal band");
@@ -102,8 +104,9 @@ namespace Spotify.Database.UnitTests
         {
             var metallica = _dbContext.Musicians.FirstOrDefault(x => x.Id == 1);
 
-            await _musicianManager.UpdateMusicianAsync(1, "Metollica", "Popular metal band");
+            var result = await _musicianManager.UpdateMusicianAsync(1, "Metollica", "Popular metal band");
 
+            Assert.True(result);
             Assert.Contains(_dbContext.Musicians, musician => musician.Id == 1 && musician.Name == "Metollica");
             Assert.Contains(_dbContext.Musicians, musician => musician.Id == 1 && musician.Description == "Popular metal band");
         } 

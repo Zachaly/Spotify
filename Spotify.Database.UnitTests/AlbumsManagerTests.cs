@@ -18,10 +18,11 @@ namespace Spotify.Database.UnitTests
                 MusicianId = 3,
             };
 
-            await _albumsManager.AddAlbumAsync(album);
+            var result = await _albumsManager.AddAlbumAsync(album);
 
             var amonAmarth = _dbContext.Musicians.FirstOrDefault(musician => musician.Id == 3);
 
+            Assert.True(result);
             Assert.Contains(_dbContext.Albums, x => x.Id == album.Id && album.Name == "Berserker");
             Assert.Contains(amonAmarth.Albums, x => x.Id == album.Id && x.Name == "Berserker");
         }
