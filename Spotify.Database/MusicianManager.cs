@@ -29,13 +29,15 @@ namespace Spotify.Database
         }
 
         public T GetMusicianById<T>(int id, Func<Musician, T> selector)
-            => _dbContext.Musicians.Include(db => db.Followers).Include(db => db.Songs).Include(db => db.Albums).ThenInclude(db => db.Songs).
+            => _dbContext.Musicians.Include(db => db.Followers).Include(db => db.Songs).
+            Include(db => db.Albums).ThenInclude(db => db.Songs).
             Where(musician => musician.Id == id).
             Select(selector).
             FirstOrDefault();
 
         public IEnumerable<T> GetMusicians<T>(Func<Musician, T> selector) 
-            => _dbContext.Musicians.Include(db => db.Followers).Include(db => db.Songs).Include(db => db.Albums).
+            => _dbContext.Musicians.Include(db => db.Followers).Include(db => db.Songs).
+            Include(db => db.Albums).ThenInclude(db => db.Songs).
             Select(selector).AsEnumerable();
 
         public async Task<bool> UpdateMusicianAsync(int id,string name, string description)

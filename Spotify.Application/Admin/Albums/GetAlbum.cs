@@ -1,6 +1,7 @@
 ﻿
 namespace Spotify.Application.Admin.Albums
 {
+    [Service]
     public class GetAlbum
     {
         private IAlbumsManager _albumsManager;
@@ -13,6 +14,7 @@ namespace Spotify.Application.Admin.Albums
         public Response Execute(int id) => _albumsManager.GetAlbumById(id, album => new Response
         {
             Id = album.Id,
+            CreatorId = album.Musician.Id,
             Creator = album.Musician.Name,
             Name = album.Name,
             Songs = album.Songs.Select(song => new SongViewModel
@@ -28,6 +30,7 @@ namespace Spotify.Application.Admin.Albums
             public int Id { get; set; }
             public string Name { get; set; }
             public IEnumerable<SongViewModel> Songs { get; set; }
+            public int CreatorId { get; set; }
             public string Creator { get; set; }
         }
 

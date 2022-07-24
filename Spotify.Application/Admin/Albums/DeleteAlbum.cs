@@ -1,6 +1,7 @@
 ﻿
 namespace Spotify.Application.Admin.Albums
 {
+    [Service]
     public class DeleteAlbum
     {
         private IAlbumsManager _albumsManager;

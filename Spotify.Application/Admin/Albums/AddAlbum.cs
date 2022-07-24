@@ -1,6 +1,7 @@
 ﻿
 namespace Spotify.Application.Admin.Albums
 {
+    [Service]
     public class AddAlbum
     {
         private IAlbumsManager _albumsManager;
@@ -10,17 +11,39 @@ namespace Spotify.Application.Admin.Albums
             _albumsManager = albumsManager;
         }
 
-        public async Task<bool> Execute(Request request)
-            => await _albumsManager.AddAlbumAsync(new Album 
-            { 
+        public async Task<Response> Execute(Request request)
+        {
+            var album = new Album
+            {
                 Name = request.Name,
-                MusicianId = request.MusicianId 
-            });
+                MusicianId = request.MusicianId
+            };
+
+            await _albumsManager.AddAlbumAsync(album);
+
+            album = _albumsManager.GetAlbumById(album.Id, x => x);
+
+            return new Response
+            {
+                Id = album.Id,
+                Creator = album.Musician.Name,
+                Name = album.Name,
+                SongCount = album.Songs.Count()
+            };
+        }
 
         public class Request
         {
             public string Name { get; set; }
             public int MusicianId { get; set; }
+        }
+
+        public class Response
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public int SongCount { get; set; }
+            public string Creator { get; set; }
         }
     }
 }
