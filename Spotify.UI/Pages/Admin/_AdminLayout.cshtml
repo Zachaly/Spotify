@@ -42,7 +42,7 @@
     </nav>
 
     <div class="columns mt-2 ml-1">
-        <aside class="menu column is-3">
+        <aside class="menu column is-2">
             <p class="menu-label">
                 Admin Panel
             </p>
@@ -53,10 +53,16 @@
             </ul>
         </aside>
 
-        <div class="column is-6">
+        <div class="column is-10">
             @RenderBody()
         </div>
     </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
+
 </html>

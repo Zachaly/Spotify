@@ -15,7 +15,6 @@ namespace Spotify.Application.Admin.Musicians
             => _musicianManager.GetMusicians(musician => new MusicianViewModel
             {
                 Name = musician.Name,
-                Desciption = musician.Description,
                 Id = musician.Id,
                 NumberOfSongs = musician.Songs.Count(),
                 NumberOfFollowers = musician.Followers.Count(),
@@ -25,7 +24,6 @@ namespace Spotify.Application.Admin.Musicians
         public class MusicianViewModel
         {
             public string Name { get; set; }
-            public string Desciption { get; set; }
             public int Id { get; set; }
             public int NumberOfSongs { get; set; }
             public int NumberOfFollowers { get; set; }

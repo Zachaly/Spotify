@@ -1,6 +1,7 @@
 ﻿
 namespace Spotify.Application.Admin.Musicians
 {
+    [Service]
     public class DeleteMusician
     {
         private IMusicianManager _musicianManager;

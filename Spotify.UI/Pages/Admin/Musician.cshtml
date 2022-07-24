@@ -1,0 +1,54 @@
+﻿@page
+@model Spotify.UI.Pages.Admin.MusicianModel
+@{
+}
+
+<div class="columns mr-1">
+    <div class="column is-6">
+        <table class="table is-fullwidth">
+            <caption class="title">Musician Info</caption>
+            <tr>
+                <th>Name</th>
+                <td>@Model.Musician.Name</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>@Model.Musician.Description</td>
+            </tr>
+            <tr>
+                <th>Number of albums</th>
+                <td>@Model.Musician.Albums.Count()</td>
+            </tr>
+            <tr>
+                <th>Number of songs</th>
+                <td>@Model.Musician.Albums.Sum(album => album.Songs.Count())</td>
+            </tr>
+            <tr>
+                <th>Total number of plays</th>
+                <td>@Model.Musician.NumberOfPlays</td>
+            </tr>
+            <tr>
+                <th>Most played album</th>
+                <td>@Model.Musician.Albums.MaxBy(album => album.Songs.Sum(song => song.Plays))?.Name</td>
+            </tr>
+        </table>
+    </div>
+    <div class="column is-6">
+        <table class="table is-fullwidth">
+            <caption class="title">Albums Info</caption>
+            <tr>
+                <th>Name</th>
+                <th>Number of plays</th>
+                <th>Most played song</th>
+            </tr>
+            @foreach(var album in Model.Musician.Albums)
+            {
+                <tr>
+                    <td>@album.Name</td>
+                    <td>@album.Songs.Sum(song => song.Plays)</td>
+                    <td>@album.Songs.MaxBy(song => song.Plays)?.Name</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

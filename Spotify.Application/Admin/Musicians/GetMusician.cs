@@ -12,24 +12,25 @@ namespace Spotify.Application.Admin.Musicians
         }
 
         public Response Execute(int id)
-        => _musicianManager.GetMusicianById(id, musician => new Response
-        {
-            Id = musician.Id,
-            Name = musician.Name,
-            Description = musician.Description,
-            NumberOfPlays = musician.Songs.Sum(song => song.Plays),
-            Albums = musician.Albums.Select(album => new AlbumViewModel
+            => _musicianManager.GetMusicianById(id, musician => new Response
             {
-                Id = album.Id,
-                Name = album.Name,
-                Songs = album.Songs.Select(song => new SongViewModel
+                Id = musician.Id,
+                Name = musician.Name,
+                Description = musician.Description,
+                NumberOfPlays = musician.Songs.Sum(song => song.Plays),
+                NumberOfFollers = musician.Followers.Count(),
+                Albums = musician.Albums.Select(album => new AlbumViewModel
                 {
-                    Id = song.Id,
-                    Name = song.Name,
-                    Plays = song.Plays
+                    Id = album.Id,
+                    Name = album.Name,
+                    Songs = album.Songs.Select(song => new SongViewModel
+                    {
+                        Id = song.Id,
+                        Name = song.Name,
+                        Plays = song.Plays
+                    })
                 })
-            })
-        });
+            });
 
         public class Response
         {
@@ -38,6 +39,7 @@ namespace Spotify.Application.Admin.Musicians
             public int Id { get; set; }
             public IEnumerable<AlbumViewModel> Albums { get; set; }
             public long NumberOfPlays { get; set; }
+            public int NumberOfFollers { get; set; }
         }
 
         public class SongViewModel
