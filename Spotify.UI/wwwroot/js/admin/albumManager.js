@@ -33,6 +33,7 @@
         selectMusician(musician) {
             this.selectedMusician = musician;
             this.albumModel.musicianId = musician.id;
+            this.updatedAlbum = null;
         },
         deleteAlbum(id, index) {
             this.loading = true;

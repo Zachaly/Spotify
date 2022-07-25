@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Spotify.Application.Admin.Songs
 {
     [Service]
@@ -16,19 +11,36 @@ namespace Spotify.Application.Admin.Songs
             _songsManager = songsManager;
         }
 
-        public async Task<bool> Execute(Request request) 
-            => await _songsManager.AddSongAsync(new Song
+        public async Task<Response> Execute(Request request)
+        {
+            var song = new Song
             {
                 Name = request.Name,
                 AlbumId = request.AlbumId,
                 MusicianId = request.CreatorId,
-            });
+            };
+            await _songsManager.AddSongAsync(song);
+
+            return new Response
+            {
+                Id = song.Id,
+                Name = song.Name,
+                Plays = 0,
+            };
+        }
 
         public class Request
         {
             public string Name { get; set; }
             public int CreatorId { get; set; }
             public int AlbumId { get; set; }
+        }
+
+        public class Response
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public long Plays { get; set; }
         }
     }
 }

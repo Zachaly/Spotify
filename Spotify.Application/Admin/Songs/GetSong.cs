@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Spotify.Application.Admin.Songs
 {
+    [Service]
     public class GetSong
     {
         private ISongsManager _songsManager;
@@ -16,7 +12,7 @@ namespace Spotify.Application.Admin.Songs
         }
 
         public Response Execute(int id) 
-            => _songsManager.GetSongById(id ,song => new Response
+            => _songsManager.GetSongById(id, song => new Response
             {
                 Id = song.Id,
                 Name = song.Name,

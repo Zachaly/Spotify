@@ -1,26 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Spotify.Application.Admin.Songs
 {
+    [Service]
     public class GetSongs
     {
-        private ISongsManager _songsManager;
+        private IAlbumsManager _albumsManager;
 
-        public GetSongs(ISongsManager songsManager)
+        public GetSongs(IAlbumsManager albumsManager)
         {
-            _songsManager = songsManager;
+            _albumsManager = albumsManager;
         }
 
-        public IEnumerable<SongViewModel> Execute() 
-            => _songsManager.GetSongs(song => new SongViewModel
+        public IEnumerable<AlbumModel> Execute()
+            => _albumsManager.GetAlbums(album => new AlbumModel
             {
-                Id = song.Id,
-                Name = song.Name,
-                Plays = song.Plays,
+                Id = album.Id,
+                Name = album.Name,
+                CreatorName = album.Musician.Name,
+                CreatorId = album.MusicianId,
+                Songs = album.Songs.Select(song => new SongViewModel
+                {
+                    Id = song.Id,
+                    Name = song.Name,
+                    Plays = song.Plays
+                })
             });
 
         public class SongViewModel
@@ -28,6 +31,15 @@ namespace Spotify.Application.Admin.Songs
             public int Id { get; set; }
             public string Name { get; set; }
             public long Plays { get; set; }
+        }
+
+        public class AlbumModel
+        {
+            public int CreatorId { get; set; }
+            public string CreatorName { get; set; }
+            public string Name { get; set; }
+            public IEnumerable<SongViewModel> Songs { get; set; }
+            public int Id { get; set; }
         }
     }
 }
