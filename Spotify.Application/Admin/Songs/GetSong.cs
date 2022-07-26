@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Songs
             _songsManager = songsManager;
         }
 
+        /// <summary>
+        /// Gets specific info about a song
+        /// </summary>
         public Response Execute(int id) 
             => _songsManager.GetSongById(id, song => new Response
             {

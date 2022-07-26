@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Albums
             _albumsManager = albumsManager;
         }
 
+        /// <summary>
+        /// Updated album with data given in request and returns model used in admin album panel
+        /// </summary>
         public async Task<Response> Execute(Request request)
         { 
             await _albumsManager.UpdateAlbumAsync(request.AlbumId, album =>

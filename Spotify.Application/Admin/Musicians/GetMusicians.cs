@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Musicians
             _musicianManager = musicianManager;
         }
 
+        /// <summary>
+        /// Gets musician models used in admin panel
+        /// </summary>
         public IEnumerable<MusicianViewModel> Execute() 
             => _musicianManager.GetMusicians(musician => new MusicianViewModel
             {

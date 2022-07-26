@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Spotify.Application
 {
+    /// <summary>
+    /// Attribute used in services to automate depedency injection
+    /// </summary>
     public class Service : Attribute
     {
 

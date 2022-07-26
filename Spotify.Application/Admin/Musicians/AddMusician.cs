@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Musicians
             _musicianManager = musicianManager;
         }
 
+        /// <summary>
+        /// Adds musician and returns model used in admin panel
+        /// </summary>
         public async Task<Response> Execute(Request request)
         {
             var musician = new Musician

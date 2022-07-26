@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Albums
             _albumsManager = albumsManager;
         }
 
+        /// <summary>
+        /// Removes album with given id
+        /// </summary>
         public async Task<bool> Execute(int id) => await _albumsManager.RemoveAlbumAsync(id);
     }
 }

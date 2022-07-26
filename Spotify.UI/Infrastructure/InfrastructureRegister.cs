@@ -5,6 +5,9 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class InfrastructureRegister
     {
+        /// <summary>
+        /// Add managers used in this application
+        /// </summary>
         public static IServiceCollection AddApplicationInfrastucture(this IServiceCollection @this)
         {
             @this.AddTransient<IApplicationUserManager, ApplicationUserManager>();

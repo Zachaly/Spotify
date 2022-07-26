@@ -5,6 +5,9 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceRegister
     {
+        /// <summary>
+        /// Registers classed marked as 'Service' in Spotify.Application
+        /// </summary>
         public static IServiceCollection AddApplicationServices(this IServiceCollection @this)
         {
             var serviceType = typeof(Service);

@@ -21,6 +21,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 }).AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddAuthentication();
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Accounts/Login";
@@ -31,13 +32,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
 });
 
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/Accounts/Login";
-});
-
 builder.Services.AddRazorPages();
+
 builder.Services.AddMvc(options =>
 {
     options.EnableEndpointRouting = false;
@@ -45,8 +41,7 @@ builder.Services.AddMvc(options =>
 AddRazorPagesOptions(options =>
 {
 options.Conventions.AuthorizeFolder("/Admin");
-}).
-AddFluentValidation();
+}).AddFluentValidation();
 
 builder.Services.AddApplicationInfrastucture();
 builder.Services.AddApplicationServices();
@@ -89,7 +84,6 @@ catch (Exception ex)
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }

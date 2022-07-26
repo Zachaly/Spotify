@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Musicians
             _musicianManager = musicianManager;
         }
 
+        /// <summary>
+        /// Get presice info about musician with given id
+        /// </summary>
         public Response Execute(int id)
             => _musicianManager.GetMusicianById(id, musician => new Response
             {

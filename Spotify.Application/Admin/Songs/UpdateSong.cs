@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Songs
             _songsManager = songsManager;
         }
 
+        /// <summary>
+        /// Updates song with data given in request
+        /// </summary>
         public async Task<Response> Execute(Request request)
         { 
             await _songsManager.UpdateSongAsync(request.Id, song =>

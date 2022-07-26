@@ -17,6 +17,7 @@ namespace Spotify.Database
         public DbSet<Playlist> Playlists { get; set; }
         public DbSet<PlaylistSong> playlistSongs { get; set; }
 
+        // overriten to avoid entity framework crying about keyless model
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

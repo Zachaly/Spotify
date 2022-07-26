@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Musicians
             _musicianManager = musicianManager;
         }
 
+        /// <summary>
+        /// Updates musician with data given in request and returns model used in admin panel
+        /// </summary>
         public async Task<Response> Execute(Request request)
         { 
             await _musicianManager.UpdateMusicianAsync(request.Id, request.Name, request.Description);

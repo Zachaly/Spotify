@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Songs
             _albumsManager = albumsManager;
         }
 
+        /// <summary>
+        /// Gets song models used in admin panel grouped by album
+        /// </summary>
         public IEnumerable<AlbumModel> Execute()
             => _albumsManager.GetAlbums(album => new AlbumModel
             {

@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Musicians
             _musicianManager = musicianManager;
         }
 
+        /// <summary>
+        /// Removes musician with given id
+        /// </summary>
         public async Task<bool> Execute(int id) => await _musicianManager.DeleteMusicianAsync(id);
     }
 }

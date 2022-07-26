@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Albums
             _albumsManager = albumsManager;
         }
 
+        /// <summary>
+        /// Adds album with info specified in request and returns model of album used in admin panel
+        /// </summary>
         public async Task<Response> Execute(Request request)
         {
             var album = new Album

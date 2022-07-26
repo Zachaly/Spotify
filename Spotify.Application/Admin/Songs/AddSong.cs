@@ -11,6 +11,9 @@ namespace Spotify.Application.Admin.Songs
             _songsManager = songsManager;
         }
 
+        /// <summary>
+        /// Adds song and returns model used in admin panel
+        /// </summary>
         public async Task<Response> Execute(Request request)
         {
             var song = new Song
