@@ -29,7 +29,11 @@
             </tr>
             <tr>
                 <th>Most played album</th>
-                <td>@Model.Musician.Albums.MaxBy(album => album.Songs.Sum(song => song.Plays))?.Name</td>
+                @{
+                    var bestAlbum = Model.Musician.Albums.MaxBy(album => album.Songs.Sum(song => song.Plays));
+                    var bestAlbumPlays = bestAlbum?.Songs.Sum(song => song.Plays);
+                }
+                <td>@bestAlbum?.Name (@bestAlbumPlays)</td>
             </tr>
         </table>
     </div>
