@@ -5,5 +5,50 @@
 }
 
 <div>
-    <p class="title is-centered">Spotify mainpage</p>
+    <section class="section">
+        <h2 class="title">Most popular artists</h2>
+        <div class="columns mr-5" style="overflow: auto; overflow-y: hidden">
+        @foreach(var musician in Model.Musicians.OrderByDescending(musician => musician.Plays))
+        {
+            <div class="column is-2">
+                <partial name="_MusicianPartial" model="musician">
+            </div>
+        }
+        </div>
+    </section>
+    <section class="section">
+        <p class="title">Newest artists</p>
+        <div class="columns mr-5" style="overflow: auto; overflow-y: hidden">
+        @foreach(var musician in Model.Musicians.OrderByDescending(musician => musician.Id))
+        {
+            <div class="column is-2">
+                <partial name="_MusicianPartial" model="musician">
+            </div>
+        }
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="title">Most popular albums</p>
+        <div class="columns mr-5" style="overflow: auto; overflow-y: hidden">
+        @foreach(var album in Model.Albums.OrderByDescending(album => album.Plays))
+        {
+            <div class="column is-2">
+                <partial name="_AlbumPartial" model="album">
+            </div>
+        }
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="title">Newest albums</p>
+        <div class="columns mr-5" style="overflow: auto; overflow-y: hidden">
+        @foreach(var album in Model.Albums.OrderByDescending(album => album.Id))
+        {
+            <div class="column is-2">
+                <partial name="_AlbumPartial" model="album">
+            </div>
+        }
+        </div>
+    </section>
 </div>
