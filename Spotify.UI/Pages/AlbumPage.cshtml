@@ -2,3 +2,28 @@
 @model Spotify.UI.Pages.AlbumModel
 @{
 }
+
+<div class="container">
+    <table class="table is-fullwidth">
+        <caption>
+            <p class="title">@Model.Album.Name</p>
+            <p class="subtitle">@Model.Album.SongCount</p>
+        </caption>
+        @{
+            int index = 1;
+        }
+        @foreach(var song in Model.Album.Songs)
+        {
+            <partial name="_SongTableItemPartial" model="new SongViewModel
+            { 
+            AlbumId = song.AlbumId,
+            CreatorId = song.CreatorId,
+            CreatorName = song.CreatorName,
+            Index = index,
+            Name = song.Name,
+            Plays = song.Plays
+            }"/>
+            index++;
+        }
+    </table>
+</div>

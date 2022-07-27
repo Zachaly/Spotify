@@ -1,0 +1,44 @@
+﻿
+namespace Spotify.Application.Albums
+{
+    [Service]
+    public class GetAlbum
+    {
+        private IAlbumsManager _albumsManager;
+
+        public GetAlbum(IAlbumsManager albumsManager)
+        {
+            _albumsManager = albumsManager;
+        }
+
+        public Response Execute(int id) => _albumsManager.GetAlbumById(id, album => new Response
+        {
+            Name = album.Name,
+            Songs = album.Songs.Select(song => new SongModel
+            {
+                Name = song.Name,
+                AlbumId = song.AlbumId,
+                CreatorName = song.Creator.Name,
+                Plays = song.Plays,
+                CreatorId = song.Creator.Id,
+            }),
+            SongCount = album.Songs.Count()
+        });
+
+        public class Response
+        {
+            public string Name { get; set; }
+            public int SongCount { get; set; }
+            public IEnumerable<SongModel> Songs { get; set; }
+        }
+
+        public class SongModel
+        {
+            public int CreatorId { get; set; }
+            public string CreatorName { get; set; }
+            public string Name { get; set; }
+            public int AlbumId { get; set; }
+            public long Plays { get; set; }
+        }
+    }
+}

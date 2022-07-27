@@ -1,0 +1,21 @@
+﻿@model SongViewModel
+
+<tr>
+    <td class="has-text-centered is-vcentered">
+        @Model.Index
+    </td>
+    <td>
+        <figure class="image is-48x48">
+            <img src="~/images/album-covers/placeholder.jpg" alt="@Model.Name" />
+        </figure>
+    </td>
+    <td class="has-text-centered is-vcentered">
+        <a asp-page="/AlbumPage" asp-route-id="@Model.AlbumId">@Model.Name</a>
+    </td>
+    <td class="has-text-centered is-vcentered">
+        <a asp-page="/Musician/Profile" asp-route-id="@Model.CreatorId">@Model.CreatorName</a>
+    </td>
+    <td class="has-text-centered is-vcentered">
+        @Model.Plays
+    </td>
+</tr>

@@ -2,3 +2,14 @@
 @model Spotify.UI.Pages.Musician.AlbumsModel
 @{
 }
+
+<div class="container">
+    <div class="columns is-multiline">
+        @foreach(var album in Model.Albums)
+        {
+            <div class="column is-one-fifth">
+                <partial name="_AlbumPartial" model="new AlbumViewModel{Id = album.Id, Name = album.Name, CreatorName = album.Name}">
+            </div>
+        }
+    </div>
+</div>

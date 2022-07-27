@@ -20,21 +20,28 @@ namespace Spotify.Database
             return await _dbContext.SaveChangesAsync() > 0;
         }
 
+
         public T GetAlbumById<T>(int id, Func<Album, T> selector)
             => _dbContext.Albums.Include(db => db.Songs).Include(db => db.Musician).
-            Where(album => album.Id == id).
-            Select(selector).
-            FirstOrDefault();
+                Where(album => album.Id == id).
+                Select(selector).
+                FirstOrDefault();
 
         public IEnumerable<T> GetAlbums<T>(Func<Album, T> selector)
             => _dbContext.Albums.Include(db => db.Songs).Include(db => db.Musician).
             Select(selector).
             AsEnumerable();
 
+        public IEnumerable<T> GetAlbumsOfMusician<T>(int musicianId, Func<Album, T> selector)
+            => _dbContext.Albums.Include(db => db.Musician).Include(db => db.Songs).
+                Where(album => album.MusicianId == musicianId).
+                OrderByDescending(album => album.Id).
+                Select(selector).
+                ToList();
+
         public IEnumerable<T> GetTopAlbums<T>(int creatorId, int count, Func<Album, T> selector)
             => _dbContext.Albums.Include(db => db.Musician).Include(db => db.Songs).
                 Where(album => album.MusicianId == creatorId).
-                OrderBy(album => album.Songs.Sum(song => song.Plays)).
                 OrderByDescending(album => album.Songs.Sum(song => song.Plays)).
                 Take(count).
                 Select(selector);

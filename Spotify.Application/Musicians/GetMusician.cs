@@ -17,6 +17,7 @@ namespace Spotify.Application.Musicians
 
         public Response Execute(int id) => _musicianManager.GetMusicianById(id, musician => new Response
         {
+            Id = id,
             Name = musician.Name,
             Description = musician.Description,
             NumberOfFollowers = musician.Followers.Count(),
@@ -28,6 +29,7 @@ namespace Spotify.Application.Musicians
             }),
             TopSongs = _songsManager.GetTopSongs(musician.Id, 10, song => new SongModel
             {
+                CreatorName = musician.Name,
                 Name = song.Name,
                 Plays = song.Plays,
                 AlbumId = song.AlbumId
@@ -36,6 +38,7 @@ namespace Spotify.Application.Musicians
 
         public class Response
         {
+            public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
             public int NumberOfFollowers { get; set; }
@@ -53,6 +56,7 @@ namespace Spotify.Application.Musicians
 
         public class SongModel 
         { 
+            public string CreatorName { get; set; }
             public string Name { get; set; }
             public int AlbumId { get; set; }
             public long Plays { get; set; }
