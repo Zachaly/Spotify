@@ -34,7 +34,7 @@
         @foreach(var album in Model.Albums.OrderByDescending(album => album.Plays))
         {
             <div class="column is-2">
-                <partial name="_AlbumPartial" model="album">
+                <partial name="_AlbumPartial" model="new AlbumViewModel{ Name = album.Name, Id = album.Id, CreatorName = album.CreatorName }">
             </div>
         }
         </div>
@@ -46,7 +46,7 @@
         @foreach(var album in Model.Albums.OrderByDescending(album => album.Id))
         {
             <div class="column is-2">
-                <partial name="_AlbumPartial" model="album">
+                <partial name="_AlbumPartial" model="new AlbumViewModel{ Name = album.Name, Id = album.Id, CreatorName = album.CreatorName }">
             </div>
         }
         </div>

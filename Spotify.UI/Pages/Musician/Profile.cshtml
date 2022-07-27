@@ -1,0 +1,55 @@
+﻿@page
+@model Spotify.UI.Pages.Musician.ProfileModel
+@{
+}
+
+<div class="container">
+    <section class="section">
+        <div class="columns">
+            <div class="column is-2">
+                <figure class="image is-4by3">
+                    <img src="~/images/band-pictures/placeholder.jpg" alt="@Model.Musician.Name" />
+                </figure>
+            </div>
+            <div class="column">
+                <h1 class="title">@Model.Musician.Name</h1>
+                <div class="content">
+                    @Model.Musician.Description
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <table class="table is-striped is-fullwidth">
+            <caption class="title">Popular</caption>
+            @{int index = 1;}
+            @foreach (var song in Model.Musician.TopSongs)
+            {
+                <tr>
+                    <td class="has-text-centered is-vcentered">
+                        @index
+                    </td>
+                    <td>
+                        <figure class="image is-48x48">
+                            <img src="~/images/album-covers/placeholder.jpg" alt="@song.Name" />
+                        </figure>
+                    </td>
+                    <td class="has-text-centered is-vcentered">@song.Name</td>
+                    <td class="has-text-centered is-vcentered">@song.Plays</td>
+                </tr>
+                index++;
+            }
+        </table>
+    </section>
+    <section class="section">
+        <h1 class="title">Popular albums</h1>
+        <div class="columns">
+            @foreach(var album in Model.Musician.TopAlbums)
+            {
+                <div class="column is-one-fifth">
+                    <partial name="_AlbumPartial" model="new AlbumViewModel{Id = album.Id, Name = album.Name, CreatorName = album.Name}">
+                </div>
+            }
+        </div>
+    </section>
+</div>

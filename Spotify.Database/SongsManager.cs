@@ -31,6 +31,14 @@ namespace Spotify.Database
             Select(selector).
             AsEnumerable();
 
+        public IEnumerable<T> GetTopSongs<T>(int creatorId, int count, Func<Song, T> selector)
+            => _dbContext.Songs.Include(db => db.Creator).Include(db => db.Album).
+                Where(song => song.Creator.Id == creatorId).
+                OrderByDescending(song => song.Plays).
+                Take(count).
+                Select(selector).
+                AsEnumerable();
+
         public async Task<bool> RemoveSongAsync(int id)
         {
             var song = _dbContext.Songs.FirstOrDefault(song => song.Id == id);

@@ -1,7 +1,7 @@
-﻿@model Spotify.Application.Albums.GetAlbums.AlbumModel
+﻿@model AlbumViewModel
 
 <div class="card">
-    <a asp-page="AlbumPage" asp-route-id="Model.Id">
+    <a asp-page="AlbumPage" asp-route-id="@Model.Id">
         <div class="card-image">
             <figure class="image is-square">
                 <img src="~/images/album-covers/placeholder.jpg" alt="@Model.Name">
