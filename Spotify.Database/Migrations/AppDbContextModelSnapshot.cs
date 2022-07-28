@@ -22,21 +22,6 @@ namespace Spotify.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ApplicationUserMusician", b =>
-                {
-                    b.Property<int>("FollowedMusiciansId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FollowersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("FollowedMusiciansId", "FollowersId");
-
-                    b.HasIndex("FollowersId");
-
-                    b.ToTable("ApplicationUserMusician");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -178,9 +163,6 @@ namespace Spotify.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("MusicianId")
                         .HasColumnType("int");
 
@@ -190,11 +172,24 @@ namespace Spotify.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("MusicianId");
 
                     b.ToTable("Albums");
+                });
+
+            modelBuilder.Entity("Spotify.Domain.Models.AlbumLike", b =>
+                {
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AlbumId", "ApplicationUserId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("AlbumLikes");
                 });
 
             modelBuilder.Entity("Spotify.Domain.Models.ApplicationUser", b =>
@@ -283,6 +278,21 @@ namespace Spotify.Database.Migrations
                     b.ToTable("Musicians");
                 });
 
+            modelBuilder.Entity("Spotify.Domain.Models.MusicianFollow", b =>
+                {
+                    b.Property<int>("MusicianId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("MusicianId", "ApplicationUserId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("MusicianFollows");
+                });
+
             modelBuilder.Entity("Spotify.Domain.Models.Playlist", b =>
                 {
                     b.Property<int>("Id")
@@ -314,7 +324,7 @@ namespace Spotify.Database.Migrations
 
                     b.HasIndex("SongId");
 
-                    b.ToTable("playlistSongs");
+                    b.ToTable("PlaylistSongs");
                 });
 
             modelBuilder.Entity("Spotify.Domain.Models.Song", b =>
@@ -327,9 +337,6 @@ namespace Spotify.Database.Migrations
 
                     b.Property<int>("AlbumId")
                         .HasColumnType("int");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("MusicianId")
                         .HasColumnType("int");
@@ -345,26 +352,24 @@ namespace Spotify.Database.Migrations
 
                     b.HasIndex("AlbumId");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("MusicianId");
 
                     b.ToTable("Songs");
                 });
 
-            modelBuilder.Entity("ApplicationUserMusician", b =>
+            modelBuilder.Entity("Spotify.Domain.Models.SongLike", b =>
                 {
-                    b.HasOne("Spotify.Domain.Models.Musician", null)
-                        .WithMany()
-                        .HasForeignKey("FollowedMusiciansId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("SongId")
+                        .HasColumnType("int");
 
-                    b.HasOne("Spotify.Domain.Models.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("FollowersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("SongId", "ApplicationUserId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("SongLikes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -420,10 +425,6 @@ namespace Spotify.Database.Migrations
 
             modelBuilder.Entity("Spotify.Domain.Models.Album", b =>
                 {
-                    b.HasOne("Spotify.Domain.Models.ApplicationUser", null)
-                        .WithMany("LikedAlbums")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("Spotify.Domain.Models.Musician", "Musician")
                         .WithMany("Albums")
                         .HasForeignKey("MusicianId")
@@ -431,6 +432,44 @@ namespace Spotify.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Musician");
+                });
+
+            modelBuilder.Entity("Spotify.Domain.Models.AlbumLike", b =>
+                {
+                    b.HasOne("Spotify.Domain.Models.Album", "Album")
+                        .WithMany("AlbumLikes")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Spotify.Domain.Models.ApplicationUser", "User")
+                        .WithMany("LikedAlbums")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Album");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Spotify.Domain.Models.MusicianFollow", b =>
+                {
+                    b.HasOne("Spotify.Domain.Models.ApplicationUser", "User")
+                        .WithMany("FollowedMusicians")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Spotify.Domain.Models.Musician", "Musician")
+                        .WithMany("Followers")
+                        .HasForeignKey("MusicianId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Musician");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Spotify.Domain.Models.Playlist", b =>
@@ -468,12 +507,8 @@ namespace Spotify.Database.Migrations
                     b.HasOne("Spotify.Domain.Models.Album", "Album")
                         .WithMany("Songs")
                         .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("Spotify.Domain.Models.ApplicationUser", null)
-                        .WithMany("LikedSongs")
-                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("Spotify.Domain.Models.Musician", "Creator")
                         .WithMany("Songs")
@@ -486,13 +521,36 @@ namespace Spotify.Database.Migrations
                     b.Navigation("Creator");
                 });
 
+            modelBuilder.Entity("Spotify.Domain.Models.SongLike", b =>
+                {
+                    b.HasOne("Spotify.Domain.Models.ApplicationUser", "User")
+                        .WithMany("LikedSongs")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Spotify.Domain.Models.Song", "Song")
+                        .WithMany("SongLikes")
+                        .HasForeignKey("SongId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Song");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Spotify.Domain.Models.Album", b =>
                 {
+                    b.Navigation("AlbumLikes");
+
                     b.Navigation("Songs");
                 });
 
             modelBuilder.Entity("Spotify.Domain.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("FollowedMusicians");
+
                     b.Navigation("LikedAlbums");
 
                     b.Navigation("LikedSongs");
@@ -502,12 +560,19 @@ namespace Spotify.Database.Migrations
                 {
                     b.Navigation("Albums");
 
+                    b.Navigation("Followers");
+
                     b.Navigation("Songs");
                 });
 
             modelBuilder.Entity("Spotify.Domain.Models.Playlist", b =>
                 {
                     b.Navigation("Songs");
+                });
+
+            modelBuilder.Entity("Spotify.Domain.Models.Song", b =>
+                {
+                    b.Navigation("SongLikes");
                 });
 #pragma warning restore 612, 618
         }

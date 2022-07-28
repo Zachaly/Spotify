@@ -4,8 +4,8 @@ namespace Spotify.Domain.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public ICollection<Musician> FollowedMusicians { get; set; }
-        public ICollection<Album> LikedAlbums { get; set; }
-        public ICollection<Song> LikedSongs { get; set; }
+        public ICollection<MusicianFollow> FollowedMusicians { get; set; }
+        public ICollection<AlbumLike> LikedAlbums { get; set; }
+        public ICollection<SongLike> LikedSongs { get; set; }
     }
 }
