@@ -1,12 +1,36 @@
 ﻿@page
 @model Spotify.UI.Pages.AlbumModel
+@inject Microsoft.AspNetCore.Identity.UserManager<Spotify.Domain.Models.ApplicationUser> userManager
+@inject Spotify.Domain.Infrastructure.IApplicationUserManager appUserManager
 @{
 }
 
 <div class="container">
     <table class="table is-fullwidth">
         <caption>
-            <p class="title">@Model.Album.Name</p>
+            <p class="title">
+                @Model.Album.Name
+                @if (User.Identity.IsAuthenticated)
+                {
+                    string buttonText;
+                    string buttonClass;
+                    string command;
+
+                    if(appUserManager.IsAlbumLiked(userManager.GetUserId(User), Model.Album.Id))
+                    {
+                        buttonText = "Unlike";
+                        buttonClass = "is-warning";
+                        command = $"unLikeAlbum({Model.Album.Id})";
+                    }
+                    else
+                    {
+                        buttonText = "Like";
+                        buttonClass = "is-success";
+                        command = $"likeAlbum({Model.Album.Id})";
+                    }
+                    <button class="button ml-5 @buttonClass" onclick="@command" id="like-button">@buttonText</button>
+                }
+            </p>
             <p class="subtitle">@Model.Album.SongCount</p>
         </caption>
         @{
@@ -16,6 +40,7 @@
         {
             <partial name="_SongTableItemPartial" model="new SongViewModel
             { 
+            Id = song.Id,
             AlbumId = song.AlbumId,
             CreatorId = song.CreatorId,
             CreatorName = song.CreatorName,
@@ -27,3 +52,9 @@
         }
     </table>
 </div>
+
+@section Scripts{
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="~/js/likeSong.js"></script>
+    <script src="~/js/likeAlbum.js"></script>
+}

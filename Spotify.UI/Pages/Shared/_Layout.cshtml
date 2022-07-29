@@ -1,13 +1,15 @@
 ﻿@inject IAuthorizationService authService
+@inject Microsoft.AspNetCore.Identity.UserManager<Spotify.Domain.Models.ApplicationUser> userManager
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Spotify</title>
+    <title>Spotify</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/darkly/bulmaswatch.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
 
@@ -29,11 +31,13 @@
                         }
                         else
                         {
+                            var userId = userManager.GetUserId(User);
                             @if ((await authService.AuthorizeAsync(User, "Admin")).Succeeded)
                             {
                                 <a class="button is-warning" asp-page="/Admin/Index">Admin Panel</a>
                             }
-                        <a class="button is-danger" asp-controller="User" asp-action="Logout">Logout</a>
+                            <a class="button" asp-page="/Accounts/UserProfile" asp-route-id="@userId">Profile</a>
+                            <a class="button is-danger" asp-controller="User" asp-action="Logout">Logout</a>
                         }
                     </div>
                 </div>

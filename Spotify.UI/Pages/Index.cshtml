@@ -7,22 +7,22 @@
 <div>
     <section class="section">
         <h2 class="title">Most popular artists</h2>
-        <div class="columns mr-5" style="overflow: auto; overflow-y: hidden">
+        <div class="columns mr-5 horizontal-bar">
         @foreach(var musician in Model.Musicians.OrderByDescending(musician => musician.Plays))
         {
             <div class="column is-2">
-                <partial name="_MusicianPartial" model="musician">
+                <partial name="_MusicianPartial" model="new MusicianViewModel{Id = musician.Id, Name = musician.Name}">
             </div>
         }
         </div>
     </section>
     <section class="section">
         <p class="title">Newest artists</p>
-        <div class="columns mr-5" style="overflow: auto; overflow-y: hidden">
+        <div class="columns mr-5 horizontal-bar" >
         @foreach(var musician in Model.Musicians.OrderByDescending(musician => musician.Id))
         {
             <div class="column is-2">
-                <partial name="_MusicianPartial" model="musician">
+                <partial name="_MusicianPartial" model="new MusicianViewModel{Id = musician.Id, Name = musician.Name}">
             </div>
         }
         </div>
@@ -30,7 +30,7 @@
 
     <section class="section">
         <p class="title">Most popular albums</p>
-        <div class="columns mr-5" style="overflow: auto; overflow-y: hidden">
+        <div class="columns mr-5 horizontal-bar" >
         @foreach(var album in Model.Albums.OrderByDescending(album => album.Plays))
         {
             <div class="column is-2">
@@ -42,7 +42,7 @@
 
     <section class="section">
         <p class="title">Newest albums</p>
-        <div class="columns mr-5" style="overflow: auto; overflow-y: hidden">
+        <div class="columns mr-5 horizontal-bar">
         @foreach(var album in Model.Albums.OrderByDescending(album => album.Id))
         {
             <div class="column is-2">

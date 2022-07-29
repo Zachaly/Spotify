@@ -13,6 +13,7 @@ namespace Spotify.Application.User
 
         public IEnumerable<SongModel> Execute(string userId) => _applicationUserManager.GetUserLikedSongs(userId, song => new SongModel
         {
+            Id = song.SongId,
             CreatorId = song.Song.MusicianId,
             CreatorName = song.Song.Creator.Name,
             Name = song.Song.Name,
@@ -21,6 +22,7 @@ namespace Spotify.Application.User
 
         public class SongModel
         {
+            public int Id { get; set; }
             public int CreatorId { get; set; }
             public string CreatorName { get; set; }
             public string Name { get; set; }

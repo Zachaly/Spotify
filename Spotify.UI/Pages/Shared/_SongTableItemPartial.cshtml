@@ -1,4 +1,6 @@
 ﻿@model SongViewModel
+@inject Microsoft.AspNetCore.Identity.UserManager<Spotify.Domain.Models.ApplicationUser> userManager
+@inject Spotify.Domain.Infrastructure.IApplicationUserManager appUserManager
 
 <tr>
     <td class="has-text-centered is-vcentered">
@@ -15,6 +17,30 @@
     <td class="has-text-centered is-vcentered">
         <a asp-page="/Musician/Profile" asp-route-id="@Model.CreatorId">@Model.CreatorName</a>
     </td>
+    @if (User.Identity.IsAuthenticated)
+    {
+        
+        string buttonClass;
+        string buttonText;
+        string command;
+
+        if (appUserManager.IsSongLiked(userManager.GetUserId(User), Model.Id))
+        {
+            buttonClass = "is-warning";
+            buttonText = "Unlike";
+            command = $"unLikeSong({Model.Id})";
+        }
+        else
+        {
+            buttonClass = "is-success";
+            command = $"likeSong({Model.Id})";
+            buttonText = "Like";
+        }
+        
+        <td class="is-vcentered">
+            <button class="button is-fullwidth @buttonClass" onclick="@command" id="song-@Model.Id">@buttonText</button>
+        </td>
+    }
     <td class="has-text-centered is-vcentered">
         @Model.Plays
     </td>

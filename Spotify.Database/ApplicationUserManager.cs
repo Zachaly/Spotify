@@ -22,6 +22,7 @@ namespace Spotify.Database
         public T GetUserById<T>(string id, Func<ApplicationUser, T> selector)
             => _dbContext.Users.Include(db => db.FollowedMusicians).ThenInclude(db => db.Musician).
                 Include(db => db.LikedAlbums).ThenInclude(db => db.Album).
+                Include(db => db.LikedSongs).
                 Where(user => user.Id == id).
                 Select(selector).
                 FirstOrDefault();
@@ -32,5 +33,68 @@ namespace Spotify.Database
                 FirstOrDefault(user => user.Id == userId)?.
                 LikedSongs.Select(selector).
                 AsEnumerable();
+
+        public async Task<bool> FollowMusician(string userId, int musicianId)
+        {
+            var follow = new MusicianFollow
+            {
+                ApplicationUserId = userId,
+                MusicianId = musicianId,
+            };
+
+            var userFollows = _dbContext.MusicianFollows.Where(x => x.ApplicationUserId == userId);
+
+            if(userFollows.Any(x => x.MusicianId == musicianId))
+                _dbContext.MusicianFollows.Remove(userFollows.FirstOrDefault(x => x.MusicianId == musicianId));
+            else
+                _dbContext.MusicianFollows.Add(follow);
+
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> LikeSong(string userId, int songId)
+        {
+            var like = new SongLike
+            {
+                ApplicationUserId = userId,
+                SongId = songId,
+            };
+
+            var userLikes = _dbContext.SongLikes.Where(x => x.ApplicationUserId == userId);
+
+            if (userLikes.Any(x => x.SongId == songId))
+                _dbContext.SongLikes.Remove(userLikes.FirstOrDefault(x => x.SongId == songId));
+            else
+                _dbContext.SongLikes.Add(like);
+
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> LikeAlbum(string userId, int albumId)
+        {
+            var like = new AlbumLike
+            {
+                ApplicationUserId = userId,
+                AlbumId = albumId,
+            };
+
+            var userLikes = _dbContext.AlbumLikes.Where(x => x.ApplicationUserId == userId);
+
+            if (userLikes.Any(x => x.AlbumId == albumId))
+                _dbContext.AlbumLikes.Remove(userLikes.FirstOrDefault(x => x.AlbumId == albumId));
+            else
+                _dbContext.AlbumLikes.Add(like);
+
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
+
+        public bool IsSongLiked(string userId, int songId)
+            => _dbContext.SongLikes.Any(x => x.SongId == songId && x.ApplicationUserId == userId);
+
+        public bool IsMusicianFollowed(string userId, int musicianId)
+            => _dbContext.MusicianFollows.Any(x => x.MusicianId == musicianId && x.ApplicationUserId == userId);
+
+        public bool IsAlbumLiked(string userId, int albumId)
+            => _dbContext.AlbumLikes.Any(x => x.AlbumId == albumId && x.ApplicationUserId == userId);
     }
 }

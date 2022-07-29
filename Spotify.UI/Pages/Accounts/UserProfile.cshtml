@@ -1,0 +1,50 @@
+﻿@page
+@model Spotify.UI.Pages.Accounts.UserProfileModel
+@{
+}
+
+<div class="container">
+    <section class="section">
+        <div class="columns">
+            <div class="column is-2">
+                <figure class="image is-4by3">
+                    <img src="~/images/profile-pictures/placeholder.jpg"/>
+                </figure>
+            </div>
+            <div class="column">
+                <h1 class="title">
+                    @Model.User.Name
+                </h1>
+                <h2 class="subtitle">
+                    Liked Albums: @Model.User.LikedAlbums.Count() <br />
+                    Followed Musicians: @Model.User.FollowedMusicians.Count() <br />
+                    Liked Songs: @Model.User.LikedSongsCount 
+                    <a asp-page="/Accounts/LikedSongs" asp-route-id="@Model.User.Id">See all</a>
+                </h2>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <h1 class="title">Liked albums</h1>
+        <div class="columns horizontal-bar">
+            @foreach(var album in Model.User.LikedAlbums)
+            {
+                <div class="column is-one-fifth">
+                    <partial name="_AlbumPartial" model="new AlbumViewModel{Id = album.Id, Name = album.Name, CreatorName = album.Name}">
+                </div>
+            }
+        </div>
+    </section>
+    <section class="section">
+        <h1 class="title">Followed musicians</h1>
+        <div class="columns horizontal-bar">
+            @foreach(var musician in Model.User.FollowedMusicians)
+            {
+                <div class="column is-one-fifth">
+                    <partial name="_MusicianPartial" model="new MusicianViewModel{Id = musician.Id, Name = musician.Name}">
+                </div>
+            }
+        </div>
+    </section>
+</div>

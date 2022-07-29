@@ -29,6 +29,7 @@ namespace Spotify.Application.Musicians
             }),
             TopSongs = _songsManager.GetTopSongs(musician.Id, 10, song => new SongModel
             {
+                Id = song.Id,
                 CreatorName = musician.Name,
                 Name = song.Name,
                 Plays = song.Plays,
@@ -56,6 +57,7 @@ namespace Spotify.Application.Musicians
 
         public class SongModel 
         { 
+            public int Id { get; set; }
             public string CreatorName { get; set; }
             public string Name { get; set; }
             public int AlbumId { get; set; }

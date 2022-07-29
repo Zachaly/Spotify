@@ -25,7 +25,8 @@ namespace Spotify.Application.User
                 CreatorName = album.Album.Musician.Name,
                 Name = album.Album.Name,
                 Id = album.AlbumId
-            })
+            }),
+            LikedSongsCount = user.LikedSongs.Count()
         });
 
         public class Response
@@ -34,6 +35,7 @@ namespace Spotify.Application.User
             public string Name { get; set; }
             public IEnumerable<MusicianModel> FollowedMusicians { get; set; }
             public IEnumerable<AlbumModel> LikedAlbums { get; set; }
+            public int LikedSongsCount { get; set; }
         }
 
         public class MusicianModel
