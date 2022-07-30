@@ -13,13 +13,13 @@
             </div>
             <div class="column">
                 <h1 class="title">
-                    @Model.User.Name
+                    @Model.Info.Name
                 </h1>
                 <h2 class="subtitle">
-                    Liked Albums: @Model.User.LikedAlbums.Count() <br />
-                    Followed Musicians: @Model.User.FollowedMusicians.Count() <br />
-                    Liked Songs: @Model.User.LikedSongsCount 
-                    <a asp-page="/Accounts/LikedSongs" asp-route-id="@Model.User.Id">See all</a>
+                    Liked Albums: @Model.LikedAlbums.Count() <br />
+                    Followed Musicians: @Model.FollowedMusicians.Count() <br />
+                    Liked Songs: @Model.Info.LikedSongsCount 
+                    <a asp-page="/Accounts/LikedSongs" asp-route-id="@Model.Info.Id">See all</a>
                 </h2>
             </div>
         </div>
@@ -28,10 +28,10 @@
     <section class="section">
         <h1 class="title">Liked albums</h1>
         <div class="columns horizontal-bar">
-            @foreach(var album in Model.User.LikedAlbums)
+            @foreach(var album in Model.LikedAlbums)
             {
                 <div class="column is-one-fifth">
-                    <partial name="_AlbumPartial" model="new AlbumViewModel{Id = album.Id, Name = album.Name, CreatorName = album.Name}">
+                    <partial name="_AlbumPartial" model="album">
                 </div>
             }
         </div>
@@ -39,10 +39,10 @@
     <section class="section">
         <h1 class="title">Followed musicians</h1>
         <div class="columns horizontal-bar">
-            @foreach(var musician in Model.User.FollowedMusicians)
+            @foreach(var musician in Model.FollowedMusicians)
             {
                 <div class="column is-one-fifth">
-                    <partial name="_MusicianPartial" model="new MusicianViewModel{Id = musician.Id, Name = musician.Name}">
+                    <partial name="_MusicianPartial" model="musician">
                 </div>
             }
         </div>

@@ -10,35 +10,38 @@
         <div class="columns">
             <div class="column is-2">
                 <figure class="image is-4by3">
-                    <img src="~/images/band-pictures/placeholder.jpg" alt="@Model.Musician.Name" />
+                    <img src="~/images/band-pictures/placeholder.jpg" alt="@Model.Info.Name" />
                 </figure>
             </div>
             <div class="column">
                 <h1 class="title">
-                    @Model.Musician.Name
+                    @Model.Info.Name
                     @if (User.Identity.IsAuthenticated)
                     {
                         string buttonText;
                         string buttonClass;
                         string command;
 
-                        if(appUserManager.IsMusicianFollowed(userManager.GetUserId(User), Model.Musician.Id))
+                        if(appUserManager.IsMusicianFollowed(userManager.GetUserId(User), Model.Info.Id))
                         {
                             buttonText = "Stop following";
                             buttonClass = "is-warning";
-                            command = $"unFollowMusician({Model.Musician.Id})";
+                            command = $"unFollowMusician({Model.Info.Id})";
                         }
                         else
                         {
                             buttonText = "Follow";
                             buttonClass = "is-success";
-                            command = $"followMusician({Model.Musician.Id})";
+                            command = $"followMusician({Model.Info.Id})";
                         }
                         <button class="button ml-5 @buttonClass" onclick="@command" id="follow-button">@buttonText</button>
                     }
                 </h1>
+                <h2 class="subtitle">
+                    Followed by @Model.Info.NumberOfFollowers people
+                </h2>
                 <div class="content">
-                    @Model.Musician.Description
+                    @Model.Info.Description
                 </div>
             </div>
         </div>
@@ -46,31 +49,20 @@
     <section class="section">
         <table class="table is-striped is-fullwidth">
             <caption class="title">Popular</caption>
-            @{int index = 1;}
-            @foreach (var song in Model.Musician.TopSongs)
+            @foreach (var song in Model.TopSongs)
             {
-                <partial name="_SongTableItemPartial" 
-                    model="new SongViewModel {
-                        Id = song.Id,
-                        Index = index,
-                        Name = song.Name,
-                        Plays = song.Plays,
-                        CreatorName = song.CreatorName,
-                        CreatorId = Model.Musician.Id,
-                        AlbumId = song.AlbumId
-                        }"/>
-                index++;
+                <partial name="_SongTableItemPartial" model="song"/>
             }
         </table>
     </section>
     <section class="section">
         <h1 class="title">Popular albums</h1>
-        <h2 class="subtitle"><a asp-page="Albums" asp-route-id="@Model.Musician.Id">See all</a></h2>
+        <h2 class="subtitle"><a asp-page="Albums" asp-route-id="@Model.Info.Id">See all</a></h2>
         <div class="columns">
-            @foreach(var album in Model.Musician.TopAlbums)
+            @foreach(var album in Model.TopAlbums)
             {
                 <div class="column is-one-fifth">
-                    <partial name="_AlbumPartial" model="new AlbumViewModel{Id = album.Id, Name = album.Name, CreatorName = album.Name}">
+                    <partial name="_AlbumPartial" model="album">
                 </div>
             }
         </div>

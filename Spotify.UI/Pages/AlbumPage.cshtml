@@ -38,17 +38,18 @@
         }
         @foreach(var song in Model.Album.Songs)
         {
-            <partial name="_SongTableItemPartial" model="new SongViewModel
-            { 
-            Id = song.Id,
-            AlbumId = song.AlbumId,
-            CreatorId = song.CreatorId,
-            CreatorName = song.CreatorName,
-            Index = index,
-            Name = song.Name,
-            Plays = song.Plays
-            }"/>
-            index++;
+            var viewModel = new SongViewModel
+                {
+                    Id = song.Id,
+                    AlbumId = song.AlbumId,
+                    CreatorId = song.CreatorId,
+                    CreatorName = song.CreatorName,
+                    Index = index++,
+                    Name = song.Name,
+                    Plays = song.Plays
+                };
+
+            <partial name="_SongTableItemPartial" model="viewModel"/>
         }
     </table>
 </div>

@@ -8,7 +8,7 @@
         @foreach(var album in Model.Albums)
         {
             <div class="column is-one-fifth">
-                <partial name="_AlbumPartial" model="new AlbumViewModel{Id = album.Id, Name = album.Name, CreatorName = album.Name}">
+                <partial name="_AlbumPartial" model="album">
             </div>
         }
     </div>

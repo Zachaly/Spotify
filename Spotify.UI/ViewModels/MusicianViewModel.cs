@@ -5,5 +5,6 @@ namespace Spotify.UI.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public long Plays { get; set; } = 0;
     }
 }
