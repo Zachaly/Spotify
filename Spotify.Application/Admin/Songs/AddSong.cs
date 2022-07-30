@@ -21,6 +21,7 @@ namespace Spotify.Application.Admin.Songs
                 Name = request.Name,
                 AlbumId = request.AlbumId,
                 MusicianId = request.CreatorId,
+                FileName = request.FileName
             };
             await _songsManager.AddSongAsync(song);
 
@@ -37,6 +38,7 @@ namespace Spotify.Application.Admin.Songs
             public string Name { get; set; }
             public int CreatorId { get; set; }
             public int AlbumId { get; set; }
+            public string FileName { get; set; }
         }
 
         public class Response

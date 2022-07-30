@@ -11,5 +11,6 @@ namespace Spotify.Domain.Models
         public Musician Creator { get; set; }
         public long Plays { get; set; } = 0;
         public ICollection<SongLike> SongLikes { get; set; }
+        public string FileName { get; set; }
     }
 }

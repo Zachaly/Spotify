@@ -1,5 +1,6 @@
 ﻿using Spotify.Database;
 using Spotify.Domain.Infrastructure;
+using Spotify.UI.Infrastructure.FileManager;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -14,6 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
             @this.AddTransient<ISongsManager, SongsManager>();
             @this.AddTransient<IMusicianManager, MusicianManager>();
             @this.AddTransient<IAlbumsManager, AlbumsManager>();
+            @this.AddTransient<IFileManager, FileManager>();
             return @this;
         }
     }

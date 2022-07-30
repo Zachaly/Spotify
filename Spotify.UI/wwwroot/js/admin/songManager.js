@@ -5,9 +5,10 @@
             loading: false,
             albums: [],
             selectedAlbum: null,
-            songModel: { name: "", albumId: 0, creatorId: 0 },
+            songModel: { name: "", albumId: 0, creatorId: 0, fileName: "" },
             updatedSong: null,
-            songIndex: 0
+            songIndex: 0,
+            file: null,
         }
     },
     mounted() {
@@ -29,6 +30,20 @@
         },
         addSong() {
             this.loading = true;
+
+            const formData = new FormData();
+            formData.append('file', this.file);
+
+            axios.post('/upload/SongFile', formData, {
+                headers: {
+                    'Content-type': 'multipart/form-data'
+                }
+            }).then(res => {
+                console.log(res);
+                this.songModel.fileName = res.data;
+            }).
+                catch(error => console.log(error));
+
             axios.post('/song', this.songModel).
                 then(res => this.selectedAlbum.songs.push(res.data)).
                 catch(error => console.log(error)).
@@ -60,6 +75,9 @@
                 then(res => this.selectedAlbum.songs.splice(index, 1)).
                 catch(error => console.log(error)).
                 then(() => this.loading = false)
+        },
+        fileChange(event) {
+            this.file = event.target.files[0];
         }
     }
 }).mount('#app')

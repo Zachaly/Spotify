@@ -38,6 +38,11 @@
                             <input class="input" v-model="songModel.name" />
                         </div>
                     </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input" type="file" @@change="fileChange($event)" />
+                        </div>
+                    </div>
                 </div>
                 <div class="column is-half">
                     <button class="button is-success" @@click="addSong">Add new</button>

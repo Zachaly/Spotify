@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\profile-pictures\" />
+    <Folder Include="wwwroot\songs\" />
   </ItemGroup>
 
   <ItemGroup>
