@@ -19,7 +19,8 @@ namespace Spotify.UI.Pages.Accounts
                 CreatorName = song.CreatorName,
                 Index = ++index,
                 Name = song.Name,
-                Plays = 0
+                Plays = 0,
+                FileName = song.FileName,
             }).ToList();
 
             if (Songs is null)

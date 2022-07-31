@@ -67,10 +67,23 @@
             }
         </div>
     </section>
+
+    @{
+        var firstSong = Model.TopSongs.FirstOrDefault();
+        var audioModel = new AudioViewModel
+            {
+                FileName = firstSong?.FileName,
+                MusicianName = firstSong?.CreatorName,
+                SongName = firstSong?.Name
+            };
+    }
+
+    <partial name="_AudioPartial" model="@audioModel"/>
 </div>
 
 @section Scripts{
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="~/js/likeSong.js"></script>
     <script src="~/js/followMusician.js"></script>
+    <script src="~/js/playSong.js"></script>
 }

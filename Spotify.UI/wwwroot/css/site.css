@@ -2,3 +2,9 @@
     overflow: auto;
     overflow-y: hidden
 }
+
+.audio-bar{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

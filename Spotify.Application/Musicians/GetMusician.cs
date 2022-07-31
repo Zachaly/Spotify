@@ -33,7 +33,8 @@ namespace Spotify.Application.Musicians
                 CreatorName = musician.Name,
                 Name = song.Name,
                 Plays = song.Plays,
-                AlbumId = song.AlbumId
+                AlbumId = song.AlbumId,
+                FileName = song.FileName,
             })
         });
 
@@ -62,6 +63,7 @@ namespace Spotify.Application.Musicians
             public string Name { get; set; }
             public int AlbumId { get; set; }
             public long Plays { get; set; }
+            public string FileName { get; set; }
         }
     }
 }

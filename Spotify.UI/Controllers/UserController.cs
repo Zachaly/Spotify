@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Spotify.Application.Songs;
 using Spotify.Domain.Models;
 
 namespace Spotify.UI.Controllers
@@ -12,5 +13,9 @@ namespace Spotify.UI.Controllers
             await signInManager.SignOutAsync();
             return RedirectToPage("/Index");
         }
+
+        [HttpPost("/AddPlay/{id}")]
+        public async Task<IActionResult> AddPlay(int id, [FromServices] AddPlay addPlay)
+            => Ok(await addPlay.Execute(id));
     }
 }

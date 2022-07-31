@@ -18,6 +18,7 @@ namespace Spotify.Application.User
             CreatorName = song.Song.Creator.Name,
             Name = song.Song.Name,
             AlbumId = song.Song.AlbumId,
+            FileName = song.Song.FileName
         });
 
         public class SongModel
@@ -27,6 +28,7 @@ namespace Spotify.Application.User
             public string CreatorName { get; set; }
             public string Name { get; set; }
             public int AlbumId { get; set; }
+            public string FileName { get; set; }
         }
     }
 }

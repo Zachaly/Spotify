@@ -13,6 +13,15 @@ namespace Spotify.Database
             _dbContext = dbContext;
         }
 
+        public async Task<bool> AddPlay(int id)
+        {
+            var song = _dbContext.Songs.FirstOrDefault(x => x.Id == id);
+
+            song.Plays++;
+
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
+
         public async Task<bool> AddSongAsync(Song song)
         {
             _dbContext.Songs.Add(song);

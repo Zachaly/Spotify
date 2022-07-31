@@ -3,11 +3,10 @@ using Spotify.UI.Infrastructure.FileManager;
 
 namespace Spotify.UI.Controllers
 {
-    [Route("[controller]/[action]")]
-    public class UploadController : Controller
+    public class FileController : Controller
     {
-        public async Task<IActionResult> SongFile(IFormFile file, [FromServices] IFileManager fileManager)
-            => Ok(await fileManager.SaveSongFile(file));
-        
+        [HttpGet("/Songs/{file}")]
+        public IActionResult SongFile(string file, [FromServices] IFileManager fileManager)
+            => new FileStreamResult(fileManager.GetSongFile(file), "audio/mp3");
     }
 }

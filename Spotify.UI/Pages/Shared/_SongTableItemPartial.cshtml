@@ -12,10 +12,13 @@
         </figure>
     </td>
     <td class="has-text-centered is-vcentered">
-        <a asp-page="/AlbumPage" asp-route-id="@Model.AlbumId">@Model.Name</a>
+        <a asp-page="/AlbumPage" asp-route-id="@Model.AlbumId" id="song-@Model.Id-name">@Model.Name</a>
     </td>
     <td class="has-text-centered is-vcentered">
-        <a asp-page="/Musician/Profile" asp-route-id="@Model.CreatorId">@Model.CreatorName</a>
+        <button class="button" onclick="playSong('@Model.FileName', @Model.Id)">Play</button>
+    </td>
+    <td class="has-text-centered is-vcentered">
+        <a asp-page="/Musician/Profile" asp-route-id="@Model.CreatorId" id="song-@Model.Id-creator">@Model.CreatorName</a>
     </td>
     @if (User.Identity.IsAuthenticated)
     {

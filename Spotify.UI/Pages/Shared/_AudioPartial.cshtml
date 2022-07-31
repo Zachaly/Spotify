@@ -1,0 +1,11 @@
+﻿@model AudioViewModel
+
+<section class="section audio-bar">
+    <div class="p-4" style="background: dimgray">
+        <p class="title" id="audio-song-name">@Model.SongName</p>
+        <p class="subtitle" id="audio-song-creator">@Model.MusicianName</p>
+    </div>
+    <div>
+        <audio style="width: 100%;" src="/Songs/@Model.FileName" id="audio" controls></audio>
+    </div>
+</section>

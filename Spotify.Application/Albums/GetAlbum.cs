@@ -23,6 +23,7 @@ namespace Spotify.Application.Albums
                 CreatorName = song.Creator.Name,
                 Plays = song.Plays,
                 CreatorId = song.Creator.Id,
+                FileName = song.FileName,
             }),
             SongCount = album.Songs.Count()
         });
@@ -43,6 +44,7 @@ namespace Spotify.Application.Albums
             public string Name { get; set; }
             public int AlbumId { get; set; }
             public long Plays { get; set; }
+            public string FileName { get; set; }
         }
     }
 }

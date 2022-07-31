@@ -10,5 +10,6 @@ namespace Spotify.Domain.Infrastructure
         Task<bool> RemoveSongAsync(int id);
         Task<bool> UpdateSongAsync(int id, Action<Song> updateValues);
         IEnumerable<T> GetTopSongs<T>(int creatorId, int count, Func<Song, T> selector);
+        public Task<bool> AddPlay(int id);
     }
 }

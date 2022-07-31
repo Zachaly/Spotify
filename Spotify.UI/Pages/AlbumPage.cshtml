@@ -46,16 +46,30 @@
                     CreatorName = song.CreatorName,
                     Index = index++,
                     Name = song.Name,
-                    Plays = song.Plays
+                    Plays = song.Plays,
+                    FileName = song.FileName
                 };
 
             <partial name="_SongTableItemPartial" model="viewModel"/>
         }
     </table>
+
+    @{
+        var firstSong = Model.Album.Songs.FirstOrDefault();
+        var audioModel = new AudioViewModel
+            {
+                FileName = firstSong?.FileName,
+                MusicianName = firstSong?.CreatorName,
+                SongName = firstSong?.Name
+            };
+    }
+
+    <partial name="_AudioPartial" model="@audioModel" />
 </div>
 
 @section Scripts{
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="~/js/likeSong.js"></script>
     <script src="~/js/likeAlbum.js"></script>
+    <script src="~/js/playSong.js"></script>
 }

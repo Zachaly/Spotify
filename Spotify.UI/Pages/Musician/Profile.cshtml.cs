@@ -36,7 +36,8 @@ namespace Spotify.UI.Pages.Musician
                 Plays = song.Plays,
                 CreatorName = song.CreatorName,
                 CreatorId = musician.Id,
-                AlbumId = song.AlbumId
+                AlbumId = song.AlbumId,
+                FileName = song.FileName
             });
 
             TopAlbums = musician.TopAlbums.Select(album => new AlbumViewModel
