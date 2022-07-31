@@ -15,7 +15,10 @@
         <a asp-page="/AlbumPage" asp-route-id="@Model.AlbumId" id="song-@Model.Id-name">@Model.Name</a>
     </td>
     <td class="has-text-centered is-vcentered">
-        <button class="button" onclick="playSong('@Model.FileName', @Model.Id)">Play</button>
+        <button class="button" onclick="playSong(@Model.Index)" id="song-play-@Model.Index"
+        data-filename="@Model.FileName" data-id="@Model.Id">
+            Play
+        </button>
     </td>
     <td class="has-text-centered is-vcentered">
         <a asp-page="/Musician/Profile" asp-route-id="@Model.CreatorId" id="song-@Model.Id-creator">@Model.CreatorName</a>
