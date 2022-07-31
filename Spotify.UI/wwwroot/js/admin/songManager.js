@@ -41,8 +41,7 @@
             }).then(res => {
                 console.log(res);
                 this.songModel.fileName = res.data;
-            }).
-                catch(error => console.log(error));
+            }).catch(error => console.log(error));
 
             axios.post('/song', this.songModel).
                 then(res => this.selectedAlbum.songs.push(res.data)).
@@ -75,6 +74,8 @@
                 then(res => this.selectedAlbum.songs.splice(index, 1)).
                 catch(error => console.log(error)).
                 then(() => this.loading = false)
+
+            axios.delete('/RemoveFile/Song/' + id).catch(error => console.log(error));
         },
         fileChange(event) {
             this.file = event.target.files[0];
