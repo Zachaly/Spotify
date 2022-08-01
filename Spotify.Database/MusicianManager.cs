@@ -23,6 +23,7 @@ namespace Spotify.Database
         public async Task<bool> DeleteMusicianAsync(int id)
         {
             var musician = _dbContext.Musicians.FirstOrDefault(x => x.Id == id);
+
             _dbContext.Musicians.Remove(musician);
 
             return await _dbContext.SaveChangesAsync() > 0;

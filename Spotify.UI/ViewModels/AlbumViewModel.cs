@@ -7,5 +7,6 @@ namespace Spotify.UI.ViewModels
         public string Name { get; set; }
         public string CreatorName { get; set; }
         public long Plays { get; set; } = 0;
+        public string FileName { get; set; }
     }
 }

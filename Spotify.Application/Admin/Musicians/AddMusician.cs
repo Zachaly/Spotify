@@ -19,7 +19,8 @@ namespace Spotify.Application.Admin.Musicians
             var musician = new Musician
             {
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                FileName = request.FileName,
             };
 
             await _musicianManager.AddMusicianAsync(musician);
@@ -39,6 +40,7 @@ namespace Spotify.Application.Admin.Musicians
         {
             public string Name { get; set; }
             public string Description { get; set; }
+            public string FileName { get; set; }
         }
 
         public class Response

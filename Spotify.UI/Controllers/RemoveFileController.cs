@@ -9,11 +9,29 @@ namespace Spotify.UI.Controllers
     [Authorize(Policy = "Admin")]
     public class RemoveFileController : Controller
     {
+        private IFileManager _fileManager;
+
+        public RemoveFileController(IFileManager fileManager)
+        {
+            _fileManager = fileManager;
+        }
+
         [HttpDelete("{songId}")]
         public IActionResult Song(
             int songId,
-            [FromServices] IFileManager fileManager,
             [FromServices] GetSongFileName getSongFileName) 
-            => Ok(fileManager.RemoveSongFile(getSongFileName.Execute(songId)));
+            => Ok(_fileManager.RemoveSongFile(getSongFileName.Execute(songId)));
+
+        [HttpDelete("{albumId}")]
+        public IActionResult Album(
+            int albumId,
+            [FromServices] GetSongFileName getSongFileName)
+            => Ok(_fileManager.RemoveSongFile(getSongFileName.Execute(albumId)));
+
+        [HttpDelete("{musicianId}")]
+        public IActionResult Musician(
+            int musicianId,
+            [FromServices] GetSongFileName getSongFileName)
+            => Ok(_fileManager.RemoveSongFile(getSongFileName.Execute(musicianId)));
     }
 }

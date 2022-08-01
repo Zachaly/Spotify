@@ -9,5 +9,6 @@ namespace Spotify.Domain.Models
         public ICollection<Album> Albums { get; set; }
         public ICollection<Song> Songs { get; set; }
         public ICollection<MusicianFollow> Followers { get; set; }
+        public string FileName { get; set; }
     }
 }

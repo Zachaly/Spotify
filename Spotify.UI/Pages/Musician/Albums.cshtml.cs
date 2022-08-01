@@ -15,7 +15,8 @@ namespace Spotify.UI.Pages.Musician
             { 
                 Id = album.Id,
                 Name = album.Name,
-                CreatorName = album.Name 
+                CreatorName = album.Name,
+                FileName = album.FileName,
             });
 
             return Page();

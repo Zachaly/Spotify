@@ -43,6 +43,12 @@
             </div>
         </div>
         
+        <div class="field" v-if="musicianModel.id == 0">
+            <div class="control">
+                <input class="input" type="file" @@change="fileChange($event)" />
+            </div>
+        </div>
+
         <button @@click="addMusician" class="button is-success" v-if="musicianModel.id == 0">Add</button>
         <button @@click="updateMusician" class="button is-success" v-else>Update</button>
         <button @@click="editing = false" class="button is-danger ml-2">Cancel</button>

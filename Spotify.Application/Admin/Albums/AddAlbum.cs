@@ -19,7 +19,8 @@ namespace Spotify.Application.Admin.Albums
             var album = new Album
             {
                 Name = request.Name,
-                MusicianId = request.MusicianId
+                MusicianId = request.MusicianId,
+                FileName = request.FileName
             };
 
             await _albumsManager.AddAlbumAsync(album);
@@ -39,6 +40,7 @@ namespace Spotify.Application.Admin.Albums
         {
             public string Name { get; set; }
             public int MusicianId { get; set; }
+            public string FileName { get; set; }
         }
 
         public class Response

@@ -9,19 +9,47 @@ namespace Spotify.UI.Infrastructure.FileManager
     public class FileManager : IFileManager
     {
         private readonly string _songPath;
+        private readonly string _albumPath;
+        private readonly string _musicianPath;
+
         public FileManager(IConfiguration configuration)
         {
             _songPath = configuration["SongFiles"];
+            _albumPath = configuration["AlbumCovers"];
+            _musicianPath = configuration["BandPictures"];
         }
 
-        public FileStream GetSongFile(string fileName)
-            => new FileStream(Path.Combine(_songPath, fileName), FileMode.Open, FileAccess.Read);
-
-        public bool RemoveSongFile(string fileName)
+        private async Task<string> SaveFile(IFormFile file, string path)
         {
             try
             {
-                var file = Path.Combine(_songPath, fileName);
+                var mime = file.FileName.Substring(file.FileName.LastIndexOf('.'));
+                var fileName = $"{new Guid()}{mime}";
+
+                using (var stream = File.Create(Path.Combine(path, fileName)))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                return fileName;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        private FileStream GetFile(string fileName, string path)
+            => new FileStream(Path.Combine(path, fileName), FileMode.Open, FileAccess.Read);
+
+        private bool RemoveFile(string fileName, string path)
+        {
+            if (fileName == "placeholder.jpg")
+                return true;
+
+            try
+            {
+                var file = Path.Combine(path, fileName);
                 if (File.Exists(file))
                 {
                     File.Delete(file);
@@ -35,41 +63,25 @@ namespace Spotify.UI.Infrastructure.FileManager
             }
         }
 
-        private string GenerateRandomSongName()
-        {
-            var random = new Random();
-            string signs = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm";
-            char[] result = new char[10];
 
-            do
-            {
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = signs[random.Next(signs.Length)];
-                }
-            } while (File.Exists(Path.Combine(_songPath, new string(result))));
+        public FileStream GetSongFile(string fileName) => GetFile(fileName, _songPath);
 
-            return new string(result);
-        }
+        public bool RemoveSongFile(string fileName) => RemoveFile(fileName, _songPath);
 
-        public async Task<string> SaveSongFile(IFormFile file)
-        {
-            try
-            {
-                var mime = file.FileName.Substring(file.FileName.LastIndexOf('.'));
-                var fileName = GenerateRandomSongName() + mime;
+        public async Task<string> SaveSongFile(IFormFile file) => await SaveFile(file, _songPath);
 
-                using (var stream = File.Create(Path.Combine(_songPath, fileName)))
-                {
-                    await file.CopyToAsync(stream);
-                }
 
-                return fileName;
-            }
-            catch(Exception ex)
-            {
-                return ex.Message;
-            }
-        }
+        public async Task<string> SaveAlbumFile(IFormFile file) => await SaveFile(file, _albumPath);
+
+        public FileStream GetAlbumFile(string fileName) => GetFile(fileName, _albumPath);
+
+        public bool RemoveAlbumFile(string fileName) => RemoveFile(fileName, _albumPath);
+
+
+        public async Task<string> SaveMusicianFile(IFormFile file) => await SaveFile(file, _musicianPath);
+
+        public FileStream GetMusicianFile(string fileName) => GetFile(fileName, _musicianPath);
+
+        public bool RemoveMusicianFile(string fileName) => RemoveFile(fileName, _musicianPath);
     }
 }

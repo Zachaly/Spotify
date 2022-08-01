@@ -11,5 +11,6 @@ namespace Spotify.UI.ViewModels
         public string CreatorName { get; set; }
         public int CreatorId { get; set; }
         public string FileName { get; set; }
+        public string AlbumFileName { get; set; }
     }
 }

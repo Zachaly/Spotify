@@ -5,7 +5,7 @@
     <a asp-page="/Musician/Profile" asp-route-id="@Model.Id">
         <div class="card-image">
             <figure class="image is-square">
-                <img src="~/images/band-pictures/placeholder.jpg" alt="@Model.Name">
+                <img src="/Musicians/@Model.FileName" alt="@Model.Name">
             </figure>
         </div>
         <div class="card-content">

@@ -23,7 +23,8 @@ namespace Spotify.UI.Pages.Musician
                 Id = musician.Id,
                 Description = musician.Description,
                 Name = musician.Name,
-                NumberOfFollowers = musician.NumberOfFollowers
+                NumberOfFollowers = musician.NumberOfFollowers,
+                FileName = musician.FileName
             };
 
             var index = 1;
@@ -37,14 +38,16 @@ namespace Spotify.UI.Pages.Musician
                 CreatorName = song.CreatorName,
                 CreatorId = musician.Id,
                 AlbumId = song.AlbumId,
-                FileName = song.FileName
+                FileName = song.FileName,
+                AlbumFileName = song.AlbumFileName
             });
 
             TopAlbums = musician.TopAlbums.Select(album => new AlbumViewModel
             {
                 Id = album.Id,
                 Name = album.Name,
-                CreatorName = musician.Name
+                CreatorName = musician.Name,
+                FileName = album.FileName
             });
 
             return Page();
@@ -56,6 +59,7 @@ namespace Spotify.UI.Pages.Musician
             public string Name { get; set; }
             public string Description { get; set; }
             public int NumberOfFollowers { get; set; }
+            public string FileName { get; set; }
         }
     }
 }

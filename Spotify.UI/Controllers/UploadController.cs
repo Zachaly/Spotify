@@ -8,7 +8,20 @@ namespace Spotify.UI.Controllers
     [Authorize(Policy = "Admin")]
     public class UploadController : Controller
     {
-        public async Task<IActionResult> SongFile(IFormFile file, [FromServices] IFileManager fileManager)
-            => Ok(await fileManager.SaveSongFile(file));
+        private IFileManager _fileManager;
+
+        public UploadController(IFileManager fileManager)
+        {
+            _fileManager = fileManager;
+        }
+
+        public async Task<IActionResult> SongFile(IFormFile file)
+            => Ok(await _fileManager.SaveSongFile(file));
+
+        public async Task<IActionResult> AlbumFile(IFormFile file)
+            => Ok(await _fileManager.SaveAlbumFile(file));
+
+        public async Task<IActionResult> MusicianFile(IFormFile file)
+            => Ok(await _fileManager.SaveMusicianFile(file));
     }
 }

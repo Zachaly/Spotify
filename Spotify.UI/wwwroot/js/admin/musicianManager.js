@@ -5,7 +5,8 @@
             loading: false,
             musicianIndex: 0,
             musicians: [],
-            musicianModel: { id: 0, name: "", description: ""}
+            musicianModel: { id: 0, name: "", description: "", fileName: "placeholder.jpg" },
+            file: null,
         }
     },
     mounted() {
@@ -35,19 +36,21 @@
         },
         addMusician() {
             this.loading = true;
-            axios.post('/musician', this.musicianModel).
-                then(res =>
-                {
-                    this.musicians.push(res.data);
-                    this.editing = false;
-                }).catch(error => console.log(error)).
-                then(() => this.loading = false)
+            this.uploadFile().then(() => {
+                axios.post('/musician', this.musicianModel).
+                    then(res => {
+                        this.musicians.push(res.data);
+                        this.editing = false;
+                    }).catch(error => console.log(error)).
+                    then(() => this.loading = false)
+            })
         },
         newMusician() {
             this.editing = true;
             this.musicianModel.id = 0;
             this.musicianModel.name = "";
             this.musicianModel.description = "";
+            this.musicianModel.fileName = "placeholder.jpg"
         },
         editMusician(musician, index) {
             this.musicianIndex = index;
@@ -69,6 +72,24 @@
                 then(res => this.musicians.splice(index, 1)).
                 catch(error => console.log(error)).
                 then(() => this.loading = false);
-        }
+
+            axios.delete('/RemoveFile/Musician/' + id).catch(error => console.log(error));
+        },
+        fileChange(event) {
+            this.file = event.target.files[0];
+        },
+        uploadFile() {
+            const formData = new FormData();
+            formData.append('file', this.file);
+
+            return axios.post('/upload/MusicianFile', formData, {
+                headers: {
+                    'Content-type': 'multipart/form-data'
+                }
+            }).then(res => {
+                console.log(res);
+                this.musicianModel.fileName = res.data;
+            })
+        },
     }
 }).mount('#app')

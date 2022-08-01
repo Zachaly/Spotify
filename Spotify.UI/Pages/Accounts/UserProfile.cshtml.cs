@@ -28,7 +28,8 @@ namespace Spotify.UI.Pages.Accounts
             FollowedMusicians = user.FollowedMusicians.Select(musician => new MusicianViewModel
             {
                 Id = musician.Id,
-                Name = musician.Name
+                Name = musician.Name,
+                FileName = musician.FileName,
             }).ToList();
 
             LikedAlbums = user.LikedAlbums.Select(album => new AlbumViewModel
@@ -36,6 +37,7 @@ namespace Spotify.UI.Pages.Accounts
                 Name = album.Name,
                 CreatorName = album.CreatorName,
                 Id = album.Id,
+                FileName = album.FileName,
             }).ToList();
 
             return Page();

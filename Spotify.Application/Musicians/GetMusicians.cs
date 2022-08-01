@@ -15,7 +15,8 @@ namespace Spotify.Application.Musicians
         {
             Name = musician.Name,
             Plays = musician.Songs.Sum(song => song.Plays),
-            Id = musician.Id
+            Id = musician.Id,
+            FileName = musician.FileName
         });
 
         public class MusicianModel
@@ -23,6 +24,7 @@ namespace Spotify.Application.Musicians
             public int Id { get; set; }
             public string Name { get; set; }
             public long Plays { get; set; }
+            public string FileName { get; set; }
         }
     }
 }

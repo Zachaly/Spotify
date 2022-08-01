@@ -16,7 +16,8 @@ namespace Spotify.Application.Musicians
                 {
                     Id = album.Id,
                     CreatorName = album.Musician.Name,
-                    Name = album.Name
+                    Name = album.Name,
+                    FileName = album.FileName
                 });
 
         public class AlbumModel
@@ -24,6 +25,7 @@ namespace Spotify.Application.Musicians
             public int Id { get; set; }
             public string Name { get; set; }
             public string CreatorName { get; set; }
+            public string FileName { get; set; }
         }
     }
 }

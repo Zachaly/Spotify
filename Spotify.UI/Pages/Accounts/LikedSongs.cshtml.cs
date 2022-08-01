@@ -21,6 +21,7 @@ namespace Spotify.UI.Pages.Accounts
                 Name = song.Name,
                 Plays = 0,
                 FileName = song.FileName,
+                AlbumFileName = song.AlbumFileName,
             }).ToList();
 
             if (Songs is null)
