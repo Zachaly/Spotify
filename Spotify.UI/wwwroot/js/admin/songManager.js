@@ -31,25 +31,28 @@
         addSong() {
             this.loading = true;
 
+            this.uploadFile().then(() => {
+                axios.post('/song', this.songModel).
+                    then(res => this.selectedAlbum.songs.push(res.data)).
+                    catch(error => console.log(error)).
+                    then(() => {
+                        this.loading = false;
+                        this.songModel.name = "";
+                    })
+            });
+        },
+        uploadFile() {
             const formData = new FormData();
             formData.append('file', this.file);
 
-            axios.post('/upload/SongFile', formData, {
+            return axios.post('/upload/SongFile', formData, {
                 headers: {
                     'Content-type': 'multipart/form-data'
                 }
             }).then(res => {
                 console.log(res);
                 this.songModel.fileName = res.data;
-            }).catch(error => console.log(error));
-
-            axios.post('/song', this.songModel).
-                then(res => this.selectedAlbum.songs.push(res.data)).
-                catch(error => console.log(error)).
-                then(() => {
-                    this.loading = false;
-                    this.songModel.name = "";
-                })
+            })
         },
         selectSong(song, index) {
             this.updatedSong = {
