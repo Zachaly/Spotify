@@ -11,6 +11,9 @@ namespace Spotify.Application.User
             _applicationUserManager = applicationUserManager;
         }
 
+        /// <summary>
+        /// Gets user info used in user profile
+        /// </summary>
         public Response Execute(string id) => _applicationUserManager.GetUserById(id, user => new Response
         {
             Name = user.UserName,

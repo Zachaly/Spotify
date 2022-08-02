@@ -11,6 +11,9 @@ namespace Spotify.Application.Musicians
             _albumsManager = albumsManager;
         }
 
+        /// <summary>
+        /// Gets all albums of given musician
+        /// </summary>
         public IEnumerable<AlbumModel> Execute(int musicianId)
             => _albumsManager.GetAlbumsOfMusician(musicianId, album => new AlbumModel
                 {

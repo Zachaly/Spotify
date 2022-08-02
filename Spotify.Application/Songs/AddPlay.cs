@@ -10,6 +10,9 @@
             _songsManager = songsManager;
         }
 
+        /// <summary>
+        /// Adds one play to a song
+        /// </summary>
         public async Task<bool> Execute(int id) => await _songsManager.AddPlay(id);
     }
 }

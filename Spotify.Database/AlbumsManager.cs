@@ -20,7 +20,6 @@ namespace Spotify.Database
             return await _dbContext.SaveChangesAsync() > 0;
         }
 
-
         public T GetAlbumById<T>(int id, Func<Album, T> selector)
             => _dbContext.Albums.Include(db => db.Songs).Include(db => db.Musician).
                 Where(album => album.Id == id).

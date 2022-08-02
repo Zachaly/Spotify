@@ -11,6 +11,9 @@ namespace Spotify.Application.Albums
             _albumsManager = albumsManager;
         }
 
+        /// <summary>
+        /// Gets album with all songs and info needed to play them by user
+        /// </summary>
         public Response Execute(int id) => _albumsManager.GetAlbumById(id, album => new Response
         {
             Id = album.Id,

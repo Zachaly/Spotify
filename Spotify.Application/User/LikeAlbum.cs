@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Spotify.Application.User
 {
     [Service]
@@ -16,6 +11,9 @@ namespace Spotify.Application.User
             _applicationUserManager = applicationUserManager;
         }
 
+        /// <summary>
+        /// Adds album like
+        /// </summary>
         public async Task<bool> Execute(string userId, int albumId)
             => await _applicationUserManager.LikeAlbum(userId, albumId);
     }

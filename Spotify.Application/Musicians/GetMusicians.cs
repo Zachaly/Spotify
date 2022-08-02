@@ -11,6 +11,10 @@ namespace Spotify.Application.Musicians
             _musicianManager = musicianManager;
         }
 
+        /// <summary>
+        /// Gets info about all musicians needed to create list of them in ui
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<MusicianModel> Execute() => _musicianManager.GetMusicians(musician => new MusicianModel
         {
             Name = musician.Name,

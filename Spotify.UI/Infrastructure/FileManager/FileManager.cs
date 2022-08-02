@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Spotify.UI.Infrastructure.FileManager
 {
     public class FileManager : IFileManager
@@ -19,6 +14,7 @@ namespace Spotify.UI.Infrastructure.FileManager
             _musicianPath = configuration["BandPictures"];
         }
 
+        // helper functions
         private async Task<string> SaveFile(IFormFile file, string path)
         {
             try
@@ -63,21 +59,21 @@ namespace Spotify.UI.Infrastructure.FileManager
             }
         }
 
-
+        // song functions
         public FileStream GetSongFile(string fileName) => GetFile(fileName, _songPath);
 
         public bool RemoveSongFile(string fileName) => RemoveFile(fileName, _songPath);
 
         public async Task<string> SaveSongFile(IFormFile file) => await SaveFile(file, _songPath);
 
-
+        // album functions
         public async Task<string> SaveAlbumFile(IFormFile file) => await SaveFile(file, _albumPath);
 
         public FileStream GetAlbumFile(string fileName) => GetFile(fileName, _albumPath);
 
         public bool RemoveAlbumFile(string fileName) => RemoveFile(fileName, _albumPath);
 
-
+        // musician functions
         public async Task<string> SaveMusicianFile(IFormFile file) => await SaveFile(file, _musicianPath);
 
         public FileStream GetMusicianFile(string fileName) => GetFile(fileName, _musicianPath);

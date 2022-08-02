@@ -11,6 +11,10 @@ namespace Spotify.Application.Albums
             _albumsManager = albumsManager;
         }
 
+        /// <summary>
+        /// Gets albums with info needed to link show them to user
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<AlbumModel> Execute() => _albumsManager.GetAlbums(album => new AlbumModel
         {
             Id = album.Id,

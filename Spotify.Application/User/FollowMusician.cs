@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Spotify.Application.User
 {
     [Service]
@@ -16,6 +11,9 @@ namespace Spotify.Application.User
             _applicationUserManager = applicationUserManager;
         }
 
+        /// <summary>
+        /// Adds a follow
+        /// </summary>
         public async Task<bool> Execute(string userId, int musicianId)
             => await _applicationUserManager.FollowMusician(userId, musicianId);
 

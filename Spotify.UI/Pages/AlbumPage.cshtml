@@ -9,54 +9,38 @@
     <table class="table is-fullwidth">
         <caption>
             <p class="title">
-                @Model.Album.Name
+                @Model.Info.Name
                 @if (User.Identity.IsAuthenticated)
                 {
                     string buttonText;
                     string buttonClass;
                     string command;
 
-                    if(appUserManager.IsAlbumLiked(userManager.GetUserId(User), Model.Album.Id))
+                    if(appUserManager.IsAlbumLiked(userManager.GetUserId(User), Model.Info.Id))
                     {
                         buttonText = "Unlike";
                         buttonClass = "is-warning";
-                        command = $"unLikeAlbum({Model.Album.Id})";
+                        command = $"unLikeAlbum({Model.Info.Id})";
                     }
                     else
                     {
                         buttonText = "Like";
                         buttonClass = "is-success";
-                        command = $"likeAlbum({Model.Album.Id})";
+                        command = $"likeAlbum({Model.Info.Id})";
                     }
                     <button class="button ml-5 @buttonClass" onclick="@command" id="like-button">@buttonText</button>
                 }
             </p>
-            <p class="subtitle">@Model.Album.SongCount</p>
+            <p class="subtitle">@Model.Info.SongCount</p>
         </caption>
-        @{
-            int index = 1;
-        }
-        @foreach(var song in Model.Album.Songs)
+        @foreach(var song in Model.Songs)
         {
-            var viewModel = new SongViewModel
-                {
-                    Id = song.Id,
-                    AlbumId = song.AlbumId,
-                    CreatorId = song.CreatorId,
-                    CreatorName = song.CreatorName,
-                    Index = index++,
-                    Name = song.Name,
-                    Plays = song.Plays,
-                    FileName = song.FileName,
-                    AlbumFileName = song.AlbumFileName
-                };
-
-            <partial name="_SongTableItemPartial" model="viewModel"/>
+            <partial name="_SongTableItemPartial" model="song"/>
         }
     </table>
 
     @{
-        var firstSong = Model.Album.Songs.FirstOrDefault();
+        var firstSong = Model.Songs.FirstOrDefault();
         var audioModel = new AudioViewModel
             {
                 FileName = firstSong?.FileName,
