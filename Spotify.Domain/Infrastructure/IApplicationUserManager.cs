@@ -16,5 +16,8 @@ namespace Spotify.Domain.Infrastructure
         public bool IsSongLiked(string userId, int songId);
         public bool IsMusicianFollowed(string userId, int musicianId);
         public bool IsAlbumLiked(string userId, int albumId);
+
+        public Task<bool> UpdateUser(string id, Action<ApplicationUser> updatedValues);
+        public Task<bool> SetDefaultProfilePicture(string id, string picture);
     }
 }

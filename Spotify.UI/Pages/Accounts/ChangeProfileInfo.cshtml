@@ -1,0 +1,31 @@
+﻿@page
+@model Spotify.UI.Pages.Accounts.ChangeProfileInfoModel
+@{
+}
+
+<div class="columns is-centered">
+    <div class="column is-4">
+        <form method="post" enctype="multipart/form-data">
+            <div class="field">
+                <label class="label">Username</label>
+                <div class="control">
+                    <input class="input" asp-for="Input.Username" />
+                    <span class="help is-warning" asp-validation-for="Input.Username"></span>
+                </div>
+            </div>
+        
+            <div class="field">
+                <label class="label">Profile picture</label>
+                <div class="control">
+                    <input class="input" asp-for="Input.ProfilePicture" />
+                </div>
+            </div>
+        
+            <input asp-for="Input.Id" hidden />
+            <button type="submit" class="button is-success">Sumbit</button>
+            <a class="button is-warning ml-5" asp-action="SetDefaultProfilePicture" asp-controller="User" asp-route-userId="@Model.Input.Id">
+                Set default profile picture
+            </a>
+        </form>
+    </div>
+</div>

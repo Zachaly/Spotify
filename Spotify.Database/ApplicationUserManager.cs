@@ -96,5 +96,22 @@ namespace Spotify.Database
 
         public bool IsAlbumLiked(string userId, int albumId)
             => _dbContext.AlbumLikes.Any(x => x.AlbumId == albumId && x.ApplicationUserId == userId);
+
+        public async Task<bool> UpdateUser(string id, Action<ApplicationUser> updateValues)
+        {
+            var user = _dbContext.Users.FirstOrDefault(x => x.Id == id);
+
+            updateValues(user);
+
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> SetDefaultProfilePicture(string id, string picture)
+        {
+            var user = _dbContext.Users.FirstOrDefault(x => x.Id == id);
+            user.FileName = picture;
+
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
     }
 }

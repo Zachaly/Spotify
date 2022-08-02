@@ -1,5 +1,6 @@
 ﻿@page
 @model Spotify.UI.Pages.Accounts.UserProfileModel
+@inject Microsoft.AspNetCore.Identity.UserManager<Spotify.Domain.Models.ApplicationUser> userManager
 @{
 }
 
@@ -8,8 +9,16 @@
         <div class="columns">
             <div class="column is-2">
                 <figure class="image is-4by3">
-                    <img src="~/images/profile-pictures/placeholder.jpg"/>
+                    <img src="/ProfilePicture/@Model.Info.FileName"/>
+                    
                 </figure>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if(Model.Info.Id == userManager.GetUserId(User))
+                    {
+                        <a asp-page="ChangeProfileInfo" asp-route-id="@Model.Info.Id">Change profile info</a>
+                    }
+                }
             </div>
             <div class="column">
                 <h1 class="title">

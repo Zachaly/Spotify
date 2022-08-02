@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Spotify.Application.Admin.Albums;
+using Spotify.Application.Admin.Musicians;
 using Spotify.Application.Admin.Songs;
 using Spotify.UI.Infrastructure.FileManager;
 
@@ -25,13 +27,13 @@ namespace Spotify.UI.Controllers
         [HttpDelete("{albumId}")]
         public IActionResult Album(
             int albumId,
-            [FromServices] GetSongFileName getSongFileName)
-            => Ok(_fileManager.RemoveSongFile(getSongFileName.Execute(albumId)));
+            [FromServices] GetAlbumFileName getAlbumFileName)
+            => Ok(_fileManager.RemoveSongFile(getAlbumFileName.Execute(albumId)));
 
         [HttpDelete("{musicianId}")]
         public IActionResult Musician(
             int musicianId,
-            [FromServices] GetSongFileName getSongFileName)
-            => Ok(_fileManager.RemoveSongFile(getSongFileName.Execute(musicianId)));
+            [FromServices] GetMusicianFileName getMusicianFileName)
+            => Ok(_fileManager.RemoveSongFile(getMusicianFileName.Execute(musicianId)));
     }
 }

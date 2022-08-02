@@ -6,12 +6,14 @@ namespace Spotify.UI.Infrastructure.FileManager
         private readonly string _songPath;
         private readonly string _albumPath;
         private readonly string _musicianPath;
+        private readonly string _profilePicPath;
 
         public FileManager(IConfiguration configuration)
         {
             _songPath = configuration["SongFiles"];
             _albumPath = configuration["AlbumCovers"];
             _musicianPath = configuration["BandPictures"];
+            _profilePicPath = configuration["UserProfilePictures"];
         }
 
         // helper functions
@@ -29,9 +31,9 @@ namespace Spotify.UI.Infrastructure.FileManager
 
                 return fileName;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return ex.Message;
+                return "";
             }
         }
 
@@ -79,5 +81,12 @@ namespace Spotify.UI.Infrastructure.FileManager
         public FileStream GetMusicianFile(string fileName) => GetFile(fileName, _musicianPath);
 
         public bool RemoveMusicianFile(string fileName) => RemoveFile(fileName, _musicianPath);
+
+        // user profile pictures
+        public Task<string> SaveProfilePicture(IFormFile file) => SaveFile(file, _profilePicPath);
+
+        public FileStream GetProfilePicture(string fileName) => GetFile(fileName, _profilePicPath);
+
+        public bool RemoveProfilePicture(string fileName) => RemoveFile(fileName, _profilePicPath);
     }
 }

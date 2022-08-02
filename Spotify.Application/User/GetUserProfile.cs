@@ -18,6 +18,7 @@ namespace Spotify.Application.User
         {
             Name = user.UserName,
             Id = user.Id,
+            FileName = user.FileName,
             FollowedMusicians = user.FollowedMusicians.Select(follow => new MusicianModel
             {
                 Id = follow.MusicianId,
@@ -38,6 +39,7 @@ namespace Spotify.Application.User
         {
             public string Id { get; set; }
             public string Name { get; set; }
+            public string FileName { get; set; }
             public IEnumerable<MusicianModel> FollowedMusicians { get; set; }
             public IEnumerable<AlbumModel> LikedAlbums { get; set; }
             public int LikedSongsCount { get; set; }

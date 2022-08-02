@@ -22,7 +22,8 @@ namespace Spotify.UI.Pages.Accounts
             {
                 Id = user.Id,
                 Name = user.Name,
-                LikedSongsCount = user.LikedSongsCount
+                LikedSongsCount = user.LikedSongsCount,
+                FileName = user.FileName,
             };
 
             FollowedMusicians = user.FollowedMusicians.Select(musician => new MusicianViewModel
@@ -48,6 +49,7 @@ namespace Spotify.UI.Pages.Accounts
             public string Name { get; set; }
             public string Id { get; set; }
             public int LikedSongsCount { get; set; }
+            public string FileName { get; set; }
         }
     }
 }

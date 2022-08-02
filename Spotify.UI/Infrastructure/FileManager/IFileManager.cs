@@ -14,5 +14,9 @@ namespace Spotify.UI.Infrastructure.FileManager
         Task<string> SaveMusicianFile(IFormFile file);
         FileStream GetMusicianFile(string fileName);
         bool RemoveMusicianFile(string fileName);
+
+        Task<string> SaveProfilePicture(IFormFile file);
+        FileStream GetProfilePicture(string fileName);
+        bool RemoveProfilePicture(string fileName);
     }
 }

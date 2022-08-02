@@ -14,8 +14,6 @@ namespace Spotify.Application.User
         /// <summary>
         /// Gets info about all songs liked by user needed to play show them
         /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
         public IEnumerable<SongModel> Execute(string userId) => _applicationUserManager.GetUserLikedSongs(userId, song => new SongModel
         {
             Id = song.SongId,
