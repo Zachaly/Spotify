@@ -24,6 +24,7 @@ namespace Spotify.Database
         {
             var musician = _dbContext.Musicians.FirstOrDefault(x => x.Id == id);
 
+            _dbContext.Songs.RemoveRange(_dbContext.Songs.Where(x => x.MusicianId == id).ToList());
             _dbContext.Musicians.Remove(musician);
 
             return await _dbContext.SaveChangesAsync() > 0;

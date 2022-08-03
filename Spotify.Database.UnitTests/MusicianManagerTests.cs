@@ -16,6 +16,7 @@ namespace Spotify.Database.UnitTests
             { 
                 Name = "Death",
                 Description = "Best death metal band",
+                FileName = "death.jpg"
             };
 
             var result = await _musicianManager.AddMusicianAsync(musician);
@@ -50,6 +51,9 @@ namespace Spotify.Database.UnitTests
             Assert.DoesNotContain(_dbContext.Musicians, musician => musician.Id == 1);
             Assert.DoesNotContain(_dbContext.Musicians, musician => musician.Name == "Metallica");
             Assert.DoesNotContain(_dbContext.Musicians, musician => musician.Description == "Most popular metal band");
+            Assert.DoesNotContain(_dbContext.Songs, song => song.MusicianId == 1);
+            Assert.DoesNotContain(_dbContext.Albums, album => album.MusicianId == 1);
+            Assert.DoesNotContain(_dbContext.MusicianFollows, follow => follow.MusicianId == 1);
         }
 
         [Fact]
@@ -62,6 +66,8 @@ namespace Spotify.Database.UnitTests
             Assert.Equal("Best prog metal band", musician.Description);
             Assert.Equal(3, musician.Albums.Count());
             Assert.Equal(33, musician.Songs.Count());
+            Assert.Equal("gojira.jpg", musician.FileName);
+            Assert.Equal(2, musician.Followers.Count());
         }
 
         [Fact]

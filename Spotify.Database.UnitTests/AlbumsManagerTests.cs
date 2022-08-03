@@ -16,6 +16,7 @@ namespace Spotify.Database.UnitTests
             {
                 Name = "Berserker",
                 MusicianId = 3,
+                FileName = "berserker.jpg"
             };
 
             var result = await _albumsManager.AddAlbumAsync(album);
@@ -23,7 +24,9 @@ namespace Spotify.Database.UnitTests
             var amonAmarth = _dbContext.Musicians.FirstOrDefault(musician => musician.Id == 3);
 
             Assert.True(result);
-            Assert.Contains(_dbContext.Albums, x => x.Id == album.Id && album.Name == "Berserker");
+            Assert.Contains(_dbContext.Albums, x => x.Id == album.Id 
+                && album.Name == "Berserker" 
+                && album.FileName == "berserker.jpg");
             Assert.Contains(amonAmarth.Albums, x => x.Id == album.Id && x.Name == "Berserker");
         }
 
@@ -48,6 +51,7 @@ namespace Spotify.Database.UnitTests
             Assert.Equal(10, album.Songs.Count());
             Assert.Equal("Gojira", album.Musician.Name);
             Assert.Contains(album.Songs, song => song.Name == "Silvera");
+            Assert.Equal("magma.jpg", album.FileName);
         }
 
         [Fact]
@@ -110,6 +114,26 @@ namespace Spotify.Database.UnitTests
             Assert.DoesNotContain(_dbContext.Albums, album => album.Name == "Ride the Lightning");
             Assert.DoesNotContain(metallica.Albums, album => album.Id == 1);
             Assert.Contains(gojira.Albums, album => album.Id == 1);
+        }
+
+        [Fact]
+        public void Get_Albums_Of_Musician()
+        {
+            var result = _albumsManager.GetAlbumsOfMusician(1, x => x);
+
+            Assert.All(result, album => Assert.Equal(1, album.MusicianId));
+            Assert.Equal(result.Count(), _dbContext.Albums.Where(x => x.MusicianId == 1).Count());
+        }
+
+        [Fact]
+        public void Get_Top_Albums()
+        {
+            var result = _albumsManager.GetTopAlbums(1, 1, x => x).ToList();
+
+            Assert.Equal(1, result[0].Id);
+            Assert.Equal("Ride the Lightning", result[0].Name);
+            Assert.Equal("Metallica", result[0].Musician.Name);
+            Assert.Equal(6, result[0].Songs.Sum(x => x.Plays));
         }
     }
 }

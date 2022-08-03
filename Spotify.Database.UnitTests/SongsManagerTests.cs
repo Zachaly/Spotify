@@ -17,6 +17,7 @@ namespace Spotify.Database.UnitTests
                 Name = "Of Blood And Salt",
                 AlbumId = 3,
                 MusicianId = 2,
+                FileName = "song.mp3"
             };
 
             var result = await _songsManager.AddSongAsync(song);
@@ -52,6 +53,7 @@ namespace Spotify.Database.UnitTests
             Assert.Equal("Blackened", song.Name);
             Assert.Equal("Metallica", song.Creator.Name);
             Assert.Equal("...And Justice for All", song.Album.Name);
+            Assert.Equal("song.mp3", song.FileName);
         }
 
         [Fact]
@@ -64,7 +66,7 @@ namespace Spotify.Database.UnitTests
         }
 
         [Fact]
-        public void Get_Song_By_Nonexistent_Id() 
+        public void Get_Song_By_Nonexistent_Id()
             => Assert.Null(_songsManager.GetSongById(2137, x => x));
 
         [Fact]
@@ -116,6 +118,29 @@ namespace Spotify.Database.UnitTests
             Assert.DoesNotContain(originalCreator.Songs, song => song.Id == 37);
             Assert.Contains(newAlbum.Songs, song => song.Id == 37);
             Assert.DoesNotContain(originalAlbum.Songs, song => song.Id == 37);
+        }
+
+        [Fact]
+        public async Task Add_Play()
+        {
+            var result = await _songsManager.AddPlay(69);
+
+            Assert.True(result);
+            Assert.Equal(1, _dbContext.Songs.FirstOrDefault(x => x.Id == 69).Plays);
+        }
+
+        [Fact]
+        public void Get_Top_Songs()
+        {
+            var result = _songsManager.GetTopSongs(1, 3, x => x).ToList();
+
+            Assert.Equal(1, result[0].Id);
+            Assert.Equal(2, result[1].Id);
+            Assert.Equal(3, result[2].Id);
+
+            Assert.Equal(3, result[0].Plays);
+            Assert.Equal(2, result[1].Plays);
+            Assert.Equal(1, result[2].Plays);
         }
     }
 }
