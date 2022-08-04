@@ -27,5 +27,9 @@ namespace Spotify.UI.Controllers
         [HttpGet("/ProfilePicture/{file}")]
         public IActionResult ProfilePicture(string file)
             => new FileStreamResult(_fileManager.GetProfilePicture(file), "image/jpg");
+
+        [HttpGet("/Playlists/{file}")]
+        public IActionResult PlaylistCover(string file)
+            => new FileStreamResult(_fileManager.GetPlaylistPicture(file), "image/jpg");
     }
 }

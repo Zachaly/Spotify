@@ -33,5 +33,6 @@ namespace Spotify.UI.Controllers
 
             return RedirectToPage("/Accounts/UserProfile", new { id = userId });
         }
+
     }
 }

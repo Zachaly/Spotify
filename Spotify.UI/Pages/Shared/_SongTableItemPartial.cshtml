@@ -1,6 +1,8 @@
 ﻿@model SongViewModel
 @inject Microsoft.AspNetCore.Identity.UserManager<Spotify.Domain.Models.ApplicationUser> userManager
 @inject Spotify.Domain.Infrastructure.IApplicationUserManager appUserManager
+@inject Spotify.Application.Playlists.GetUserPlaylists getPlaylists
+@inject Spotify.Domain.Infrastructure.IPlaylistManager playlistManager
 
 <tr>
     <td class="has-text-centered is-vcentered">
@@ -25,7 +27,6 @@
     </td>
     @if (User.Identity.IsAuthenticated)
     {
-        
         string buttonClass;
         string buttonText;
         string command;
@@ -45,6 +46,50 @@
         
         <td class="is-vcentered">
             <button class="button is-fullwidth @buttonClass" onclick="@command" id="song-@Model.Id">@buttonText</button>
+        </td>
+
+        <td>
+            <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+                        <span>Add to playlist</span>
+                    </button>
+                </div>
+                @{
+                    var userId = userManager.GetUserId(User);
+                    var playlists = getPlaylists.
+                        Execute(userId).
+                        Select(playlist => new
+                        {
+                            Id = playlist.Id,
+                            Name = playlist.Name
+                        });
+                }
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        @foreach(var playlist in playlists)
+                        {
+                            <div class="dropdown-item">
+                                <div class="columns">
+                                    <div class="column">
+                                        @if(playlistManager.DoesPlaylistContainSong(playlist.Id, Model.Id))
+                                        {
+                                            <button class="button is-warning is-fullwidth" onclick="removeSong(@Model.Id, @playlist.Id)">
+                                                Remove from '@playlist.Name'
+                                            </button>
+                                        }else
+                                        {
+                                            <button class="button is-success is-fullwidth" onclick="addSong(@Model.Id, @playlist.Id)">
+                                                @playlist.Name
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
         </td>
     }
     <td class="has-text-centered is-vcentered">

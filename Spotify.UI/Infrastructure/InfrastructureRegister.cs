@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
             @this.AddTransient<IMusicianManager, MusicianManager>();
             @this.AddTransient<IAlbumsManager, AlbumsManager>();
             @this.AddTransient<IFileManager, FileManager>();
+            @this.AddTransient<IPlaylistManager, PlaylistManager>();
             return @this;
         }
     }
