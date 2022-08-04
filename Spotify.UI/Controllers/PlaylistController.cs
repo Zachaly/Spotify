@@ -27,5 +27,18 @@ namespace Spotify.UI.Controllers
             await removePlaylist.Execute(id);
             return RedirectToPage("/Accounts/UserProfile");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SetDefaultCover(int id,
+            [FromServices] SetCoverPicture setCoverPicture,
+            [FromServices] GetPlaylistFileName getFileName,
+            [FromServices] IFileManager fileManager)
+        {
+            fileManager.RemovePlaylistPicture(getFileName.Execute(id));
+
+            await setCoverPicture.Execute(id, "placeholder.jpg");
+
+            return RedirectToPage("/PlaylistPage", new { id = id });
+        }
     }
 }

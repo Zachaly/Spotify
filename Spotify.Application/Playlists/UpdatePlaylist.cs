@@ -15,7 +15,8 @@ namespace Spotify.Application.Playlists
             => await _playlistManager.UpdatePlaylist(request.Id, playlist =>
                 {
                     playlist.Name = request.Name;
-                    playlist.FileName = request.FileName;
+                    if(!string.IsNullOrEmpty(request.FileName))
+                        playlist.FileName = request.FileName;
                 });
 
         public class Request

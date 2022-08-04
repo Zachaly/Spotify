@@ -80,5 +80,15 @@ namespace Spotify.Database
 
         public bool DoesPlaylistContainSong(int playlistId, int songId)
             => _dbContext.PlaylistSongs.Any(x => x.PlaylistId == playlistId && x.SongId == songId);
+
+        public async Task<bool> SetCoverPicture(int id, string filename)
+        {
+            var playlist = _dbContext.Playlists.FirstOrDefault(x => x.Id == id);
+
+            playlist.FileName = filename;
+            _dbContext.Playlists.Update(playlist);
+
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
     }
 }

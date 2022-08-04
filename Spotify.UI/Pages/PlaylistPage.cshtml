@@ -18,10 +18,13 @@
                         @Model.Info.Name
                         @if (userManager.GetUserId(User) == @Model.Info.CreatorId)
                         {
+                            <a class="button is-warning ml-2" asp-page="UpdatePlaylist" asp-route-id="@Model.Info.Id">
+                                Update playlist
+                            </a>
                             <a asp-controller="Playlist"
                             asp-action="RemovePlaylist"
                             asp-route-id="@Model.Info.Id"
-                            class="button is-danger ml-1">
+                            class="button is-danger ml-2">
                                 Remove playlist
                             </a>
                         }

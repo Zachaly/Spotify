@@ -24,7 +24,7 @@ namespace Spotify.UI.Infrastructure.FileManager
             try
             {
                 var mime = file.FileName.Substring(file.FileName.LastIndexOf('.'));
-                var fileName = $"{new Guid()}{mime}";
+                var fileName = $"{Guid.NewGuid()}{mime}";
 
                 using (var stream = File.Create(Path.Combine(path, fileName)))
                 {

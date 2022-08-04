@@ -12,5 +12,6 @@ namespace Spotify.Domain.Infrastructure
         Task<bool> RemoveSongFromPlaylist(int songId, int playlistId);
         Task<bool> UpdatePlaylist(int id, Action<Playlist> changes);
         bool DoesPlaylistContainSong(int playlistId, int songId);
+        Task<bool> SetCoverPicture(int id, string filename);
     }
 }
