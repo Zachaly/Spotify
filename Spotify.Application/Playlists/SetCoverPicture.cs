@@ -11,6 +11,9 @@ namespace Spotify.Application.Playlists
             _playlistManager = playlistManager;
         }
 
+        /// <summary>
+        /// Sets cover picture of given playlist
+        /// </summary>
         public async Task<bool> Execute(int id, string fileName) 
             => await _playlistManager.SetCoverPicture(id, fileName);
     }

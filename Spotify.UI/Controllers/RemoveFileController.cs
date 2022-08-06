@@ -28,12 +28,12 @@ namespace Spotify.UI.Controllers
         public IActionResult Album(
             int albumId,
             [FromServices] GetAlbumFileName getAlbumFileName)
-            => Ok(_fileManager.RemoveSongFile(getAlbumFileName.Execute(albumId)));
+            => Ok(_fileManager.RemoveAlbumFile(getAlbumFileName.Execute(albumId)));
 
         [HttpDelete("{musicianId}")]
         public IActionResult Musician(
             int musicianId,
             [FromServices] GetMusicianFileName getMusicianFileName)
-            => Ok(_fileManager.RemoveSongFile(getMusicianFileName.Execute(musicianId)));
+            => Ok(_fileManager.RemoveMusicianFile(getMusicianFileName.Execute(musicianId)));
     }
 }

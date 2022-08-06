@@ -11,6 +11,9 @@ namespace Spotify.Application.Playlists
             _playlistManager = playlistManager;
         }
 
+        /// <summary>
+        /// Removes playlist
+        /// </summary>
         public async Task<bool> Execute(int id) => await _playlistManager.RemovePlaylist(id);
     }
 }

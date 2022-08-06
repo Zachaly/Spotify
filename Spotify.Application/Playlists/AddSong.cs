@@ -11,6 +11,9 @@ namespace Spotify.Application.Playlists
             _playlistManager = playlistManager;
         }
 
+        /// <summary>
+        /// Adds song to a playlist
+        /// </summary>
         public async Task<bool> Execute(int songId, int playlistId) 
             => await _playlistManager.AddSongToPlaylist(songId, playlistId);
 

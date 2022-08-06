@@ -11,6 +11,9 @@ namespace Spotify.Application.Playlists
             _playlistManager = playlistManager;
         }
 
+        /// <summary>
+        /// Gets playlists of given user
+        /// </summary>
         public IEnumerable<PlaylistViewModel> Execute(string userId)
             => _playlistManager.GetUserPlaylists(userId, playlist => new PlaylistViewModel
                 {

@@ -11,6 +11,9 @@ namespace Spotify.Application.Playlists
             _playlistManager = playlistManager;
         }
 
+        /// <summary>
+        /// Updates playlist with info given in request
+        /// </summary>
         public async Task<bool> Execute(Request request) 
             => await _playlistManager.UpdatePlaylist(request.Id, playlist =>
                 {

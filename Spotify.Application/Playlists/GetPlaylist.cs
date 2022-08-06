@@ -11,6 +11,9 @@ namespace Spotify.Application.Playlists
             _playlistManager = playlistManager;
         }
 
+        /// <summary>
+        /// Gets all info about given playlist
+        /// </summary>
         public Response Execute(int id) => _playlistManager.GetPlaylist(id, playlist => new Response
         {
             Id = playlist.Id,

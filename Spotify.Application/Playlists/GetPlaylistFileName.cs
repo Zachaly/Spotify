@@ -11,6 +11,9 @@ namespace Spotify.Application.Playlists
             _playlistManager = playlistManager;
         }
 
+        /// <summary>
+        /// Gets name of file containing playlist cover
+        /// </summary>
         public string Execute(int id) => _playlistManager.GetPlaylist(id, playlist => playlist.FileName);
     }
 }
