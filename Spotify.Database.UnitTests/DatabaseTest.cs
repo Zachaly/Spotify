@@ -19,6 +19,7 @@ namespace Spotify.Database.UnitTests
             SongsSetup();
             UsersSetup();
             LikesSetup();
+            PlaylistsSetup();
 
             _dbContext.SaveChanges();
         }
@@ -867,6 +868,99 @@ namespace Spotify.Database.UnitTests
             _dbContext.AlbumLikes.AddRange(albumLikes);
             _dbContext.MusicianFollows.AddRange(musicianFollows);
 
+            _dbContext.SaveChanges();
+        }
+
+        private void PlaylistsSetup()
+        {
+            var playlists = new List<Playlist>
+            {
+                new Playlist
+                {
+                    Name = "playlist1",
+                    CreatorId = "id1",
+                    FileName = "playlist1.jpg",
+                    Id = 1,
+                },
+                new Playlist
+                {
+                    Name = "playlist2",
+                    CreatorId = "id1",
+                    FileName = "playlist2.jpg",
+                    Id = 2,
+                },
+                new Playlist
+                {
+                    Name = "playlist3",
+                    CreatorId = "id1",
+                    FileName = "playlist3.jpg",
+                    Id = 3,
+                },
+                new Playlist
+                {
+                    Name = "playlist4",
+                    CreatorId = "id2",
+                    FileName = "playlist4.jpg",
+                    Id = 4,
+                },
+            };
+
+            var playlistSongs = new List<PlaylistSong>
+            {
+                new PlaylistSong
+                {
+                    PlaylistId = 1,
+                    SongId = 1,
+                },
+                new PlaylistSong
+                {
+                    PlaylistId = 1,
+                    SongId = 2,
+                },
+                new PlaylistSong
+                {
+                    PlaylistId = 1,
+                    SongId = 3,
+                },
+                new PlaylistSong
+                {
+                    PlaylistId = 1,
+                    SongId = 4,
+                },
+                new PlaylistSong
+                {
+                    PlaylistId = 2,
+                    SongId = 5,
+                },
+                new PlaylistSong
+                {
+                    PlaylistId = 2,
+                    SongId = 6,
+                },
+                new PlaylistSong
+                {
+                    PlaylistId = 2,
+                    SongId = 7,
+                },
+                new PlaylistSong
+                {
+                    PlaylistId = 3,
+                    SongId = 21,
+                },
+                new PlaylistSong
+                {
+                    PlaylistId = 3,
+                    SongId = 37,
+                },
+                new PlaylistSong
+                {
+                    PlaylistId = 4,
+                    SongId = 69,
+                },
+            };
+
+            _dbContext.Playlists.AddRange(playlists);
+            _dbContext.PlaylistSongs.AddRange(playlistSongs);
             _dbContext.SaveChanges();
         }
 
