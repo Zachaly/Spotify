@@ -1,15 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Spotify.Application.Admin.Songs;
+using Spotify.Domain.Infrastructure;
+using Spotify.Domain.Models;
 
-namespace Spotify.UI.Controllers
+namespace Spotify.UI.Controllers.Manager
 {
-    [Route("[controller]")]
-    [Authorize(Policy = "Admin")]
-    public class SongController : Controller
+    [Route("Manager/[controller]")]
+    [Authorize(Policy = "Manager")]
+    public class SongController : ManagerController
     {
+        public SongController(UserManager<ApplicationUser> userManager,
+            IApplicationUserManager appUserManager) : base(userManager, appUserManager)
+        {
+        }
+
         [HttpGet("")]
-        public IActionResult GetSongs([FromServices] GetSongs getSongs) => Ok(getSongs.Execute());
+        public IActionResult GetSongs([FromServices] GetManagerSongs getSongs) 
+            => Ok(getSongs.Execute(GetId()));
 
         [HttpGet("{id}")]
         public IActionResult GetSong(int id, [FromServices] GetSong getSong) => Ok(getSong.Execute(id));

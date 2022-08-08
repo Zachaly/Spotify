@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spotify.Database;
 
@@ -11,9 +12,10 @@ using Spotify.Database;
 namespace Spotify.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220806220031_manager_user")]
+    partial class manager_user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,6 +227,9 @@ namespace Spotify.Database.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int?>("MusicianId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -254,6 +259,10 @@ namespace Spotify.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MusicianId")
+                        .IsUnique()
+                        .HasFilter("[MusicianId] IS NOT NULL");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -282,15 +291,13 @@ namespace Spotify.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ManagerId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ManagerId");
 
                     b.ToTable("Musicians");
                 });
@@ -482,13 +489,13 @@ namespace Spotify.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Spotify.Domain.Models.Musician", b =>
+            modelBuilder.Entity("Spotify.Domain.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("Spotify.Domain.Models.ApplicationUser", "Manager")
-                        .WithMany()
-                        .HasForeignKey("ManagerId");
+                    b.HasOne("Spotify.Domain.Models.Musician", "Musician")
+                        .WithOne("Manager")
+                        .HasForeignKey("Spotify.Domain.Models.ApplicationUser", "MusicianId");
 
-                    b.Navigation("Manager");
+                    b.Navigation("Musician");
                 });
 
             modelBuilder.Entity("Spotify.Domain.Models.MusicianFollow", b =>
@@ -601,6 +608,8 @@ namespace Spotify.Database.Migrations
                     b.Navigation("Albums");
 
                     b.Navigation("Followers");
+
+                    b.Navigation("Manager");
 
                     b.Navigation("Songs");
                 });

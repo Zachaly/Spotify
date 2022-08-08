@@ -2,11 +2,11 @@
 namespace Spotify.Application.Admin.Albums
 {
     [Service]
-    public class GetAlbums
+    public class GetManagerAlbums
     {
         private IMusicianManager _musicianManager;
 
-        public GetAlbums(IMusicianManager musicianManager)
+        public GetManagerAlbums(IMusicianManager musicianManager)
         {
             _musicianManager = musicianManager;
         }
@@ -14,17 +14,18 @@ namespace Spotify.Application.Admin.Albums
         /// <summary>
         /// Gets album models used in admin panel grouped by musician
         /// </summary>
-        public IEnumerable<MusicianViewModel> Execute() => _musicianManager.GetMusicians(musician => new MusicianViewModel
-        {
-            Name = musician.Name,
-            Id = musician.Id,
-            Albums = musician.Albums.Select(album => new AlbumViewModel
+        public IEnumerable<MusicianViewModel> Execute(string managerId) 
+            => _musicianManager.GetMusiciansOfManager(managerId, musician => new MusicianViewModel
             {
-                Name = album.Name,
-                Id = album.Id,
-                SongCount = album.Songs.Count()
-            })
-        });
+                Name = musician.Name,
+                Id = musician.Id,
+                Albums = musician.Albums.Select(album => new AlbumViewModel
+                {
+                    Name = album.Name,
+                    Id = album.Id,
+                    SongCount = album.Songs.Count()
+                })
+            });
 
         public class MusicianViewModel
         {

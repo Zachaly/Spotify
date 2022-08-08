@@ -11,5 +11,6 @@ namespace Spotify.Domain.Infrastructure
         Task<bool> UpdateAlbumAsync(int id, Action<Album> changedValues);
         IEnumerable<T> GetTopAlbums<T>(int creatorId, int count, Func<Album, T> selector);
         IEnumerable<T> GetAlbumsOfMusician<T>(int musicianId, Func<Album, T> selector);
+        IEnumerable<T> GetAlbumsOfManager<T>(string managerId, Func<Album, T> selector);
     }
 }

@@ -4,20 +4,22 @@ namespace Spotify.Domain.Infrastructure
 {
     public interface IApplicationUserManager
     {
-        public ApplicationUser GetUserByEmail(string email);
-        public bool IsEmailOccupied(string email);
-        public T GetUserById<T>(string id, Func<ApplicationUser, T> selector);
-        public IEnumerable<T> GetUserLikedSongs<T>(string userId, Func<SongLike, T> selector);
+        ApplicationUser GetUserByEmail(string email);
+        bool IsEmailOccupied(string email);
+        T GetUserById<T>(string id, Func<ApplicationUser, T> selector);
+        IEnumerable<T> GetUserLikedSongs<T>(string userId, Func<SongLike, T> selector);
 
-        public Task<bool> FollowMusician(string userId, int musicianId);
-        public Task<bool> LikeSong(string userId, int songId);
-        public Task<bool> LikeAlbum(string userId, int musicianId);
+        Task<bool> FollowMusician(string userId, int musicianId);
+        Task<bool> LikeSong(string userId, int songId);
+        Task<bool> LikeAlbum(string userId, int musicianId);
 
-        public bool IsSongLiked(string userId, int songId);
-        public bool IsMusicianFollowed(string userId, int musicianId);
-        public bool IsAlbumLiked(string userId, int albumId);
+        bool IsSongLiked(string userId, int songId);
+        bool IsMusicianFollowed(string userId, int musicianId);
+        bool IsAlbumLiked(string userId, int albumId);
 
-        public Task<bool> UpdateUser(string id, Action<ApplicationUser> updatedValues);
-        public Task<bool> SetDefaultProfilePicture(string id, string picture);
+        Task<bool> UpdateUser(string id, Action<ApplicationUser> updatedValues);
+        Task<bool> SetDefaultProfilePicture(string id, string picture);
+
+        bool IsUserManagerOfMusician(string userId, int musicianId);
     }
 }

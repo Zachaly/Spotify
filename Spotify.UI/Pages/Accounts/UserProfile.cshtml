@@ -15,7 +15,12 @@
                 {
                     if(Model.Info.Id == userManager.GetUserId(User))
                     {
-                        <a asp-page="ChangeProfileInfo" asp-route-id="@Model.Info.Id">Change profile info</a>
+                        <a asp-page="ChangeProfileInfo" asp-route-id="@Model.Info.Id" class="button is-warning mt-1">
+                            Change profile info
+                        </a>
+                        <a asp-controller="User" asp-action="AddManager" class="button is-success mt-1">
+                            Become Band Manager
+                        </a>
                     }
                 }
             </div>

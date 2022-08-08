@@ -113,5 +113,8 @@ namespace Spotify.Database
 
             return await _dbContext.SaveChangesAsync() > 0;
         }
+
+        public bool IsUserManagerOfMusician(string userId, int musicianId)
+            => _dbContext.Musicians.Any(x => x.Id == musicianId && x.ManagerId == userId);
     }
 }

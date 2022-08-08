@@ -32,7 +32,7 @@
                         else
                         {
                             var userId = userManager.GetUserId(User);
-                            @if ((await authService.AuthorizeAsync(User, "Admin")).Succeeded)
+                            @if ((await authService.AuthorizeAsync(User, "Manager")).Succeeded)
                             {
                                 <a class="button is-warning" asp-page="/Admin/Index">Admin Panel</a>
                             }

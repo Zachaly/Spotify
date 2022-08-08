@@ -4,6 +4,7 @@ using Spotify.Application.Songs;
 using Spotify.Application.User;
 using Spotify.Domain.Models;
 using Spotify.UI.Infrastructure.FileManager;
+using System.Security.Claims;
 
 namespace Spotify.UI.Controllers
 {
@@ -34,5 +35,13 @@ namespace Spotify.UI.Controllers
             return RedirectToPage("/Accounts/UserProfile", new { id = userId });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AddManager([FromServices] UserManager<ApplicationUser> userManager)
+        {
+            if (!(User.Identity as ClaimsIdentity).HasClaim("Role", "Manager"))
+                await userManager.AddClaimAsync(await userManager.GetUserAsync(User), new Claim("Role", "Manager"));
+
+            return RedirectToPage("/Admin/Index");
+        }
     }
 }

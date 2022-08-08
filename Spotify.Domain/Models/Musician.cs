@@ -10,5 +10,7 @@ namespace Spotify.Domain.Models
         public ICollection<Song> Songs { get; set; }
         public ICollection<MusicianFollow> Followers { get; set; }
         public string FileName { get; set; }
+        public string? ManagerId { get; set; }
+        public ApplicationUser? Manager { get; set; }
     }
 }

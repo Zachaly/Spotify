@@ -29,7 +29,8 @@ namespace Spotify.UI.Pages.Accounts
             var user = new ApplicationUser
             {
                 Email = Input.Email,
-                UserName = Input.Username
+                UserName = Input.Username,
+                FileName = "placeholder.jpg"
             };
 
             await userManager.CreateAsync(user, Input.Password);

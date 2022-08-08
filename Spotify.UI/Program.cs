@@ -30,6 +30,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
+    options.AddPolicy("Manager", policy => policy.RequireClaim("Role", "Manager"));
+
+    options.AddPolicy("Manager", policy => 
+        policy.RequireAssertion(context =>
+        context.User.HasClaim("Role", "Manager")
+        || context.User.HasClaim("Role", "Admin")));
 });
 
 builder.Services.AddRazorPages();
@@ -40,7 +46,7 @@ builder.Services.AddMvc(options =>
 }).
 AddRazorPagesOptions(options =>
 {
-options.Conventions.AuthorizeFolder("/Admin");
+    options.Conventions.AuthorizeFolder("/Admin");
 }).AddFluentValidation();
 
 builder.Services.AddApplicationInfrastucture();

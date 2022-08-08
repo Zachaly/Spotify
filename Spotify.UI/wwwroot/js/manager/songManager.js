@@ -17,7 +17,7 @@
     methods: {
         getSongs() {
             this.loading = true;
-            axios.get('/admin/song').
+            axios.get('/manager/song').
                 then(res => this.albums = res.data).
                 catch(error => console.log(error)).
                 then(() => this.loading = false)
@@ -32,7 +32,7 @@
             this.loading = true;
 
             this.uploadFile().then(() => {
-                axios.post('/admin/song', this.songModel).
+                axios.post('/manager/song', this.songModel).
                     then(res => this.selectedAlbum.songs.push(res.data)).
                     catch(error => console.log(error)).
                     then(() => {
@@ -63,7 +63,7 @@
         },
         updateSong() {
             this.loading = false;
-            axios.put('/admin/song', this.updatedSong).
+            axios.put('/manager/song', this.updatedSong).
                 then(res => this.selectedAlbum.songs.splice(this.songIndex, 1, res.data)).
                 catch(error => console.log(error)).
                 then(() => {
@@ -73,7 +73,7 @@
         },
         deleteSong(id, index) {
             this.loading = false;
-            axios.delete('/admin/song/' + id).
+            axios.delete('/manager/song/' + id).
                 then(res => this.selectedAlbum.songs.splice(index, 1)).
                 catch(error => console.log(error)).
                 then(() => this.loading = false)

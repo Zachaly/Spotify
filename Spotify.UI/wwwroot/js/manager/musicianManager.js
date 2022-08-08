@@ -15,14 +15,14 @@
     methods: {
         getMusicians() {
             this.loading = true;
-            axios.get('/admin/musician').
+            axios.get('/manager/musician').
                 then(res => this.musicians = res.data).
                 catch(error => console.log(error)).
                 then(() => this.loading = false);
         },
         getMusicianForEdit(id) {
             this.loading = true;
-            axios.get('/admin/musician/' + id).
+            axios.get('/manager/musician/' + id).
                 then(res => {
                     console.log(res);
                     this.musicianModel = {
@@ -37,7 +37,7 @@
         addMusician() {
             this.loading = true;
             this.uploadFile().then(() => {
-                axios.post('/admin/musician', this.musicianModel).
+                axios.post('/manager/musician', this.musicianModel).
                     then(res => {
                         this.musicians.push(res.data);
                         this.editing = false;
@@ -59,7 +59,7 @@
         },
         updateMusician() {
             this.loading = true;
-            axios.put("/admin/musician", this.musicianModel).
+            axios.put("/manager/musician", this.musicianModel).
                 then(res => {
                     this.editing = false;
                     this.musicians.splice(this.musicianIndex, 1, res.data)
@@ -68,7 +68,7 @@
                 then(() => this.loading = false);
         },
         deleteMusician(id, index) {
-            axios.delete("/admin/musician/" + id).
+            axios.delete("/manager/musician/" + id).
                 then(res => this.musicians.splice(index, 1)).
                 catch(error => console.log(error)).
                 then(() => this.loading = false);

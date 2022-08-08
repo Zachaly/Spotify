@@ -31,6 +31,14 @@ namespace Spotify.Database
             Select(selector).
             AsEnumerable();
 
+        public IEnumerable<T> GetAlbumsOfManager<T>(string managerId, Func<Album, T> selector)
+        => _dbContext.Albums.Include(db => db.Musician).
+                Include(db => db.Songs).
+                Where(album => album.Musician.ManagerId == managerId).
+                OrderByDescending(album => album.Id).
+                Select(selector).
+                ToList();
+
         public IEnumerable<T> GetAlbumsOfMusician<T>(int musicianId, Func<Album, T> selector)
             => _dbContext.Albums.Include(db => db.Musician).Include(db => db.Songs).
                 Where(album => album.MusicianId == musicianId).

@@ -5,7 +5,7 @@ using Spotify.UI.Infrastructure.FileManager;
 namespace Spotify.UI.Controllers
 {
     [Route("[controller]/[action]")]
-    [Authorize(Policy = "Admin")]
+    [Authorize(Policy = "Manager")]
     public class UploadController : Controller
     {
         private IFileManager _fileManager;

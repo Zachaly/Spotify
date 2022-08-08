@@ -1,15 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Spotify.Application.Admin.Musicians;
+using Spotify.Domain.Infrastructure;
+using Spotify.Domain.Models;
 
-namespace Spotify.UI.Controllers
+namespace Spotify.UI.Controllers.Manager
 {
-    [Route("[controller]")]
-    [Authorize(Policy = "Admin")]
-    public class MusicianController : Controller
+    [Route("Manager/[controller]")]
+    [Authorize(Policy = "Manager")]
+    public class MusicianController : ManagerController
     {
+        public MusicianController(UserManager<ApplicationUser> userManager,
+            IApplicationUserManager appUserManager) : base(userManager, appUserManager)
+        {
+        }
+
         [HttpGet("")]
-        public IActionResult GetMusicians([FromServices] GetMusicians getMusicians) => Ok(getMusicians.Execute());
+        public IActionResult GetMusicians([FromServices] GetManagerMusicians getMusicians) 
+            => Ok(getMusicians.Execute(GetId()));
 
         [HttpGet("{id}")]
         public IActionResult GetMusician(int id, [FromServices] GetMusician getMusician) => Ok(getMusician.Execute(id));
@@ -18,7 +27,12 @@ namespace Spotify.UI.Controllers
         public async Task<IActionResult> AddMusician(
             [FromBody] AddMusician.Request request,
             [FromServices] AddMusician addMusician)
-            => Ok(await addMusician.Execute(request));
+        {
+            request.ManagerId = GetId();
+
+            return Ok(await addMusician.Execute(request));
+        }
+            
 
         [HttpPut("")]
         public async Task<IActionResult> UpdateMusician(
