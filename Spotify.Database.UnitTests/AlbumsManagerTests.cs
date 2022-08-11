@@ -135,5 +135,25 @@ namespace Spotify.Database.UnitTests
             Assert.Equal("Metallica", result[0].Musician.Name);
             Assert.Equal(6, result[0].Songs.Sum(x => x.Plays));
         }
+
+        [Fact]
+        public void Search_Albums()
+        {
+            var result = _albumsManager.GetAlbumsByName("the", 7, x => x);
+
+            Assert.Equal(5, result.Count());
+            Assert.Contains(result, album => album.Name == "Twilight of the Thunder God");
+            Assert.Contains(result, album => album.Name == "Magma");
+            Assert.Contains(result, album => album.Name == "Ride the Lightning");
+        }
+
+        [Fact]
+        public void Get_Albums_Of_Manager()
+        {
+            var result = _albumsManager.GetAlbumsOfManager("id2", x => x);
+
+            Assert.Equal(3, result.Count());
+            Assert.All(result, album => Assert.Equal(2, album.MusicianId));
+        }
     }
 }

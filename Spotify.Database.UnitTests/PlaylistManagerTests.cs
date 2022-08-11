@@ -121,5 +121,14 @@ namespace Spotify.Database.UnitTests
             Assert.DoesNotContain(_dbContext.Playlists, playlist => playlist.FileName == "playlist1.jpg");
             Assert.Contains(_dbContext.Playlists, playlist => playlist.Id == 1 && playlist.FileName == "newimg.jpg");
         }
+
+        [Fact]
+        public void Search_Playlist()
+        {
+            var result = _playlistManager.GetPlaylistsByName("playlist3", 5, x => x);
+
+            Assert.Equal(4, result.Count());
+            Assert.Equal("playlist3", result.First().Name);
+        }
     }
 }

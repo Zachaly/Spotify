@@ -142,5 +142,22 @@ namespace Spotify.Database.UnitTests
             Assert.Equal(2, result[1].Plays);
             Assert.Equal(1, result[2].Plays);
         }
+
+        [Fact]
+        public void Search_Songs()
+        {
+            var result = _songsManager.GetSongsByName("one", 5, x => x);
+
+            Assert.Equal("One", result.First().Name);
+        }
+
+        [Fact]
+        public void Get_Songs_Of_Manager()
+        {
+            var result = _songsManager.GetSongsOfManager("id1", x => x);
+
+            Assert.Equal(19, result.Count());
+            Assert.All(result, song => Assert.Equal("id1", song.Creator.ManagerId));
+        }
     }
 }

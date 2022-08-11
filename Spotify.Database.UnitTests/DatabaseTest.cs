@@ -14,10 +14,10 @@ namespace Spotify.Database.UnitTests
             options.UseInMemoryDatabase(Guid.NewGuid().ToString());
             _dbContext = new AppDbContext(options.Options);
 
+            UsersSetup();
             MusicianSetup();
             AlbumsSetup();
             SongsSetup();
-            UsersSetup();
             LikesSetup();
             PlaylistsSetup();
 
@@ -34,21 +34,24 @@ namespace Spotify.Database.UnitTests
                     Id = 1,
                     Name = "Metallica",
                     Description = "Most popular metal band",
-                    FileName = "metallica.jpg"
+                    FileName = "metallica.jpg",
+                    ManagerId = "id3"
                 },
                 new Musician
                 {
                     Id = 2,
                     Name = "Gojira",
                     Description = "Best prog metal band",
-                    FileName = "gojira.jpg"
+                    FileName = "gojira.jpg",
+                    ManagerId = "id2"
                 },
                 new Musician
                 {
                     Id = 3,
                     Name = "Amon Amarth",
                     Description = "VIKINGS",
-                    FileName = "amonamarth.jpg"
+                    FileName = "amonamarth.jpg",
+                    ManagerId = "id1"
                 },
             };
 

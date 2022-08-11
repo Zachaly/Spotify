@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Spotify.Database.UnitTests
 {
     public class ApplicationUserManagerTests : DatabaseTest
@@ -195,6 +190,22 @@ namespace Spotify.Database.UnitTests
             Assert.True(result);
             Assert.Contains(_dbContext.Users, user => user.Id == "id3" && user.FileName == "default.jpg");
             Assert.DoesNotContain(_dbContext.Users, user => user.FileName == "user3.jpg");
+        }
+
+        [Fact]
+        public void Search_User()
+        {
+            var result = _appUserManager.GetUsersByName("user1", 2, x => x);
+
+            Assert.Equal(2, result.Count());
+            Assert.Equal("user1", result.First().UserName);
+        }
+
+        [Fact]
+        public void Is_User_Manager()
+        {
+            Assert.True(_appUserManager.IsUserManagerOfMusician("id3", 1));
+            Assert.False(_appUserManager.IsUserManagerOfMusician("id3", 2));
         }
     }
 }

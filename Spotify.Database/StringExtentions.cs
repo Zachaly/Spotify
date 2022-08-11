@@ -5,6 +5,9 @@ namespace Spotify.Database
     {
         public static int LevenshteinDistance(this string @this, string comparedstring)
         {
+            @this = @this.ToLower();
+            comparedstring = comparedstring.ToLower();
+
             var n = @this.Length;
             var m = comparedstring.Length;
 
@@ -37,6 +40,11 @@ namespace Spotify.Database
         /// Checks if one string is similiar to another using levenshtein algorithm
         /// </summary>
         public static bool IsSimiliar(this string @this, string comparedString)
-            => @this.LevenshteinDistance(comparedString) <= 5;
+        { 
+            @this = @this.ToLower();
+            comparedString = comparedString.ToLower();
+
+            return @this.LevenshteinDistance(comparedString) <= 5 || @this.Contains(comparedString);
+        }
     }
 }

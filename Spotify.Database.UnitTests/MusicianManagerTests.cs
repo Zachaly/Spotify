@@ -115,6 +115,24 @@ namespace Spotify.Database.UnitTests
             Assert.True(result);
             Assert.Contains(_dbContext.Musicians, musician => musician.Id == 1 && musician.Name == "Metollica");
             Assert.Contains(_dbContext.Musicians, musician => musician.Id == 1 && musician.Description == "Popular metal band");
-        } 
+        }
+
+        [Fact]
+        public void Search_Musician()
+        {
+            var result = _musicianManager.GetMusiciansByName("amon", 5, x => x);
+
+            Assert.Single(result);
+            Assert.Equal("Amon Amarth", result.First().Name);
+        }
+
+        [Fact]
+        public void Get_Musicians_Of_Manager()
+        {
+            var result = _musicianManager.GetMusiciansOfManager("id2", x => x);
+
+            Assert.Single(result);
+            Assert.Equal(2, result.First().Id);
+        }
     }
 }
