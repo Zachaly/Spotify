@@ -12,5 +12,6 @@ namespace Spotify.Domain.Infrastructure
         IEnumerable<T> GetTopSongs<T>(int creatorId, int count, Func<Song, T> selector);
         Task<bool> AddPlay(int id);
         IEnumerable<T> GetSongsOfManager<T>(string id, Func<Song, T> selector);
+        IEnumerable<T> GetSongsByName<T>(string name, int count, Func<Song, T> selector);
     }
 }

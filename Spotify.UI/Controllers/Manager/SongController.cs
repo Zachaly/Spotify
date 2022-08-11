@@ -27,7 +27,12 @@ namespace Spotify.UI.Controllers.Manager
         public async Task<IActionResult> AddSong(
             [FromBody] AddSong.Request request,
             [FromServices] AddSong addSong)
-            => Ok(await addSong.Execute(request));
+        {
+            if (!IsManagerCorrect(request.CreatorId))
+                return BadRequest();
+
+            return Ok(await addSong.Execute(request));
+        }
 
         [HttpPut("")]
         public async Task<IActionResult> UpdateSong(

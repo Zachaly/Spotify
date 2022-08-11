@@ -90,5 +90,15 @@ namespace Spotify.Database
 
             return await _dbContext.SaveChangesAsync() > 0;
         }
+
+        public IEnumerable<T> GetPlaylistsByName<T>(string name, int count, Func<Playlist, T> selector)
+        => _dbContext.Playlists.Include(x => x.Creator).AsEnumerable().
+            Where(x => x.Name.IsSimiliar(name)).
+            Select(x => new { Playlist = x, Distance = x.Name.LevenshteinDistance(name) }).
+            OrderBy(x => x.Distance).
+            Take(count).
+            Select(x => x.Playlist).
+            Select(selector).
+            AsEnumerable();
     }
 }

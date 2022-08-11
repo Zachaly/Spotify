@@ -12,7 +12,7 @@ namespace Spotify.Application.Admin.Albums
         }
 
         /// <summary>
-        /// Gets album models used in admin panel grouped by musician
+        /// Gets album models used in admin panel grouped by musician, filtered with manager id
         /// </summary>
         public IEnumerable<MusicianViewModel> Execute() => _musicianManager.GetMusicians(musician => new MusicianViewModel
         {

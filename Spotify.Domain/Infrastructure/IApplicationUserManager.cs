@@ -21,5 +21,7 @@ namespace Spotify.Domain.Infrastructure
         Task<bool> SetDefaultProfilePicture(string id, string picture);
 
         bool IsUserManagerOfMusician(string userId, int musicianId);
+
+        IEnumerable<T> GetUsersByName<T>(string name, int count, Func<ApplicationUser, T> selector);
     }
 }

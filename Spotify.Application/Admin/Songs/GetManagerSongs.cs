@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Spotify.Application.Admin.Songs
 {
     [Service]
@@ -17,7 +12,7 @@ namespace Spotify.Application.Admin.Songs
         }
 
         /// <summary>
-        /// Gets song models used in admin panel grouped by album
+        /// Gets song models used in admin panel grouped by album, filtered with manager id
         /// </summary>
         public IEnumerable<AlbumModel> Execute(string managerId)
             => _albumsManager.GetAlbumsOfManager(managerId, album => new AlbumModel

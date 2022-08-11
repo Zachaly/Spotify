@@ -12,5 +12,6 @@ namespace Spotify.Domain.Infrastructure
         IEnumerable<T> GetTopAlbums<T>(int creatorId, int count, Func<Album, T> selector);
         IEnumerable<T> GetAlbumsOfMusician<T>(int musicianId, Func<Album, T> selector);
         IEnumerable<T> GetAlbumsOfManager<T>(string managerId, Func<Album, T> selector);
+        IEnumerable<T> GetAlbumsByName<T>(string name, int count, Func<Album, T> selector);
     }
 }

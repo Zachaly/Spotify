@@ -19,7 +19,7 @@
                 <caption class="title">Albums</caption>
                 <tr v-for="(album, index) in selectedMusician.albums">
                     <td>{{album.id}}</td>
-                    <td><a :href="'/Admin/Album?id=' + album.id">{{album.name}}</a></td>
+                    <td><a :href="'/Admin/AlbumInfo?id=' + album.id">{{album.name}}</a></td>
                     <td>{{album.songCount}}</td>
                     <td>
                         <button class="button is-danger is-fullwidth" @@click="deleteAlbum(album.id, index)">

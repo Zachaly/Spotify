@@ -10,5 +10,6 @@ namespace Spotify.Domain.Infrastructure
         public Task<bool> UpdateMusicianAsync(int id, string name, string description);
         public Task<bool > DeleteMusicianAsync(int id);
         public IEnumerable<T> GetMusiciansOfManager<T>(string managerId, Func<Musician, T> selector);
+        IEnumerable<T> GetMusiciansByName<T>(string name, int count, Func<Musician, T> selector);
     }
 }

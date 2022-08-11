@@ -13,5 +13,6 @@ namespace Spotify.Domain.Infrastructure
         Task<bool> UpdatePlaylist(int id, Action<Playlist> changes);
         bool DoesPlaylistContainSong(int playlistId, int songId);
         Task<bool> SetCoverPicture(int id, string filename);
+        IEnumerable<T> GetPlaylistsByName<T>(string name, int count, Func<Playlist, T> selector);
     }
 }

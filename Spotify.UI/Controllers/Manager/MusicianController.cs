@@ -21,7 +21,13 @@ namespace Spotify.UI.Controllers.Manager
             => Ok(getMusicians.Execute(GetId()));
 
         [HttpGet("{id}")]
-        public IActionResult GetMusician(int id, [FromServices] GetMusician getMusician) => Ok(getMusician.Execute(id));
+        public IActionResult GetMusician(int id, [FromServices] GetMusician getMusician)
+        {
+            if (!IsManagerCorrect(id))
+                return BadRequest();
+
+            return Ok(getMusician.Execute(id));
+        }
 
         [HttpPost("")]
         public async Task<IActionResult> AddMusician(
@@ -38,10 +44,21 @@ namespace Spotify.UI.Controllers.Manager
         public async Task<IActionResult> UpdateMusician(
             [FromBody] UpdateMusician.Request request,
             [FromServices] UpdateMusician updateMusician)
-            => Ok(await updateMusician.Execute(request));
+        {
+            if(!IsManagerCorrect(request.Id))
+                return BadRequest();
+
+            return Ok(await updateMusician.Execute(request));
+        }
+            
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMusician(int id, [FromServices] DeleteMusician deleteMusician)
-            => Ok(await deleteMusician.Execute(id));
+        {
+            if (!IsManagerCorrect(id))
+                return BadRequest();
+
+            return Ok(await deleteMusician.Execute(id));
+        }
     }
 }

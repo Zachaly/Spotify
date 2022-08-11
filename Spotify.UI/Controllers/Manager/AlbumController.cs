@@ -22,13 +22,24 @@ namespace Spotify.UI.Controllers.Manager
 
         [HttpGet("{id}")]
         public IActionResult GetAlbum(int id, [FromServices] GetAlbum getAlbum)
-            => Ok(getAlbum.Execute(id));
+        {
+            if (!IsManagerCorrect(id))
+                return BadRequest();
+
+            return Ok(getAlbum.Execute(id)); 
+        }
 
         [HttpPost("")]
         public async Task<IActionResult> AddAlbum(
             [FromBody] AddAlbum.Request request,
             [FromServices] AddAlbum addAlbum)
-            => Ok(await addAlbum.Execute(request));
+        {
+            if (!IsManagerCorrect(request.MusicianId))
+                return BadRequest();
+
+            return Ok(await addAlbum.Execute(request));
+        }
+            
 
         [HttpPut("")]
         public async Task<IActionResult> UpdateAlbum(

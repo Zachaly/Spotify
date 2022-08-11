@@ -116,5 +116,15 @@ namespace Spotify.Database
 
         public bool IsUserManagerOfMusician(string userId, int musicianId)
             => _dbContext.Musicians.Any(x => x.Id == musicianId && x.ManagerId == userId);
+
+        public IEnumerable<T> GetUsersByName<T>(string name, int count, Func<ApplicationUser, T> selector)
+        => _dbContext.Users.AsEnumerable().
+            Where(x => x.UserName.IsSimiliar(name)).
+            Select(x => new { User = x, Distance = x.UserName.LevenshteinDistance(name) }).
+            OrderBy(x => x.Distance).
+            Take(count).
+            Select(x => x.User).
+            Select(selector).
+            AsEnumerable();
     }
 }

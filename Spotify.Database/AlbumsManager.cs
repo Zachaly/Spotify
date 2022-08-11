@@ -31,6 +31,16 @@ namespace Spotify.Database
             Select(selector).
             AsEnumerable();
 
+        public IEnumerable<T> GetAlbumsByName<T>(string name, int count, Func<Album, T> selector)
+        => _dbContext.Albums.Include(x => x.Musician).AsEnumerable().
+            Where(x => x.Name.IsSimiliar(name)).
+            Select(x => new { Album = x, Distance = x.Name.LevenshteinDistance(name) }).
+            OrderBy(x => x.Distance).
+            Take(count).
+            Select(x => x.Album).
+            Select(selector).
+            AsEnumerable();
+
         public IEnumerable<T> GetAlbumsOfManager<T>(string managerId, Func<Album, T> selector)
         => _dbContext.Albums.Include(db => db.Musician).
                 Include(db => db.Songs).

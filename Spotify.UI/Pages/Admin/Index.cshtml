@@ -17,7 +17,7 @@
             </tr>
             <tr v-for="(musician, index) in musicians">
                 <td>{{musician.id}}</td>
-                <td><a :href="'/Admin/Musician?id=' + musician.id">{{musician.name}}</a></td>
+                <td><a :href="'/Admin/MusicianInfo?id=' + musician.id">{{musician.name}}</a></td>
                 <td>{{musician.numberOfFollowers}}</td>
                 <td>{{musician.numberOfSongs}}</td>
                 <td>{{musician.numberOfPlays}}</td>
