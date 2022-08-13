@@ -4,7 +4,7 @@ namespace Spotify.Application.Playlists
     [Service]
     public class GetUserPlaylists
     {
-        private IPlaylistManager _playlistManager;
+        private readonly IPlaylistManager _playlistManager;
 
         public GetUserPlaylists(IPlaylistManager playlistManager)
         {

@@ -4,7 +4,7 @@ namespace Spotify.Application.Admin.Albums
     [Service]
     public class GetAlbums
     {
-        private IMusicianManager _musicianManager;
+        private readonly IMusicianManager _musicianManager;
 
         public GetAlbums(IMusicianManager musicianManager)
         {

@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace Spotify.UI.Controllers
 {
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> Logout([FromServices] SignInManager<ApplicationUser> signInManager)

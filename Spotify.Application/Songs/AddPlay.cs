@@ -3,7 +3,7 @@
     [Service]
     public class AddPlay
     {
-        private ISongsManager _songsManager;
+        private readonly ISongsManager _songsManager;
 
         public AddPlay(ISongsManager songsManager)
         {

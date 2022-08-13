@@ -6,9 +6,9 @@ namespace Spotify.UI.Controllers
 {
     [Route("[controller]/[action]")]
     [Authorize(Policy = "Manager")]
-    public class UploadController : Controller
+    public class UploadController : ControllerBase
     {
-        private IFileManager _fileManager;
+        private readonly IFileManager _fileManager;
 
         public UploadController(IFileManager fileManager)
         {

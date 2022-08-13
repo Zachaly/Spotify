@@ -12,9 +12,7 @@ namespace Spotify.UI.Controllers.Manager
     public class MusicianController : ManagerController
     {
         public MusicianController(UserManager<ApplicationUser> userManager,
-            IApplicationUserManager appUserManager) : base(userManager, appUserManager)
-        {
-        }
+            IApplicationUserManager appUserManager) : base(userManager, appUserManager) { }
 
         [HttpGet("")]
         public IActionResult GetMusicians([FromServices] GetManagerMusicians getMusicians) 

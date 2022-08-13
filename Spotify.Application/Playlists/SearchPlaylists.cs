@@ -4,13 +4,16 @@ namespace Spotify.Application.Playlists
     [Service]
     public class SearchPlaylists
     {
-        private IPlaylistManager _playlistManager;
+        private readonly IPlaylistManager _playlistManager;
 
         public SearchPlaylists(IPlaylistManager playlistManager)
         {
             _playlistManager = playlistManager;
         }
 
+        /// <summary>
+        /// Searches for playlists with similar name
+        /// </summary>
         public IEnumerable<PlaylistModel> Execute(string name)
             => _playlistManager.GetPlaylistsByName(name, 10, playlist => new PlaylistModel
             {

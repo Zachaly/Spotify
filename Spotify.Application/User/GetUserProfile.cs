@@ -4,7 +4,7 @@ namespace Spotify.Application.User
     [Service]
     public class GetUserProfile
     {
-        private IApplicationUserManager _applicationUserManager;
+        private readonly IApplicationUserManager _applicationUserManager;
 
         public GetUserProfile(IApplicationUserManager applicationUserManager)
         {

@@ -4,7 +4,7 @@ namespace Spotify.Application.User
     [Service]
     public class SetDefaultProfilePicture
     {
-        private IApplicationUserManager _appUserManager;
+        private readonly IApplicationUserManager _appUserManager;
 
         public SetDefaultProfilePicture(IApplicationUserManager applicationUserManager)
         {

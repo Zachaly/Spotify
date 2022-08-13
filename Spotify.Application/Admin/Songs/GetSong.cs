@@ -4,7 +4,7 @@ namespace Spotify.Application.Admin.Songs
     [Service]
     public class GetSong
     {
-        private ISongsManager _songsManager;
+        private readonly ISongsManager _songsManager;
 
         public GetSong(ISongsManager songsManager)
         {

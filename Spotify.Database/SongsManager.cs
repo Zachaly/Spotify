@@ -6,12 +6,21 @@ namespace Spotify.Database
 {
     public class SongsManager : ISongsManager
     {
-        private AppDbContext _dbContext;
+        private readonly AppDbContext _dbContext;
 
         public SongsManager(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }
+
+        private IEnumerable<Song> GetSongs()
+            => _dbContext.Songs.
+                Include(song => song.Album).
+                Include(song => song.Creator).
+                AsEnumerable();
+
+        private IEnumerable<Song> GetSongsWithCondition(Func<Song, bool> condition)
+            => GetSongs().Where(song => condition(song));
 
         public async Task<bool> AddPlay(int id)
         {
@@ -30,35 +39,29 @@ namespace Spotify.Database
         }
 
         public T GetSongById<T>(int id, Func<Song, T> selector)
-            => _dbContext.Songs.Include(song => song.Album).Include(song => song.Creator).
-            Where(song => song.Id == id).
-            Select(selector).
-            FirstOrDefault();
+            => GetSongsWithCondition(song => song.Id == id).
+                Select(selector).
+                FirstOrDefault();
 
         public IEnumerable<T> GetSongs<T>(Func<Song, T> selector)
-            => _dbContext.Songs.Include(song => song.Album).Include(song => song.Creator).
-            Select(selector).
-            AsEnumerable();
+            => GetSongs().
+                Select(selector);
 
         public IEnumerable<T> GetSongsOfManager<T>(string id, Func<Song, T> selector)
-            => _dbContext.Songs.Include(song => song.Album).Include(song => song.Creator).
-                Where(song => song.Creator.ManagerId == id).
-                Select(selector).
-                AsEnumerable();
+            => GetSongsWithCondition(song => song.Creator.ManagerId == id).
+                Select(selector);
 
         public IEnumerable<T> GetTopSongs<T>(int creatorId, int count, Func<Song, T> selector)
-            => _dbContext.Songs.Include(db => db.Creator).Include(db => db.Album).
-                Where(song => song.Creator.Id == creatorId).
+            => GetSongsWithCondition(song => song.Creator.Id == creatorId).
                 OrderByDescending(song => song.Plays).
                 Take(count).
-                Select(selector).
-                AsEnumerable();
+                Select(selector);
 
         public async Task<bool> RemoveSongAsync(int id)
         {
             var song = _dbContext.Songs.FirstOrDefault(song => song.Id == id);
 
-            _dbContext.SongLikes.RemoveRange(_dbContext.SongLikes.Where(x => x.SongId == id).ToList());
+            _dbContext.SongLikes.RemoveRange(_dbContext.SongLikes.Where(like => like.SongId == id).ToList());
 
             _dbContext.Songs.Remove(song);
 
@@ -75,13 +78,11 @@ namespace Spotify.Database
         }
 
         public IEnumerable<T> GetSongsByName<T>(string name, int count, Func<Song, T> selector)
-            => _dbContext.Songs.Include(x => x.Album).Include(x => x.Creator).AsEnumerable().
-            Where(x => x.Name.IsSimiliar(name)).
-            Select(x => new { Song = x, Distance = x.Name.LevenshteinDistance(name) }).
-            OrderBy(x => x.Distance).
-            Take(count).
-            Select(x => x.Song).
-            Select(selector).
-            AsEnumerable();
+            => GetSongsWithCondition(song => song.Name.IsSimiliar(name)).
+                Select(song => new { Song = song, Distance = song.Name.LevenshteinDistance(name) }).
+                OrderBy(songWithDistance => songWithDistance.Distance).
+                Take(count).
+                Select(songWithDistance => songWithDistance.Song).
+                Select(selector);
     }
 }

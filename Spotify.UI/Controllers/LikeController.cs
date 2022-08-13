@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Spotify.Application.User;
 using Spotify.Domain.Models;
@@ -6,9 +7,10 @@ using Spotify.Domain.Models;
 namespace Spotify.UI.Controllers
 {
     [Route("[controller]/[action]")]
-    public class LikeController : Controller
+    [Authorize]
+    public class LikeController : ControllerBase
     {
-        private UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public LikeController(UserManager<ApplicationUser> userManager)
         {

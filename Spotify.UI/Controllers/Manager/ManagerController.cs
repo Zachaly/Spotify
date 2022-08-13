@@ -2,19 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Spotify.Domain.Infrastructure;
 using Spotify.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spotify.UI.Controllers.Manager
 {
-    public abstract class ManagerController : Controller
+    public abstract class ManagerController : ControllerBase
     {
-        private UserManager<ApplicationUser> _userManager;
-        private IApplicationUserManager _appUserManager;
-        private UserManager<ApplicationUser> userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IApplicationUserManager _appUserManager;
 
         public ManagerController(UserManager<ApplicationUser> userManager,
             IApplicationUserManager appUserManager) 

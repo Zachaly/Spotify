@@ -3,9 +3,9 @@ using Spotify.UI.Infrastructure.FileManager;
 
 namespace Spotify.UI.Controllers
 {
-    public class FileController : Controller
+    public class FileController : ControllerBase
     {
-        private IFileManager _fileManager;
+        private readonly IFileManager _fileManager;
 
         public FileController(IFileManager fileManager)
         {

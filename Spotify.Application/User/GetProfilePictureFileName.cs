@@ -4,7 +4,7 @@ namespace Spotify.Application.User
     [Service]
     public class GetProfilePictureFileName
     {
-        private IApplicationUserManager _appUserManager;
+        private readonly IApplicationUserManager _appUserManager;
 
         public GetProfilePictureFileName(IApplicationUserManager applicationUserManager)
         {

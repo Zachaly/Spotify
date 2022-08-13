@@ -6,7 +6,7 @@ namespace Spotify.Database
 {
     public class AlbumsManager : IAlbumsManager
     {
-        private AppDbContext _dbContext;
+        private readonly AppDbContext _dbContext;
 
         public AlbumsManager(AppDbContext dbContext)
         {
@@ -20,67 +20,65 @@ namespace Spotify.Database
             return await _dbContext.SaveChangesAsync() > 0;
         }
 
+        private IEnumerable<Album> GetAlbums()
+            => _dbContext.Albums.Include(album => album.Songs).
+                Include(album => album.Musician).
+                AsEnumerable();// used to avoid exeptions
+
+        private IEnumerable<Album> GetAlbumsWithCondition(Func<Album, bool> condition)
+            => GetAlbums().Where(album => condition(album));
+
         public T GetAlbumById<T>(int id, Func<Album, T> selector)
-            => _dbContext.Albums.Include(db => db.Songs).Include(db => db.Musician).
-                Where(album => album.Id == id).
+            => GetAlbumsWithCondition(album => album.Id == id).
                 Select(selector).
                 FirstOrDefault();
 
         public IEnumerable<T> GetAlbums<T>(Func<Album, T> selector)
-            => _dbContext.Albums.Include(db => db.Songs).Include(db => db.Musician).
-            Select(selector).
-            AsEnumerable();
+            => GetAlbums().Select(selector);
+
 
         public IEnumerable<T> GetAlbumsByName<T>(string name, int count, Func<Album, T> selector)
-        => _dbContext.Albums.Include(x => x.Musician).AsEnumerable().
-            Where(x => x.Name.IsSimiliar(name)).
-            Select(x => new { Album = x, Distance = x.Name.LevenshteinDistance(name) }).
-            OrderBy(x => x.Distance).
-            Take(count).
-            Select(x => x.Album).
-            Select(selector).
-            AsEnumerable();
+            => GetAlbumsWithCondition(album => album.Name.IsSimiliar(name)).
+                Select(album => new { Album = album, Distance = album.Name.LevenshteinDistance(name) }).
+                OrderBy(albumWithDistance => albumWithDistance.Distance).
+                Take(count).
+                Select(albumWithDistance => albumWithDistance.Album).
+                Select(selector);
 
         public IEnumerable<T> GetAlbumsOfManager<T>(string managerId, Func<Album, T> selector)
-        => _dbContext.Albums.Include(db => db.Musician).
-                Include(db => db.Songs).
-                Where(album => album.Musician.ManagerId == managerId).
+            => GetAlbumsWithCondition(album => album.Musician.ManagerId == managerId).
                 OrderByDescending(album => album.Id).
-                Select(selector).
-                ToList();
+                Select(selector);
 
         public IEnumerable<T> GetAlbumsOfMusician<T>(int musicianId, Func<Album, T> selector)
-            => _dbContext.Albums.Include(db => db.Musician).Include(db => db.Songs).
-                Where(album => album.MusicianId == musicianId).
+            => GetAlbumsWithCondition(album => album.MusicianId == musicianId).
                 OrderByDescending(album => album.Id).
-                Select(selector).
-                ToList();
+                Select(selector);
 
         public IEnumerable<T> GetTopAlbums<T>(int creatorId, int count, Func<Album, T> selector)
-            => _dbContext.Albums.Include(db => db.Musician).Include(db => db.Songs).
-                Where(album => album.MusicianId == creatorId).
+            => GetAlbumsWithCondition(album => album.MusicianId == creatorId).
                 OrderByDescending(album => album.Songs.Sum(song => song.Plays)).
                 Take(count).
                 Select(selector);
 
         public async Task<bool> RemoveAlbumAsync(int id)
         {
-            var album = _dbContext.Albums.FirstOrDefault(x => x.Id == id);
+            var removedAlbum = _dbContext.Albums.FirstOrDefault(album => album.Id == id);
 
-            _dbContext.AlbumLikes.RemoveRange(_dbContext.AlbumLikes.Where(x => x.AlbumId == id).ToList());
+            _dbContext.AlbumLikes.RemoveRange(_dbContext.AlbumLikes.Where(like => like.AlbumId == id).ToList());
 
-            _dbContext.Songs.RemoveRange(_dbContext.Songs.Where(x => x.AlbumId == id).ToList());
+            _dbContext.Songs.RemoveRange(_dbContext.Songs.Where(song => song.AlbumId == id).ToList());
 
-            _dbContext.Albums.Remove(album);
+            _dbContext.Albums.Remove(removedAlbum);
 
             return await _dbContext.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> UpdateAlbumAsync(int id, Action<Album> changedValues)
         {
-            var album = _dbContext.Albums.FirstOrDefault(x => x.Id == id);
+            var updatedAlbum = _dbContext.Albums.FirstOrDefault(album => album.Id == id);
 
-            changedValues(album);
+            changedValues(updatedAlbum);
 
             return await _dbContext.SaveChangesAsync() > 0;
         }

@@ -9,9 +9,9 @@ namespace Spotify.UI.Controllers
 {
     [Route("[controller]/[action]")]
     [Authorize(Policy = "Manager")]
-    public class RemoveFileController : Controller
+    public class RemoveFileController : ControllerBase
     {
-        private IFileManager _fileManager;
+        private readonly IFileManager _fileManager;
 
         public RemoveFileController(IFileManager fileManager)
         {

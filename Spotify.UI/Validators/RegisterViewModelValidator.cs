@@ -6,7 +6,7 @@ namespace Spotify.UI.Validators
 {
     public class RegisterViewModelValidator : AbstractValidator<RegisterModel.RegisterViewModel>
     {
-        private IApplicationUserManager _appUserManager;
+        private readonly IApplicationUserManager _appUserManager;
 
         public RegisterViewModelValidator(IApplicationUserManager appUserManager)
         {

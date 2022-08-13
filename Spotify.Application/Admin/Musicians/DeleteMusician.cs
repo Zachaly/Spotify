@@ -4,7 +4,7 @@ namespace Spotify.Application.Admin.Musicians
     [Service]
     public class DeleteMusician
     {
-        private IMusicianManager _musicianManager;
+        private readonly IMusicianManager _musicianManager;
 
         public DeleteMusician(IMusicianManager musicianManager)
         {

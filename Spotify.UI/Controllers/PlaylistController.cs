@@ -5,7 +5,7 @@ using Spotify.UI.Infrastructure.FileManager;
 namespace Spotify.UI.Controllers
 {
     [Route("[controller]/[action]")]
-    public class PlaylistController : Controller
+    public class PlaylistController : ControllerBase
     {
         [HttpPost("{playlistId}/{songId}")]
         public async Task<IActionResult> AddSong(int songId, int playlistId,

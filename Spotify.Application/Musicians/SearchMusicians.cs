@@ -4,13 +4,16 @@ namespace Spotify.Application.Musicians
     [Service]
     public class SearchMusicians
     {
-        private IMusicianManager _musicianManager;
+        private readonly IMusicianManager _musicianManager;
 
         public SearchMusicians(IMusicianManager musicianManager)
         {
             _musicianManager = musicianManager;
         }
 
+        /// <summary>
+        /// Searches for musicians with similar name
+        /// </summary>
         public IEnumerable<MusicianModel> Execute(string name)
             => _musicianManager.GetMusiciansByName(name, 10, musician => new MusicianModel
             {

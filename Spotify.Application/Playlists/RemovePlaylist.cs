@@ -4,7 +4,7 @@ namespace Spotify.Application.Playlists
     [Service]
     public class RemovePlaylist
     {
-        private IPlaylistManager _playlistManager;
+        private readonly IPlaylistManager _playlistManager;
 
         public RemovePlaylist(IPlaylistManager playlistManager)
         {
@@ -12,7 +12,7 @@ namespace Spotify.Application.Playlists
         }
 
         /// <summary>
-        /// Removes playlist
+        /// Removes playlist from database
         /// </summary>
         public async Task<bool> Execute(int id) => await _playlistManager.RemovePlaylist(id);
     }

@@ -4,7 +4,7 @@ namespace Spotify.Application.User
     [Service]
     public class UpdateUser
     {
-        private IApplicationUserManager _appUserManager;
+        private readonly IApplicationUserManager _appUserManager;
 
         public UpdateUser(IApplicationUserManager applicationUserManager)
         {
@@ -14,7 +14,7 @@ namespace Spotify.Application.User
         public async Task<bool> Execute(Request request) => await _appUserManager.UpdateUser(request.Id, user =>
         {
             user.UserName = request.UserName;
-            if (request.FileName != "")
+            if (!string.IsNullOrEmpty(request.FileName))
                 user.FileName = request.FileName;
         });
 

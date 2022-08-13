@@ -8,7 +8,7 @@ using Spotify.Application.User;
 namespace Spotify.UI.Controllers
 {
     [Route("[controller]/[action]")]
-    public class SearchController : Controller
+    public class SearchController : ControllerBase
     {
         [HttpGet("{name}")]
         public IActionResult Musicians(string name, [FromServices] SearchMusicians searchMusicians)

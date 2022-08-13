@@ -6,12 +6,22 @@ namespace Spotify.Database
 {
     public class MusicianManager : IMusicianManager
     {
-        private AppDbContext _dbContext;
+        private readonly AppDbContext _dbContext;
 
         public MusicianManager(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }
+
+        private IEnumerable<Musician> GetMusicians()
+            => _dbContext.Musicians.
+                Include(musician => musician.Followers).
+                Include(musician => musician.Songs).
+                Include(musician => musician.Albums).ThenInclude(album => album.Songs).
+                AsEnumerable();
+
+        private IEnumerable<Musician> GetMusiciansWithCondition(Func<Musician, bool> condition)
+            => GetMusicians().Where(musician => condition(musician));
 
         public async Task<bool> AddMusicianAsync(Musician musician)
         {
@@ -31,34 +41,24 @@ namespace Spotify.Database
         }
 
         public T GetMusicianById<T>(int id, Func<Musician, T> selector)
-            => _dbContext.Musicians.Include(db => db.Followers).Include(db => db.Songs).
-            Include(db => db.Albums).ThenInclude(db => db.Songs).
-            Where(musician => musician.Id == id).
-            Select(selector).
-            FirstOrDefault();
+            => GetMusiciansWithCondition(musician => musician.Id == id).
+                Select(selector).
+                FirstOrDefault();
 
         public IEnumerable<T> GetMusicians<T>(Func<Musician, T> selector) 
-            => _dbContext.Musicians.Include(db => db.Followers).Include(db => db.Songs).
-            Include(db => db.Albums).ThenInclude(db => db.Songs).
-            Select(selector).AsEnumerable();
+            => GetMusicians().Select(selector);
 
         public IEnumerable<T> GetMusiciansByName<T>(string name, int count, Func<Musician, T> selector)
-        => _dbContext.Musicians.AsEnumerable().
-            Where(x => x.Name.IsSimiliar(name)).
-            Select(x => new { Musician = x, Distance = x.Name.LevenshteinDistance(name) }).
-            OrderBy(x => x.Distance).
+        => GetMusiciansWithCondition(musician => musician.Name.IsSimiliar(name)).
+            Select(musician => new { Musician = musician, Distance = musician.Name.LevenshteinDistance(name) }).
+            OrderBy(musicianWithDistance => musicianWithDistance.Distance).
             Take(count).
-            Select(x => x.Musician).
-            Select(selector).
-            AsEnumerable();
+            Select(musicianWithDistance => musicianWithDistance.Musician).
+            Select(selector);
 
         public IEnumerable<T> GetMusiciansOfManager<T>(string managerId, Func<Musician, T> selector)
-        => _dbContext.Musicians.Include(db => db.Followers).
-            Include(db => db.Songs).
-            Include(db => db.Albums).ThenInclude(db => db.Songs).
-            Where(musician => musician.ManagerId == managerId).
-            Select(selector).
-            AsEnumerable();
+            => GetMusiciansWithCondition(musician => musician.ManagerId == managerId).
+                Select(selector);
 
         public async Task<bool> UpdateMusicianAsync(int id,string name, string description)
         {

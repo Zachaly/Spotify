@@ -6,7 +6,7 @@ namespace Spotify.UI.Controllers.Admin
 {
     [Route("Admin/[controller]")]
     [Authorize(Policy = "Admin")]
-    public class SongController : Controller
+    public class SongController : ControllerBase
     {
         [HttpGet("")]
         public IActionResult GetSongs([FromServices] GetSongs getSongs) => Ok(getSongs.Execute());

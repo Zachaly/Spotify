@@ -4,7 +4,7 @@ namespace Spotify.Application.User
     [Service]
     public class GetUserLikedSongs
     {
-        private IApplicationUserManager _applicationUserManager;
+        private readonly IApplicationUserManager _applicationUserManager;
 
         public GetUserLikedSongs(IApplicationUserManager applicationUserManager)
         {

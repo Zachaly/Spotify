@@ -4,7 +4,7 @@ namespace Spotify.Application.Playlists
     [Service]
     public class RemoveSong
     {
-        private IPlaylistManager _playlistManager;
+        private readonly IPlaylistManager _playlistManager;
 
         public RemoveSong(IPlaylistManager playlistManager)
         {

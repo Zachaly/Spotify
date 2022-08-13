@@ -4,7 +4,7 @@ namespace Spotify.Application.Playlists
     [Service]
     public class UpdatePlaylist
     {
-        private IPlaylistManager _playlistManager;
+        private readonly IPlaylistManager _playlistManager;
 
         public UpdatePlaylist(IPlaylistManager playlistManager)
         {

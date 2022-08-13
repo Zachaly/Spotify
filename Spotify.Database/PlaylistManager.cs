@@ -6,7 +6,7 @@ namespace Spotify.Database
 {
     public class PlaylistManager : IPlaylistManager
     {
-        private AppDbContext _dbContext;
+        private readonly AppDbContext _dbContext;
 
         public PlaylistManager(AppDbContext dbContext)
         {
@@ -21,10 +21,14 @@ namespace Spotify.Database
         }
 
         private IEnumerable<Playlist> GetPlaylists() 
-            => _dbContext.Playlists.Include(x => x.Songs).ThenInclude(x => x.Song).ThenInclude(x => x.Album).
-                Include(x => x.Songs).ThenInclude(x => x.Song).ThenInclude(x => x.Creator).
-                Include(x => x.Creator).
+            => _dbContext.Playlists.
+                Include(playlist => playlist.Songs).ThenInclude(song => song.Song).ThenInclude(song => song.Album).
+                Include(playlist => playlist.Songs).ThenInclude(song => song.Song).ThenInclude(song => song.Creator).
+                Include(playlist => playlist.Creator).
                 AsEnumerable();
+
+        private IEnumerable<Playlist> GetPlaylistsWithCondition(Func<Playlist, bool> condition)
+            => GetPlaylists().Where(playlist => condition(playlist));
 
         public async Task<bool> AddSongToPlaylist(int songId, int playlistId)
         {
@@ -40,27 +44,26 @@ namespace Spotify.Database
         }
 
         public T GetPlaylist<T>(int id, Func<Playlist, T> selector)
-            => GetPlaylists().
-                Where(x => x.Id == id).
-                Select(selector).FirstOrDefault();
+            => GetPlaylistsWithCondition(playlist => playlist.Id == id).
+                Select(selector).
+                FirstOrDefault();
 
         public IEnumerable<T> GetUserPlaylists<T>(string userId, Func<Playlist, T> selector)
-            => GetPlaylists().
-                Where(x => x.CreatorId == userId).
+            => GetPlaylistsWithCondition(playlist => playlist.CreatorId == userId).
                 Select(selector);
 
         public async Task<bool> RemovePlaylist(int id)
         {
-            var playlist = _dbContext.Playlists.FirstOrDefault(x => x.Id == id);
+            var removedPlaylist = _dbContext.Playlists.FirstOrDefault(playlist => playlist.Id == id);
 
-            _dbContext.Playlists.Remove(playlist);
+            _dbContext.Playlists.Remove(removedPlaylist);
 
             return await _dbContext.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> RemoveSongFromPlaylist(int songId, int playlistId)
         {
-            var playlistSong = _dbContext.PlaylistSongs.FirstOrDefault(x => x.SongId == songId && x.PlaylistId == playlistId);
+            var playlistSong = _dbContext.PlaylistSongs.FirstOrDefault(song => song.SongId == songId && song.PlaylistId == playlistId);
 
             _dbContext.PlaylistSongs.Remove(playlistSong);
 
@@ -69,36 +72,35 @@ namespace Spotify.Database
 
         public async Task<bool> UpdatePlaylist(int id, Action<Playlist> changes)
         {
-            var playlist = _dbContext.Playlists.FirstOrDefault(x => x.Id == id);
+            var updatedPlaylist = _dbContext.Playlists.FirstOrDefault(playlist => playlist.Id == id);
 
-            changes(playlist);
+            changes(updatedPlaylist);
 
-            _dbContext.Playlists.Update(playlist);
+            _dbContext.Playlists.Update(updatedPlaylist);
 
             return await _dbContext.SaveChangesAsync() > 0;
         }
 
         public bool DoesPlaylistContainSong(int playlistId, int songId)
-            => _dbContext.PlaylistSongs.Any(x => x.PlaylistId == playlistId && x.SongId == songId);
+            => _dbContext.PlaylistSongs.Any(playlist => playlist.PlaylistId == playlistId && playlist.SongId == songId);
 
         public async Task<bool> SetCoverPicture(int id, string filename)
         {
-            var playlist = _dbContext.Playlists.FirstOrDefault(x => x.Id == id);
+            var updatedPlaylist = _dbContext.Playlists.FirstOrDefault(playlist => playlist.Id == id);
 
-            playlist.FileName = filename;
-            _dbContext.Playlists.Update(playlist);
+            updatedPlaylist.FileName = filename;
+            _dbContext.Playlists.Update(updatedPlaylist);
 
             return await _dbContext.SaveChangesAsync() > 0;
         }
 
         public IEnumerable<T> GetPlaylistsByName<T>(string name, int count, Func<Playlist, T> selector)
-        => _dbContext.Playlists.Include(x => x.Creator).AsEnumerable().
-            Where(x => x.Name.IsSimiliar(name)).
-            Select(x => new { Playlist = x, Distance = x.Name.LevenshteinDistance(name) }).
-            OrderBy(x => x.Distance).
-            Take(count).
-            Select(x => x.Playlist).
-            Select(selector).
-            AsEnumerable();
+            => _dbContext.Playlists.Include(playlist => playlist.Creator).AsEnumerable().
+                Where(playlist => playlist.Name.IsSimiliar(name)).
+                Select(playlist => new { Playlist = playlist, Distance = playlist.Name.LevenshteinDistance(name) }).
+                OrderBy(playlistWithDistance => playlistWithDistance.Distance).
+                Take(count).
+                Select(playlistWithDistance => playlistWithDistance.Playlist).
+                Select(selector);
     }
 }
