@@ -1,0 +1,112 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TypeScriptTarget>ES6</TypeScriptTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TypeScriptTarget>ES6</TypeScriptTarget>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="files\images\album-covers\408d1d0f-571e-40ed-9ef5-3ba196c81dd9.jpg" />
+    <None Remove="files\images\album-covers\7731522d-0dd8-44ad-bdf6-74e78b490e1e.jpg" />
+    <None Remove="files\images\album-covers\placeholder.jpg" />
+    <None Remove="files\images\band-pictures\026e7284-ecc8-4a10-8c9e-eee881039ee8.jpg" />
+    <None Remove="files\images\band-pictures\3d435834-5998-4349-b34b-8f748fc030cd.jpg" />
+    <None Remove="files\images\band-pictures\placeholder.jpg" />
+    <None Remove="files\images\playlist-covers\350ad501-fbba-4409-8cb4-1277d5c1751b.jpg" />
+    <None Remove="files\images\playlist-covers\a41fd2dd-65ac-4c42-a473-b6755d3b8c3a.jpg" />
+    <None Remove="files\images\playlist-covers\placeholder.jpg" />
+    <None Remove="files\images\profile-pictures\00000000-0000-0000-0000-000000000000.jpg" />
+    <None Remove="files\images\profile-pictures\placeholder.jpg" />
+    <None Remove="files\songs\00000000-0000-0000-0000-000000000000.mp3" />
+    <None Remove="files\songs\c0319cc7-73ad-4d7f-a4d0-36d4c882d53b.mp3" />
+    <None Remove="files\songs\e8c425fe-bbcd-4ab0-95b1-8c2961707619.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="files\images\album-covers\408d1d0f-571e-40ed-9ef5-3ba196c81dd9.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\images\album-covers\7731522d-0dd8-44ad-bdf6-74e78b490e1e.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\images\album-covers\placeholder.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\images\band-pictures\026e7284-ecc8-4a10-8c9e-eee881039ee8.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\images\band-pictures\3d435834-5998-4349-b34b-8f748fc030cd.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\images\band-pictures\placeholder.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\images\playlist-covers\350ad501-fbba-4409-8cb4-1277d5c1751b.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\images\playlist-covers\a41fd2dd-65ac-4c42-a473-b6755d3b8c3a.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\images\playlist-covers\placeholder.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\images\profile-pictures\00000000-0000-0000-0000-000000000000.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\images\profile-pictures\placeholder.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\songs\00000000-0000-0000-0000-000000000000.mp3">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\songs\c0319cc7-73ad-4d7f-a4d0-36d4c882d53b.mp3">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="files\songs\e8c425fe-bbcd-4ab0-95b1-8c2961707619.mp3">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.2.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Spotify.Application\Spotify.Application.csproj" />
+    <ProjectReference Include="..\Spotify.Database\Spotify.Database.csproj" />
+    <ProjectReference Include="..\Spotify.Domain\Spotify.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

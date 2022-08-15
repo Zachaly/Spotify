@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.Domain", "..\Spotif
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.Database", "..\Spotify.Database\Spotify.Database.csproj", "{3A6AE0B5-C554-4F0D-B0CD-BCA456FEBB38}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.UI", "..\Spotify.UI\Spotify.UI.csproj", "{8BB87716-D662-42CC-A3B6-60278C069E9D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.Application", "..\Spotify.Application\Spotify.Application.csproj", "{12D03804-036E-43A2-B20C-EC5EED44C154}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.Database.UnitTests", "..\Spotify.Database.UnitTests\Spotify.Database.UnitTests.csproj", "{24B7D7B5-D763-428F-A92F-AFCE54BEA0FB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spotify.Api", "..\Spotify.Api\Spotify.Api.csproj", "{3E7B4B05-22FB-40A4-AAAD-35F78E4CA678}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +27,6 @@ Global
 		{3A6AE0B5-C554-4F0D-B0CD-BCA456FEBB38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A6AE0B5-C554-4F0D-B0CD-BCA456FEBB38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A6AE0B5-C554-4F0D-B0CD-BCA456FEBB38}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8BB87716-D662-42CC-A3B6-60278C069E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BB87716-D662-42CC-A3B6-60278C069E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BB87716-D662-42CC-A3B6-60278C069E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8BB87716-D662-42CC-A3B6-60278C069E9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{12D03804-036E-43A2-B20C-EC5EED44C154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{12D03804-036E-43A2-B20C-EC5EED44C154}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12D03804-036E-43A2-B20C-EC5EED44C154}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{24B7D7B5-D763-428F-A92F-AFCE54BEA0FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24B7D7B5-D763-428F-A92F-AFCE54BEA0FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24B7D7B5-D763-428F-A92F-AFCE54BEA0FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E7B4B05-22FB-40A4-AAAD-35F78E4CA678}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E7B4B05-22FB-40A4-AAAD-35F78E4CA678}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E7B4B05-22FB-40A4-AAAD-35F78E4CA678}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E7B4B05-22FB-40A4-AAAD-35F78E4CA678}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
