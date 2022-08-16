@@ -1,4 +1,7 @@
-﻿
+﻿using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Threading.Tasks;
+
 namespace Spotify.Api.Infrastructure.FileManager
 {
     public interface IFileManager

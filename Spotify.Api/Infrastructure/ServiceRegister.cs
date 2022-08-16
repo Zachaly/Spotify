@@ -1,4 +1,5 @@
 ﻿using Spotify.Application;
+using System.Linq;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection

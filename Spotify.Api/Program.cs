@@ -1,13 +1,20 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Spotify.Api.Validators;
 using Spotify.Database;
 using Spotify.Domain.Models;
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 
@@ -73,6 +80,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.CustomSchemaIds(type => type.ToString());
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Spotify API",
+        Description = "API trying to mirror Spotify functions"
+    });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+    options.IncludeXmlComments(xmlPath);
 });
 
 var app = builder.Build();
@@ -113,7 +131,10 @@ catch (Exception ex)
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Spotify API");
+    });
 }
 
 app.UseHttpsRedirection();

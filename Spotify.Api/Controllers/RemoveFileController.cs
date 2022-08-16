@@ -18,18 +18,28 @@ namespace Spotify.Api.Controllers
             _fileManager = fileManager;
         }
 
+        /// <summary>
+        /// Removes .mp3 file of given song
+        /// </summary>
         [HttpDelete("{songId}")]
         public IActionResult Song(
             int songId,
             [FromServices] GetSongFileName getSongFileName) 
             => Ok(_fileManager.RemoveSongFile(getSongFileName.Execute(songId)));
 
+        /// <summary>
+        /// Removes cover picture of given album
+        /// </summary>
+        /// <param name="albumId"></param>
         [HttpDelete("{albumId}")]
         public IActionResult Album(
             int albumId,
             [FromServices] GetAlbumFileName getAlbumFileName)
             => Ok(_fileManager.RemoveAlbumFile(getAlbumFileName.Execute(albumId)));
 
+        /// <summary>
+        /// Removes picture of given musician
+        /// </summary>
         [HttpDelete("{musicianId}")]
         public IActionResult Musician(
             int musicianId,

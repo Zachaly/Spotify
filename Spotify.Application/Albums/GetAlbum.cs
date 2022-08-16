@@ -26,9 +26,9 @@ namespace Spotify.Application.Albums
                 CreatorName = song.Creator.Name,
                 Plays = song.Plays,
                 CreatorId = song.Creator.Id,
-                FileName = song.FileName,
-                AlbumFileName = album.FileName
+                FileName = song.FileName
             }),
+            FileName = album.FileName,
             SongCount = album.Songs.Count()
         });
 
@@ -37,6 +37,7 @@ namespace Spotify.Application.Albums
             public int Id { get; set; }
             public string Name { get; set; }
             public int SongCount { get; set; }
+            public string FileName { get; set; }
             public IEnumerable<SongModel> Songs { get; set; }
         }
 
@@ -49,7 +50,6 @@ namespace Spotify.Application.Albums
             public int AlbumId { get; set; }
             public long Plays { get; set; }
             public string FileName { get; set; }
-            public string AlbumFileName { get; set; }
         }
     }
 }

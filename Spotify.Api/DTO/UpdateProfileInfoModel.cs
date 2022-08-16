@@ -1,4 +1,5 @@
-﻿
+﻿using Microsoft.AspNetCore.Http;
+
 namespace Spotify.Api.DTO
 {
     public class UpdateProfileInfoModel

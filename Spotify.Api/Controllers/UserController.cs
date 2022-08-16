@@ -12,6 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
+using System.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace Spotify.Api.Controllers
 {
@@ -29,17 +34,17 @@ namespace Spotify.Api.Controllers
             _secret = configuration["Secret"];
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Logout([FromServices] SignInManager<ApplicationUser> signInManager)
-        {
-            await signInManager.SignOutAsync();
-            return Ok();
-        }
-
+        /// <summary>
+        /// Adds a play to given song
+        /// </summary>
+        /// <param name="id">Id of the song</param>
         [HttpPost("{id}")]
         public async Task<IActionResult> AddPlay(int id, [FromServices] AddPlay addPlay)
             => Ok(await addPlay.Execute(id));
 
+        /// <summary>
+        /// Sets default profile picture
+        /// </summary>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> SetDefaultProfilePicture(
@@ -55,6 +60,9 @@ namespace Spotify.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Makes current user a manager
+        /// </summary>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> AddManager([FromServices] UserManager<ApplicationUser> userManager)
@@ -65,6 +73,15 @@ namespace Spotify.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Creates new user
+        /// </summary>
+        /// <param name="registerModel">
+        /// Contains:
+        /// * username - user name
+        /// * password - user password
+        /// * email - user email
+        /// </param>
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterModel registerModel,
             [FromServices] UserManager<ApplicationUser> userManager,
@@ -91,6 +108,14 @@ namespace Spotify.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Authenticates user with email and password
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <response code="200">
+        /// Returns JWT token marked as auth_token
+        /// </response>
         [HttpPost("{email}/{password}")]
         public async Task<IActionResult> Login(string email, string password,
             [FromServices] IApplicationUserManager appUserManager,
@@ -136,14 +161,32 @@ namespace Spotify.Api.Controllers
             return Ok(new { auth_token = tokenJson});
         }
 
+        /// <summary>
+        /// Gets profile info
+        /// </summary>
+        /// <param name="id"> User id</param>
         [HttpGet("{id}")]
         public IActionResult Profile(string id, [FromServices] GetUserProfile getUser)
             => Ok(getUser.Execute(id));
 
+        /// <summary>
+        /// Gets likes song of given user
+        /// </summary>
+        /// <param name="id"> User id</param>
         [HttpGet("{id}")]
         public IActionResult UserLikedSongs(string id, [FromServices] GetUserLikedSongs getSongs)
             => Ok(getSongs.Execute(id));
 
+        /// <summary>
+        /// Updates info about the user
+        /// </summary>
+        /// <param name="request">
+        /// Consists of:
+        /// * id - user id
+        /// * userName - new username of user
+        /// * fileName - name of new profile picture (set null or empty if not changed)
+        /// </param>
+        /// <returns></returns>
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> UpdateProfile(
