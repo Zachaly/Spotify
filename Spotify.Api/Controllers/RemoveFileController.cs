@@ -30,7 +30,6 @@ namespace Spotify.Api.Controllers
         /// <summary>
         /// Removes cover picture of given album
         /// </summary>
-        /// <param name="albumId"></param>
         [HttpDelete("{albumId}")]
         public IActionResult Album(
             int albumId,

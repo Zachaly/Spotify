@@ -18,7 +18,6 @@ namespace Spotify.Application.Musicians
             => _musicianManager.GetMusiciansByName(name, 10, musician => new MusicianModel
             {
                 Id = musician.Id,
-                FileName = musician.FileName,
                 Name = musician.Name
             });
 
@@ -26,7 +25,6 @@ namespace Spotify.Application.Musicians
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public string FileName { get; set; }
         }
     }
 }

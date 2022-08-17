@@ -17,7 +17,6 @@ namespace Spotify.Application.Playlists
         public IEnumerable<PlaylistModel> Execute(string name)
             => _playlistManager.GetPlaylistsByName(name, 10, playlist => new PlaylistModel
             {
-                FileName = playlist.FileName,
                 Id = playlist.Id,
                 Name = playlist.Name
             });
@@ -26,7 +25,6 @@ namespace Spotify.Application.Playlists
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public string FileName { get; set; }
         }
     }
 }

@@ -18,7 +18,6 @@ namespace Spotify.Application.Playlists
         {
             Id = playlist.Id,
             Name = playlist.Name,
-            FileName = playlist.FileName,
             CreatorId = playlist.CreatorId,
             CreatorName = playlist.Creator.UserName,
             Songs = playlist.Songs.Select(song => new SongModel
@@ -27,9 +26,7 @@ namespace Spotify.Application.Playlists
                 Name = song.Song.Name,
                 CreatorId = song.Song.MusicianId,
                 CreatorName = song.Song.Creator.Name,
-                AlbumFileName = song.Song.Album.FileName,
                 AlbumId = song.Song.AlbumId,
-                FileName = song.Song.FileName,
             })
         });
 
@@ -50,8 +47,6 @@ namespace Spotify.Application.Playlists
             public string CreatorName { get; set; }
             public string Name { get; set; }
             public int AlbumId { get; set; }
-            public string FileName { get; set; }
-            public string AlbumFileName { get; set; }
         }
     }
 }

@@ -19,7 +19,6 @@ namespace Spotify.Application.User
         public IEnumerable<UserModel> Execute(string name)
             => _appUserManager.GetUsersByName(name, 10, user => new UserModel
             {
-                FileName = user.FileName,
                 Id = user.Id,
                 UserName = user.UserName
             });
@@ -28,7 +27,6 @@ namespace Spotify.Application.User
         {
             public string Id { get; set; }
             public string UserName { get; set; }
-            public string FileName { get; set; }
         }
     }
 }

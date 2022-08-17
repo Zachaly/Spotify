@@ -15,7 +15,6 @@ namespace Spotify.Api.Controllers.Anon
         /// * name - album name
         /// * creatorName - creator name
         /// * plays - combined number of plays of all songs on the album
-        /// * fileName - name of file containing album cover
         /// </response>
         [HttpGet]
         public IActionResult GetAlbums([FromServices] GetAlbums getAlbums)
@@ -30,7 +29,6 @@ namespace Spotify.Api.Controllers.Anon
         /// Constains:
         /// * id - album id
         /// * name - album name
-        /// * fileName - name of file with album cover
         /// * songCount - number of songs
         /// * songs:
         ///     + id - song id
@@ -39,7 +37,6 @@ namespace Spotify.Api.Controllers.Anon
         ///     + name - song name
         ///     + albumId - id of album
         ///     + plays - total number of times when song was played
-        ///     + fileName - name of .mp3 file with song
         /// </response>
         [HttpGet("{id}")]
         public IActionResult GetAlbum(int id, [FromServices] GetAlbum getAlbum)

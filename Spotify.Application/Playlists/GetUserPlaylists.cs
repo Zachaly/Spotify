@@ -19,7 +19,6 @@ namespace Spotify.Application.Playlists
                 {
                     Id = playlist.Id,
                     Name = playlist.Name,
-                    FileName = playlist.FileName,
                     SongCount = playlist.Songs.Count(),
                     CreatorName = playlist.Creator.UserName
                 });
@@ -28,7 +27,6 @@ namespace Spotify.Application.Playlists
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public string FileName { get; set; }
             public string CreatorName { get; set; }
             public int SongCount { get; set; }
         }

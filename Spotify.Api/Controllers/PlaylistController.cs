@@ -34,7 +34,6 @@ namespace Spotify.Api.Controllers
         /// Removes given playlist
         /// </summary>
         /// <param name="id">Playlist id</param>
-        /// <returns></returns>
         [HttpGet("id")]
         public async Task<IActionResult> RemovePlaylist(int id,
             [FromServices] RemovePlaylist removePlaylist,

@@ -164,7 +164,20 @@ namespace Spotify.Api.Controllers
         /// <summary>
         /// Gets profile info
         /// </summary>
-        /// <param name="id"> User id</param>
+        /// <param name="id">User id</param>
+        /// <response code="200">
+        /// Contains:
+        /// * name - username
+        /// * id - user id
+        /// * likedSongsCount - number of song likes of given user
+        /// * followedMusicians:
+        ///     + id - musician id
+        ///     + name - musician name
+        /// * likedAlbums:
+        ///     + id - album id
+        ///     + name - album name
+        ///     + creatorName - musician name
+        /// </response>
         [HttpGet("{id}")]
         public IActionResult Profile(string id, [FromServices] GetUserProfile getUser)
             => Ok(getUser.Execute(id));
@@ -173,6 +186,15 @@ namespace Spotify.Api.Controllers
         /// Gets likes song of given user
         /// </summary>
         /// <param name="id"> User id</param>
+        /// <response code="200">
+        /// List of songs containing:
+        /// * id - song id
+        /// * name - song name
+        /// * creatorId - musician's id
+        /// * creatorName - musician's name
+        /// * albumId - album id
+        /// * albumName - album name
+        /// </response>
         [HttpGet("{id}")]
         public IActionResult UserLikedSongs(string id, [FromServices] GetUserLikedSongs getSongs)
             => Ok(getSongs.Execute(id));
@@ -186,7 +208,6 @@ namespace Spotify.Api.Controllers
         /// * userName - new username of user
         /// * fileName - name of new profile picture (set null or empty if not changed)
         /// </param>
-        /// <returns></returns>
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> UpdateProfile(

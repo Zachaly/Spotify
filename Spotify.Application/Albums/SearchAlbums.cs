@@ -17,7 +17,6 @@ namespace Spotify.Application.Albums
         public IEnumerable<AlbumModel> Execute(string name)
             => _albumsManager.GetAlbumsByName(name, 10, album => new AlbumModel
             {
-                FileName = album.FileName,
                 Id = album.Id,
                 Name = album.Name
             });
@@ -26,7 +25,6 @@ namespace Spotify.Application.Albums
         {
             public int Id { get; set; }
             public string Name { get; set; } 
-            public string FileName { get; set; }
         }
     }
 }

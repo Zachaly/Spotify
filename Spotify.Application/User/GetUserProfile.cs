@@ -18,19 +18,16 @@ namespace Spotify.Application.User
         {
             Name = user.UserName,
             Id = user.Id,
-            FileName = user.FileName,
             FollowedMusicians = user.FollowedMusicians.Select(follow => new MusicianModel
             {
                 Id = follow.MusicianId,
                 Name = follow.Musician.Name,
-                FileName = follow.Musician.FileName
             }),
             LikedAlbums = user.LikedAlbums.Select(like => new AlbumModel
             {
                 CreatorName = like.Album.Musician.Name,
                 Name = like.Album.Name,
                 Id = like.AlbumId,
-                FileName = like.Album.FileName
             }),
             LikedSongsCount = user.LikedSongs.Count()
         });
@@ -39,7 +36,6 @@ namespace Spotify.Application.User
         {
             public string Id { get; set; }
             public string Name { get; set; }
-            public string FileName { get; set; }
             public IEnumerable<MusicianModel> FollowedMusicians { get; set; }
             public IEnumerable<AlbumModel> LikedAlbums { get; set; }
             public int LikedSongsCount { get; set; }
@@ -49,7 +45,6 @@ namespace Spotify.Application.User
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public string FileName { get; set; }
         }
 
         public class AlbumModel
@@ -57,7 +52,6 @@ namespace Spotify.Application.User
             public int Id { get; set; }
             public string Name { get; set; }
             public string CreatorName { get; set; }
-            public string FileName { get; set; }
         }
     }
 }

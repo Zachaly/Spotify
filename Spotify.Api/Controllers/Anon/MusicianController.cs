@@ -13,7 +13,6 @@ namespace Spotify.Api.Controllers.Anon
         /// List of musicians containing:
         /// * id - musician id
         /// * name - musician name
-        /// * fileName - name of file containing musician picture
         /// * plays - total number of musician's songs plays
         /// </response>
         [HttpGet]
@@ -30,7 +29,6 @@ namespace Spotify.Api.Controllers.Anon
         /// * name - musician name
         /// * description - musician's description
         /// * numberOfFollowers - number of followers
-        /// * fileName - name of file containing picture of musician
         /// * topAlbums(5 most played albums):
         ///     + id - album id
         ///     + name - album name
@@ -41,8 +39,6 @@ namespace Spotify.Api.Controllers.Anon
         ///     + name - song name
         ///     + albumId - id of album that contains this song
         ///     + plays - total number of times song was played
-        ///     + fileName - song mp3 file name
-        ///     + albumFileName - name file containing album cover
         /// </response>
         [HttpGet("{id}")]
         public IActionResult GetMusician(int id, [FromServices] GetMusician getMusician)
@@ -57,7 +53,6 @@ namespace Spotify.Api.Controllers.Anon
         ///     + id - album id
         ///     + name - album name
         ///     + creatorName - name of musician
-        ///     + fileName - album cover file name
         /// </response>
         [HttpGet("Albums/{id}")]
         public IActionResult GetAlbums(int id, [FromServices] GetMusicianAlbums getAlbums)

@@ -14,16 +14,13 @@ namespace Spotify.Api.Controllers.Anon
         /// Contains:
         /// * id - playlist id
         /// * name - playlist name
-        /// * fileName - name of file with cover picture
         /// * creatorId - id of creator
         /// * creatorName - name of creator
         /// * songs:
         ///     + id - song id
         ///     + name - song name
-        ///     + fileName - name of mp3 containing song
         ///     + creatorId - musician id
         ///     + creatorName - musician name
-        ///     + albumFileName - name of album cover picture file
         ///     + albumId - album id
         ///     + albumName - album name
         /// </response>
@@ -39,7 +36,6 @@ namespace Spotify.Api.Controllers.Anon
         /// List of playlists containing:
         /// * id - playlist id
         /// * name - playlist name
-        /// * fileName - name of file with cover picture
         /// * songCount - number of songs on playlist
         /// * creatorName - creator name
         /// </response>
