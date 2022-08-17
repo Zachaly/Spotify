@@ -1,23 +1,21 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Spotify.Api.Infrastructure.AuthManager;
 using Spotify.Application.Admin.Musicians;
-using Spotify.Domain.Infrastructure;
-using Spotify.Domain.Models;
 using System.Threading.Tasks;
 
 namespace Spotify.Api.Controllers.Manager
 {
     [Route("/api/Manager/[controller]")]
     [Authorize(Policy = "Manager")]
-    public class MusicianController : ManagerController
+    public class MusicianController : ControllerBase
     {
-        
-        public MusicianController(UserManager<ApplicationUser> userManager,
-            IApplicationUserManager appUserManager,
-            IHttpContextAccessor httpContextAccessor) 
-            : base(userManager, appUserManager, httpContextAccessor) { }
+        private IAuthManager _authManager;
+
+        public MusicianController(IAuthManager authManager)
+        {
+            _authManager = authManager;
+        }
 
         /// <summary>
         /// Get list of all musicians, filtered by currently logged user id
@@ -32,7 +30,7 @@ namespace Spotify.Api.Controllers.Manager
         /// </response>
         [HttpGet("")]
         public IActionResult GetMusicians([FromServices] GetManagerMusicians getMusicians) 
-            => Ok(getMusicians.Execute(GetId()));
+            => Ok(getMusicians.Execute(_authManager.GetCurrentUserId()));
 
         /// <summary>
         /// Gets specific musician info
@@ -56,7 +54,7 @@ namespace Spotify.Api.Controllers.Manager
         [HttpGet("{id}")]
         public IActionResult GetMusician(int id, [FromServices] GetMusician getMusician)
         {
-            if (!IsManagerCorrect(id))
+            if (_authManager.IsMusicianManagerCorrect(_authManager.GetCurrentUserId(), id))
                 return BadRequest();
 
             return Ok(getMusician.Execute(id));
@@ -84,7 +82,7 @@ namespace Spotify.Api.Controllers.Manager
             [FromBody] AddMusician.Request request,
             [FromServices] AddMusician addMusician)
         {
-            request.ManagerId = GetId();
+            request.ManagerId = _authManager.GetCurrentUserId();
 
             return Ok(await addMusician.Execute(request));
         }
@@ -114,7 +112,7 @@ namespace Spotify.Api.Controllers.Manager
             [FromBody] UpdateMusician.Request request,
             [FromServices] UpdateMusician updateMusician)
         {
-            if(!IsManagerCorrect(request.Id))
+            if (_authManager.IsMusicianManagerCorrect(_authManager.GetCurrentUserId(), request.Id))
                 return BadRequest();
 
             return Ok(await updateMusician.Execute(request));
@@ -131,7 +129,7 @@ namespace Spotify.Api.Controllers.Manager
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMusician(int id, [FromServices] DeleteMusician deleteMusician)
         {
-            if (!IsManagerCorrect(id))
+            if (_authManager.IsMusicianManagerCorrect(_authManager.GetCurrentUserId(), id))
                 return BadRequest();
 
             return Ok(await deleteMusician.Execute(id));

@@ -7,33 +7,18 @@ using Spotify.Api.Infrastructure.FileManager;
 using System.Security.Claims;
 using Spotify.Api.DTO;
 using Spotify.Api.Validators;
-using Spotify.Domain.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System.Linq;
-using System;
-using System.Collections.Generic;
+using Spotify.Api.Infrastructure.AuthManager;
+using Microsoft.AspNetCore.Http;
 
 namespace Spotify.Api.Controllers
 {
     [Route("/api/[controller]/[action]")]
     public class UserController : ControllerBase
     {
-        private readonly string _authAudience;
-        private readonly string _authIssuer;
-        private readonly string _secret;
-
-        public UserController(IConfiguration configuration)
-        {
-            _authAudience = configuration["AuthAudience"];
-            _authIssuer = configuration["AuthIssuer"];
-            _secret = configuration["Secret"];
-        }
-
         /// <summary>
         /// Adds a play to given song
         /// </summary>
@@ -43,16 +28,18 @@ namespace Spotify.Api.Controllers
             => Ok(await addPlay.Execute(id));
 
         /// <summary>
-        /// Sets default profile picture
+        /// Sets default profile picture for current user
         /// </summary>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> SetDefaultProfilePicture(
-            string userId,
             [FromServices] SetDefaultProfilePicture setDefaultPicture,
             [FromServices] GetProfilePictureFileName getFileName,
-            [FromServices] IFileManager fileManager)
+            [FromServices] IFileManager fileManager,
+            [FromServices] IAuthManager authManager)
         {
+            var userId = authManager.GetCurrentUserId();
+
             fileManager.RemoveProfilePicture(getFileName.Execute(userId));
 
             await setDefaultPicture.Execute(userId);
@@ -65,9 +52,12 @@ namespace Spotify.Api.Controllers
         /// </summary>
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> AddManager([FromServices] UserManager<ApplicationUser> userManager)
+        public async Task<IActionResult> AddManager([FromServices] UserManager<ApplicationUser> userManager,
+            [FromServices] IHttpContextAccessor httpContextAccessor)
         {
-            if (!(User.Identity as ClaimsIdentity).HasClaim("Role", "Manager"))
+            var user = httpContextAccessor.HttpContext.User;
+
+            if (!user.HasClaim("Role", "Manager") && !user.HasClaim("Role", "Admin"))
                 await userManager.AddClaimAsync(await userManager.GetUserAsync(User), new Claim("Role", "Manager"));
 
             return Ok();
@@ -118,10 +108,10 @@ namespace Spotify.Api.Controllers
         /// </response>
         [HttpPost("{email}/{password}")]
         public async Task<IActionResult> Login(string email, string password,
-            [FromServices] IApplicationUserManager appUserManager,
-            [FromServices] UserManager<ApplicationUser> userManager)
+            [FromServices] UserManager<ApplicationUser> userManager,
+            [FromServices] IAuthManager authManager)
         {
-            var user = appUserManager.GetUserByEmail(email);
+            var user = await userManager.FindByEmailAsync(email);
 
             if (user is null)
                 return BadRequest("Username or password is incorrect");
@@ -131,30 +121,7 @@ namespace Spotify.Api.Controllers
             if (!result)
                 return BadRequest("Username or password is incorrect");
 
-
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Name, user.UserName),
-            };
-
-            claims.AddRange(await userManager.GetClaimsAsync(user));
-
-            var bytes = Encoding.UTF8.GetBytes(_secret);
-            var key = new SymmetricSecurityKey(bytes);
-
-            var algorithm = SecurityAlgorithms.HmacSha256;
-
-            var credentials = new SigningCredentials(key, algorithm);
-
-            var token = new JwtSecurityToken(
-                _authAudience,
-                _authIssuer,
-                claims,
-                DateTime.Now,
-                DateTime.Now.AddHours(8),
-                credentials);
+            var token = await authManager.GetToken(user);
 
             var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
 
@@ -200,11 +167,10 @@ namespace Spotify.Api.Controllers
             => Ok(getSongs.Execute(id));
 
         /// <summary>
-        /// Updates info about the user
+        /// Updates info about current user
         /// </summary>
         /// <param name="request">
         /// Consists of:
-        /// * id - user id
         /// * userName - new username of user
         /// * fileName - name of new profile picture (set null or empty if not changed)
         /// </param>
@@ -215,17 +181,20 @@ namespace Spotify.Api.Controllers
             [FromServices] UpdateUser updateUser,
             [FromServices] IFileManager fileManager,
             [FromServices] GetProfilePictureFileName getFileName,
-            [FromServices] UpdateProfileInfoValidator validator)
+            [FromServices] UpdateProfileInfoValidator validator,
+            [FromServices] IAuthManager authManager)
         {
+            var userId = authManager.GetCurrentUserId();
+
             var result = validator.Validate(request);
 
-            if (!result.IsValid)
+            if (!result.IsValid || string.IsNullOrEmpty(userId))
             {
                 var errors = result.Errors.Select(error => error.ErrorMessage);
                 return BadRequest(errors);
             }
 
-            var currentPicture = getFileName.Execute(request.Id);
+            var currentPicture = getFileName.Execute(userId);
 
             if (request.ProfilePicture != null && currentPicture != "placeholder.jpg")
                 fileManager.RemoveProfilePicture(currentPicture);
@@ -234,10 +203,18 @@ namespace Spotify.Api.Controllers
             {
                 FileName = await fileManager.SaveProfilePicture(request.ProfilePicture),
                 UserName = request.Username,
-                Id = request.Id
+                Id = userId
             });
 
             return Ok();
         }
+
+        /// <summary>
+        /// Returns highest claim that current user has
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        public IActionResult Claim([FromServices] IAuthManager authManager)
+            => Ok(authManager.GetHighestUserClaim(authManager.GetCurrentUserId()));
     }
 }

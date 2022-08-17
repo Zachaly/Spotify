@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Spotify.Api.Infrastructure.AuthManager;
 using Spotify.Application.Admin.Songs;
-using Spotify.Domain.Infrastructure;
-using Spotify.Domain.Models;
 using System.Threading.Tasks;
 
 namespace Spotify.Api.Controllers.Manager
 {
     [Route("/api/Manager/[controller]")]
     [Authorize(Policy = "Manager")]
-    public class SongController : ManagerController
+    public class SongController : ControllerBase
     {
-        public SongController(UserManager<ApplicationUser> userManager,
-            IApplicationUserManager appUserManager,
-            IHttpContextAccessor httpContextAccessor) 
-            : base(userManager, appUserManager, httpContextAccessor) { }
+        private IAuthManager _authManager;
+
+        public SongController(IAuthManager authManager)
+        {
+            _authManager = authManager;
+        }
 
         /// <summary>
         /// Gets list of all songs grouped by album, filtered by current user id
@@ -33,8 +32,8 @@ namespace Spotify.Api.Controllers.Manager
         ///     + plays - total number of plays
         /// </response>
         [HttpGet("")]
-        public IActionResult GetSongs([FromServices] GetManagerSongs getSongs) 
-            => Ok(getSongs.Execute(GetId()));
+        public IActionResult GetSongs([FromServices] GetManagerSongs getSongs)
+            => Ok(getSongs.Execute(_authManager.GetCurrentUserId()));
 
         /// <summary>
         /// Gets info about specific song
@@ -50,8 +49,18 @@ namespace Spotify.Api.Controllers.Manager
         /// * albumId - album id
         /// * albumName - album name
         /// </response>
+        /// <response code="400">
+        /// Current user is not manager of given musician
+        /// </response>
         [HttpGet("{id}")]
-        public IActionResult GetSong(int id, [FromServices] GetSong getSong) => Ok(getSong.Execute(id));
+        public IActionResult GetSong(int id, [FromServices] GetSong getSong)
+        {
+            if (_authManager.IsSongManagerCorrect(_authManager.GetCurrentUserId(), id))
+                return BadRequest();
+
+            return Ok(getSong.Execute(id));
+        }
+
 
         /// <summary>
         /// Adds a new song
@@ -77,7 +86,7 @@ namespace Spotify.Api.Controllers.Manager
             [FromBody] AddSong.Request request,
             [FromServices] AddSong addSong)
         {
-            if (!IsManagerCorrect(request.CreatorId))
+            if (_authManager.IsMusicianManagerCorrect(_authManager.GetCurrentUserId(), request.CreatorId))
                 return BadRequest();
 
             return Ok(await addSong.Execute(request));
@@ -97,18 +106,34 @@ namespace Spotify.Api.Controllers.Manager
         ///     + name - song name
         ///     + plays - total number of plays
         /// </response>
+        /// <response code="400">
+        /// Current user is not manager of given musician
+        /// </response>
         [HttpPut("")]
         public async Task<IActionResult> UpdateSong(
             [FromBody] UpdateSong.Request request,
             [FromServices] UpdateSong updateSong)
-            => Ok(await updateSong.Execute(request));
+        {
+            if (_authManager.IsSongManagerCorrect(_authManager.GetCurrentUserId(), request.Id))
+                return BadRequest();
+
+            return Ok(await updateSong.Execute(request));
+        }
 
         /// <summary>
         /// Removes song from database
         /// </summary>
         /// <param name="id">song id</param>
+        /// <response code="400">
+        /// Current user is not manager of given musician
+        /// </response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSong(int id, [FromServices] DeleteSong deleteSong)
-            => Ok(await deleteSong.Execute(id));
+        {
+            if (_authManager.IsSongManagerCorrect(_authManager.GetCurrentUserId(), id))
+                return BadRequest();
+
+            return Ok(await deleteSong.Execute(id)); 
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Spotify.Database;
 using Spotify.Domain.Infrastructure;
 using Spotify.Api.Infrastructure.FileManager;
+using Spotify.Api.Infrastructure.AuthManager;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -11,13 +12,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         public static IServiceCollection AddApplicationInfrastucture(this IServiceCollection @this)
         {
+            @this.AddHttpContextAccessor();
             @this.AddScoped<IApplicationUserManager, ApplicationUserManager>();
             @this.AddScoped<ISongsManager, SongsManager>();
             @this.AddScoped<IMusicianManager, MusicianManager>();
             @this.AddScoped<IAlbumsManager, AlbumsManager>();
             @this.AddScoped<IFileManager, FileManager>();
             @this.AddScoped<IPlaylistManager, PlaylistManager>();
-            @this.AddHttpContextAccessor();
+            @this.AddScoped<IAuthManager, AuthManager>();
             return @this;
         }
     }

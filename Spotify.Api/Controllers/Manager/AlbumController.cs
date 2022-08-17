@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Spotify.Api.Infrastructure.AuthManager;
 using Spotify.Application.Admin.Albums;
-using Spotify.Domain.Infrastructure;
-using Spotify.Domain.Models;
 using System.Threading.Tasks;
 
 namespace Spotify.Api.Controllers.Manager
 {
     [Route("/api/Manager/[controller]")]
     [Authorize(Policy = "Manager")]
-    public class AlbumController : ManagerController
+    public class AlbumController : ControllerBase
     {
-        public AlbumController(UserManager<ApplicationUser> userManager,
-            IApplicationUserManager appUserManager,
-            IHttpContextAccessor httpContextAccessor) 
-            : base(userManager, appUserManager, httpContextAccessor) { }
+        private IAuthManager _authManager;
+
+        public AlbumController(IAuthManager authManager)
+        {
+            _authManager = authManager;
+        }
 
         /// <summary>
         /// Get all albums in database grouped by musicians, filtered by id of currently logged user
@@ -32,7 +31,7 @@ namespace Spotify.Api.Controllers.Manager
         /// </response>
         [HttpGet("")]
         public IActionResult GetAlbums([FromServices] GetManagerAlbums getAlbums)
-            => Ok(getAlbums.Execute(GetId()));
+            => Ok(getAlbums.Execute(_authManager.GetCurrentUserId()));
 
         /// <summary>
         /// Get specific info for given album
@@ -55,7 +54,7 @@ namespace Spotify.Api.Controllers.Manager
         [HttpGet("{id}")]
         public IActionResult GetAlbum(int id, [FromServices] GetAlbum getAlbum)
         {
-            if (!IsManagerCorrect(id))
+            if (_authManager.IsAlbumManagerCorrect(_authManager.GetCurrentUserId(), id))
                 return BadRequest();
 
             return Ok(getAlbum.Execute(id)); 
@@ -85,7 +84,7 @@ namespace Spotify.Api.Controllers.Manager
             [FromBody] AddAlbum.Request request,
             [FromServices] AddAlbum addAlbum)
         {
-            if (!IsManagerCorrect(request.MusicianId))
+            if (_authManager.IsMusicianManagerCorrect(_authManager.GetCurrentUserId(), request.MusicianId))
                 return BadRequest();
 
             return Ok(await addAlbum.Execute(request));
@@ -96,7 +95,7 @@ namespace Spotify.Api.Controllers.Manager
         /// </summary>
         /// <param name="request">
         /// Consists of: 
-        /// * id - album id 
+        /// * albumId - album id 
         /// * name - new name of the album
         /// </param>
         /// <response code="200">
@@ -106,19 +105,38 @@ namespace Spotify.Api.Controllers.Manager
         /// * creator - album creator name 
         /// * songCount - album song count (0)
         /// </response>
+        /// <response code="400">
+        /// Current user is not manager of given musician
+        /// </response>
         [HttpPut("")]
         public async Task<IActionResult> UpdateAlbum(
             [FromBody] UpdateAlbum.Request request,
             [FromServices] UpdateAlbum updateAlbum)
-            => Ok(await updateAlbum.Execute(request));
+        {
+            if (_authManager.IsAlbumManagerCorrect(_authManager.GetCurrentUserId(), request.AlbumId))
+                return BadRequest();
+
+            return Ok(await updateAlbum.Execute(request));
+        }
         /// <summary>
         /// Removes album from database
         /// </summary>
         /// <param name="id">
         /// Id of deleted album
         /// </param>
+        /// <response code="400">
+        /// Current user is not manager of given musician
+        /// </response>
+        /// <response code="400">
+        /// Current user is not manager of given musician
+        /// </response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAlbum(int id, [FromServices] DeleteAlbum deleteAlbum)
-            => Ok(await deleteAlbum.Execute(id));
+        {
+            if (_authManager.IsAlbumManagerCorrect(_authManager.GetCurrentUserId(), id))
+                return BadRequest();
+
+            return Ok(await deleteAlbum.Execute(id));
+        }
     }
 }
