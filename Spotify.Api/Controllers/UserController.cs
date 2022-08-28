@@ -216,5 +216,13 @@ namespace Spotify.Api.Controllers
         [Authorize]
         public IActionResult Claim([FromServices] IAuthManager authManager)
             => Ok(authManager.GetHighestUserClaim(authManager.GetCurrentUserId()));
+
+        /// <summary>
+        /// Gets id of current user
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        public IActionResult Id([FromServices] IAuthManager authManager)
+            => Ok(authManager.GetCurrentUserId());
     }
 }
