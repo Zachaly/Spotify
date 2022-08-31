@@ -4,6 +4,7 @@ using Spotify.Api.Infrastructure.FileManager;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Spotify.Api.Infrastructure.AuthManager;
+using Spotify.Api.DTO;
 
 namespace Spotify.Api.Controllers
 {
@@ -54,7 +55,7 @@ namespace Spotify.Api.Controllers
         /// Removes given playlist
         /// </summary>
         /// <param name="id">Playlist id</param>
-        [HttpGet("id")]
+        [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> RemovePlaylist(int id,
             [FromServices] RemovePlaylist removePlaylist,
@@ -88,6 +89,47 @@ namespace Spotify.Api.Controllers
             await setCoverPicture.Execute(id, "placeholder.jpg");
 
             return Ok();
+        }
+
+        /// <summary>
+        /// Adds playlist
+        /// </summary>
+        /// <param name="playlistModel">
+        /// Must be send as formdata with 'Content-type': 'multipart/form-data' header/
+        /// Consists of: 
+        /// * name - playlist title
+        /// * coverPicture - cover picture
+        /// </param>
+        /// <returns>
+        /// Playlist model:
+        /// * id - playlist id
+        /// * name - playlist name
+        /// * songCount - number of songs on playlist
+        /// * creatorName - creator name
+        /// </returns>
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddPlaylist(
+            [FromForm] PlaylistModel playlistModel,
+            [FromServices] AddPlaylist addPlaylist,
+            [FromServices] IFileManager fileManager,
+            [FromServices] IAuthManager authManager)
+        {
+            string fileName = "placeholder.jpg";
+
+            if(playlistModel.CoverPicture != null)
+            {
+                fileName = await fileManager.SavePlaylistPicture(playlistModel.CoverPicture);
+            }
+
+            var result = await addPlaylist.Execute(new AddPlaylist.Request
+            {
+                FileName = fileName,
+                Name = playlistModel.Name,
+                UserId = authManager.GetCurrentUserId()
+            });
+
+            return Ok(result);
         }
     }
 }

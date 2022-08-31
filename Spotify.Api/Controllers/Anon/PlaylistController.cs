@@ -39,7 +39,7 @@ namespace Spotify.Api.Controllers.Anon
         /// * songCount - number of songs on playlist
         /// * creatorName - creator name
         /// </response>
-        [HttpGet("/User/{userId}")]
+        [HttpGet("User/{userId}")]
         public IActionResult UserPlaylists(string userId, [FromServices] GetUserPlaylists getPlaylists)
             => Ok(getPlaylists.Execute(userId));
     }
