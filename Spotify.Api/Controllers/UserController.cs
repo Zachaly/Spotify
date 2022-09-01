@@ -13,12 +13,20 @@ using System.Threading.Tasks;
 using System.Linq;
 using Spotify.Api.Infrastructure.AuthManager;
 using Microsoft.AspNetCore.Http;
+using Spotify.Domain.Infrastructure;
 
 namespace Spotify.Api.Controllers
 {
     [Route("/api/[controller]/[action]")]
     public class UserController : ControllerBase
     {
+        private IAuthManager _authManager;
+
+        public UserController(IAuthManager authManager)
+        {
+            _authManager = authManager;
+        }
+
         /// <summary>
         /// Adds a play to given song
         /// </summary>
@@ -35,10 +43,9 @@ namespace Spotify.Api.Controllers
         public async Task<IActionResult> SetDefaultProfilePicture(
             [FromServices] SetDefaultProfilePicture setDefaultPicture,
             [FromServices] GetProfilePictureFileName getFileName,
-            [FromServices] IFileManager fileManager,
-            [FromServices] IAuthManager authManager)
+            [FromServices] IFileManager fileManager)
         {
-            var userId = authManager.GetCurrentUserId();
+            var userId = _authManager.GetCurrentUserId();
 
             fileManager.RemoveProfilePicture(getFileName.Execute(userId));
 
@@ -52,7 +59,8 @@ namespace Spotify.Api.Controllers
         /// </summary>
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> AddManager([FromServices] UserManager<ApplicationUser> userManager,
+        public async Task<IActionResult> AddManager(
+            [FromServices] UserManager<ApplicationUser> userManager,
             [FromServices] IHttpContextAccessor httpContextAccessor)
         {
             var user = httpContextAccessor.HttpContext.User;
@@ -73,7 +81,8 @@ namespace Spotify.Api.Controllers
         /// * email - user email
         /// </param>
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel,
+        public async Task<IActionResult> Register(
+            [FromBody] RegisterModel registerModel,
             [FromServices] UserManager<ApplicationUser> userManager,
             [FromServices] RegisterModelValidator validator)
         {
@@ -108,8 +117,7 @@ namespace Spotify.Api.Controllers
         /// </response>
         [HttpPost("{email}/{password}")]
         public async Task<IActionResult> Login(string email, string password,
-            [FromServices] UserManager<ApplicationUser> userManager,
-            [FromServices] IAuthManager authManager)
+            [FromServices] UserManager<ApplicationUser> userManager)
         {
             var user = await userManager.FindByEmailAsync(email);
 
@@ -121,7 +129,7 @@ namespace Spotify.Api.Controllers
             if (!result)
                 return BadRequest("Username or password is incorrect");
 
-            var token = await authManager.GetToken(user);
+            var token = await _authManager.GetToken(user);
 
             var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
 
@@ -181,10 +189,9 @@ namespace Spotify.Api.Controllers
             [FromServices] UpdateUser updateUser,
             [FromServices] IFileManager fileManager,
             [FromServices] GetProfilePictureFileName getFileName,
-            [FromServices] UpdateProfileInfoValidator validator,
-            [FromServices] IAuthManager authManager)
+            [FromServices] UpdateProfileInfoValidator validator)
         {
-            var userId = authManager.GetCurrentUserId();
+            var userId = _authManager.GetCurrentUserId();
 
             var result = validator.Validate(request);
 
@@ -214,15 +221,45 @@ namespace Spotify.Api.Controllers
         /// </summary>
         [HttpGet]
         [Authorize]
-        public IActionResult Claim([FromServices] IAuthManager authManager)
-            => Ok(authManager.GetHighestUserClaim(authManager.GetCurrentUserId()));
+        public IActionResult Claim()
+            => Ok(_authManager.GetHighestUserClaim(_authManager.GetCurrentUserId()));
 
         /// <summary>
         /// Gets id of current user
         /// </summary>
         [HttpGet]
         [Authorize]
-        public IActionResult Id([FromServices] IAuthManager authManager)
-            => Ok(authManager.GetCurrentUserId());
+        public IActionResult Id()
+            => Ok(_authManager.GetCurrentUserId());
+
+        /// <summary>
+        /// Checks if given song is liked by user
+        /// </summary>
+        [HttpGet("{songId}")]
+        [Authorize]
+        public IActionResult IsSongLiked(
+            int songId,
+            [FromServices] IApplicationUserManager userManager)
+            => Ok(userManager.IsSongLiked(_authManager.GetCurrentUserId(), songId));
+
+        /// <summary>
+        /// Checks if given musician is followed by current user
+        /// </summary>
+        [HttpGet("{musicianId}")]
+        [Authorize]
+        public IActionResult IsMusicianFollowed(
+            int musicianId,
+            [FromServices] IApplicationUserManager userManager)
+            => Ok(userManager.IsMusicianFollowed(_authManager.GetCurrentUserId(), musicianId));
+
+        /// <summary>
+        /// Checks if given album is liked by current user
+        /// </summary>
+        [HttpGet("{albumId}")]
+        [Authorize]
+        public IActionResult IsAlbumLiked(
+            int albumId,
+            [FromServices] IApplicationUserManager userManager)
+            => Ok(userManager.IsAlbumLiked(_authManager.GetCurrentUserId(), albumId));
     }
 }
