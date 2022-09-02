@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Spotify.Api.Infrastructure.AuthManager;
 using Spotify.Api.DTO;
+using Spotify.Api.Infrastructure;
 
 namespace Spotify.Api.Controllers
 {
@@ -117,8 +118,14 @@ namespace Spotify.Api.Controllers
         {
             string fileName = "placeholder.jpg";
 
+
             if(playlistModel.CoverPicture != null)
             {
+                if (!playlistModel.CoverPicture.IsExtensionCorrect(".jpg"))
+                {
+                    return BadRequest("Invalid file extension! Expected: .jpg");
+                }
+
                 fileName = await fileManager.SavePlaylistPicture(playlistModel.CoverPicture);
             }
 

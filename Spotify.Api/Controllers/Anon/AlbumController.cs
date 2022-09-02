@@ -20,7 +20,6 @@ namespace Spotify.Api.Controllers.Anon
         public IActionResult GetAlbums([FromServices] GetAlbums getAlbums)
             => Ok(getAlbums.Execute());
 
-
         /// <summary>
         /// Gets specific album from database
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Spotify.Api.Infrastructure;
 using Spotify.Api.Infrastructure.FileManager;
 using System.Threading.Tasks;
 
@@ -22,20 +23,44 @@ namespace Spotify.Api.Controllers
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> SongFile(IFormFile file)
-            => Ok(await _fileManager.SaveSongFile(file));
+        {
+            if (file.IsExtensionCorrect(".mp3"))
+            {
+                return Ok(await _fileManager.SaveSongFile(file));
+            }
+
+            return BadRequest(ExtentionErrorMessage(".mp3"));
+        }
 
         /// <summary>
         /// Uploads given .jpg file
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> AlbumFile(IFormFile file)
-            => Ok(await _fileManager.SaveAlbumFile(file));
+        {
+            if (file.IsExtensionCorrect(".jpg"))
+            {
+                return Ok(await _fileManager.SaveAlbumFile(file));
+            }
+
+            return BadRequest(ExtentionErrorMessage(".jpg"));
+        }
 
         /// <summary>
         /// Uploads given .jpg file
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> MusicianFile(IFormFile file)
-            => Ok(await _fileManager.SaveMusicianFile(file));
+        {
+            if (file.IsExtensionCorrect(".mp3"))
+            {
+                return Ok(await _fileManager.SaveMusicianFile(file));
+            }
+
+            return BadRequest(ExtentionErrorMessage(".mp3"));
+        }
+
+        private string ExtentionErrorMessage(string expectedExtenstion)
+            => $"Invalid file extention! Expected {expectedExtenstion}";
     }
 }

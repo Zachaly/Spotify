@@ -22,6 +22,7 @@ namespace Spotify.Database
         public T GetUserById<T>(string id, Func<ApplicationUser, T> selector)
             => _dbContext.Users.Include(user => user.FollowedMusicians).ThenInclude(follow => follow.Musician).
                 Include(user => user.LikedAlbums).ThenInclude(like => like.Album).
+                Include(user => user.LikedAlbums).ThenInclude(like => like.Album).ThenInclude(album => album.Musician).
                 Include(user => user.LikedSongs).
                 Where(user => user.Id == id).
                 Select(selector).
