@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Spotify.Api.Infrastructure.AuthManager;
 using Spotify.Api.DTO;
 using Spotify.Api.Infrastructure;
+using Spotify.Domain.Infrastructure;
 
 namespace Spotify.Api.Controllers
 {
@@ -138,5 +139,15 @@ namespace Spotify.Api.Controllers
 
             return Ok(result);
         }
+
+        /// <summary>
+        /// Returns if given playlist contains given song
+        /// </summary>
+        [HttpGet("{playlistId}/{songId}")]
+        public IActionResult IsSongInPlaylist(
+            int playlistId,
+            int songId,
+            [FromServices] IPlaylistManager playlistManager)
+            => Ok(playlistManager.DoesPlaylistContainSong(playlistId, songId));
     }
 }
