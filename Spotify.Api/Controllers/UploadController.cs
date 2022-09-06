@@ -52,15 +52,21 @@ namespace Spotify.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> MusicianFile(IFormFile file)
         {
-            if (file.IsExtensionCorrect(".mp3"))
+            if (file.IsExtensionCorrect(".jpg"))
             {
                 return Ok(await _fileManager.SaveMusicianFile(file));
             }
 
-            return BadRequest(ExtentionErrorMessage(".mp3"));
+            return BadRequest(ExtentionErrorMessage(".jpg"));
         }
 
-        private string ExtentionErrorMessage(string expectedExtenstion)
-            => $"Invalid file extention! Expected {expectedExtenstion}";
+        private string ExtentionErrorMessage(string expectedExtention)
+            => $"Invalid file extention! Expected {expectedExtention}";
+
+        /// <summary>
+        /// Gets placeholder filename
+        /// </summary>
+        [HttpGet]
+        public IActionResult Placeholder() => Ok("placeholder.jpg");
     }
 }
